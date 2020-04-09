@@ -30,9 +30,8 @@
       {{{UON_subheading--ipfv}}}
       {{{UON_left-column-copy--ipfv}}}
       {{{UON_right-column-copy--ipfv}}}
-      {{{UON_usp--ipfv}}}
+      {{{UON_usp-item}}}
       {{{UON_footer-header--ipfv}}}
-      {{{UON_usp-detail--ipfv}}}
 
       */
 
@@ -263,25 +262,8 @@
         margin-bottom: 5pt;
         height: 56pt;
         width: 90pt;
-        background-size: contain;
-        background-position: bottom center;
-        background-repeat: no-repeat
-      }
-
-      .usp__icon--top10 {
-        background-image: url(https://files.outfit.io/media_library_items/178617/World-icon.svg);
-      }
-
-      .usp__icon--15top200 {
-        background-image: url(https://files.outfit.io/media_library_items/178618/Student-icon.svg);
-      }
-
-      .usp__icon--5stars {
-        background-image: url(https://files.outfit.io/media_library_items/178616/Stars-icon.svg);
-      }
-
-      .usp__text {
-
+        object-fit: contain;
+        object-position: bottom center;
       }
 
       .usp__text h3 {
@@ -477,37 +459,13 @@
                 </div><!--column__inner-->
               </div><!--column-->
             </div><!--column__container-->
-            <div class="usp__container">
-              <div class="usp usp--top10">
-                <div class="usp__icon usp__icon--top10"></div> <!--usp__icon-->
-                <div class="usp__text">
-                  <h3>TOP 10</h3>
-                  <p>University in Australia<sup>1</sup></p>
-                </div> <!--usp__text-->
-              </div> <!--usp-->
-              <div class="usp usp--15top200">
-                <div class="usp__icon usp__icon--15top200"></div> <!--usp__icon-->
-                <div class="usp__text">
-                  <h3>15 IN TOP 200</h3>
-                  <p>15 UON disciplines ranked in<br>top 200 in the world<sup>2</sup></p>
-                </div> <!--usp__text-->
-              </div> <!--usp-->
-              <div class="usp usp--5stars">
-                <div class="usp__icon usp__icon--5stars"></div> <!--usp__icon-->
-                <div class="usp__text">
-                  <h3>5 STARS</h3>
-                  <p>Good Universities Guide<sup>3</sup></p>
-                </div> <!--usp__text-->
-              </div> <!--usp-->
-            </div> <!--usp__container-->
+            <div class="usp__container js-usp-controller-container"></div> <!--usp__container-->
           </div> <!--body-->
           <div class="footer">
             {{#UON_footer-header--ipfv}}
             <div class="footer__text u-heading-patch" data-max-line="3">{{{UON_footer-header--ipfv}}}</div> <!--footer__text-->
             {{/UON_footer-header--ipfv}}
-            {{#UON_usp-detail--ipfv}}
-            <div class="disclaimer" data-max-line="3">{{{UON_usp-detail--ipfv}}}</div> <!--disclaimer-->
-            {{/UON_usp-detail--ipfv}}
+            <div class="disclaimer js-usp-controller-disclaimer" data-max-line="3"></div> <!--disclaimer-->
           </div> <!--footer-->
           <div class="popup__container">
             <div class="popup">Please add an image to use this text colour or change the text colour.</div><!--popup-->
@@ -542,6 +500,76 @@
     <script>
 
       console.clear();
+      
+      function uspController() {
+        const container = document.querySelector('.js-usp-controller-container');
+        const disclaimerContainer = document.querySelector('.js-usp-controller-disclaimer');
+        const uspSnippetObj = {{{account.snippets.uspSnippetObj}}};
+        const selectedArr = {{{UON_usp-item}}} || [];
+        let disclaimers = [];           
+      
+        if ( selectedArr === [] ) return;
+      
+		const uspHTML = selectedArr.map(item => {
+          const iconSrc = uspSnippetObj[item].iconSrc;
+          const heading = uspSnippetObj[item].heading;
+          const text = uspSnippetObj[item].text;
+          const disclaimerNumberSup = uspSnippetObj[item].disclaimerNumberSup;
+          
+          disclaimers.push(uspSnippetObj[item].disclaimer);
+          
+          return `
+            <div class="usp usp--top10">
+              <img src=${iconSrc} class="usp__icon" />
+              <div class="usp__text">
+                <h3>${heading}</h3>
+                <p>${text}<sup>${disclaimerNumberSup}</sup></p>
+              </div> <!--usp__text-->
+            </div> <!--usp-->
+		  `;
+        }).join('');
+        
+        // removing duplicates from disclaimers array
+      	disclaimers = [...new Set(disclaimers)];
+      
+        // injecting html into columns and disclaimer
+        container.innerHTML = uspHTML;
+        disclaimerContainer.innerHTML = disclaimers.join(', ');
+      
+        // adding warning popup if more than 3 items are selected
+        if ( selectedArr.length > 3 ) {
+          if ( container.querySelector('.popup') === null ) {
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+              position: absolute;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              top: 50%;
+              left: 50%;
+              width: 50%;
+              min-height: 60%;
+              font-size: 0.4rem;
+              color: #FF4136;
+              border: 6px solid #FF4136;
+              border-radius: 3px;
+              transform: translate(-50%, -50%);
+              background: #fff;
+              padding: 0.2rem;
+              text-align: center;
+            `;
+            popup.innerText = 'You are not allowed to select more than 3 USP options!';
+            container.appendChild(popup);            
+          }
+        } else {
+          if ( container.querySelector('.popup') !== null ) {
+            const popup = container.querySelector('.popup');
+            container.removeChild(popup);
+          }
+        }
+      }
+      
+      uspController();      
 
       // Tracking text changes and firing text restriction functions (mutationObserver)
       const overflowObserver = new MutationObserver(function(mutations) {
