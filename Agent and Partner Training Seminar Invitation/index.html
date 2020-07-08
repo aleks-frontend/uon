@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+
+      /* Order inputs
+      {{show-crop}}
+
+      {{{UON_heading-text-colour--aptsi}}}
+      {{UON_heading-front--aptsi}}
+      {{{UON_subheading--aptsi}}}
+      {{{UON_body-copy-aptsi}}}
+      {{{UON_website--aptsi}}}
+      {{#collection.UON_internal-pages--aptsi}}{{/collection.UON_internal-pages--aptsi}}
+      {{{UON_backpage-heading--aptsi}}}
+      {{#collection.UON_content-columns--aptsi}}{{/collection.UON_content-columns--aptsi}}
+      {{{UON_host-photo--aptsi}}}
+      {{{UON_host-details--aptsi}}}
+      */
+
+      :root {
+        --80-black: {{{account.colors.80--black}}};
+        --blue: {{{account.colors.blue}}};
+        --white: {{{account.colors.white}}};
+        --grey: #969696;
+        --dark-grey: #5f5f5f;
+        --20-black: {{{account.colors.20--black}}};
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+      }
+
+      .headingTextColour--black-blue { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--blue);
+        --background-colour: var(--white);
+      }
+
+      .headingTextColour--white-blue { 
+        --font-regular-colour: var(--white);
+        --font-bold-colour: var(--blue);
+        --background-colour: var(--80-black);
+      }
+
+      .headingTextColour--black-white { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--white);
+        --background-colour: var(--blue);
+      }
+
+      html {
+        font-family: 'Fuse V.2 Display';
+        font-size: 11pt;
+        color: var(--80-black);
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .fit--frontPage {}
+
+      .header { background: var(--background-colour); }
+
+      .header--frontPage {
+        height: 429pt;
+        padding: 55.3pt 54.1pt 20pt;
+        font-size: 0;
+      }
+
+      .header--internalPage {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 177pt;
+        padding: 33.3pt 42.3pt 27.3pt;
+      }
+
+      .header--backPage {
+        height: 177pt;
+        padding: 55.3pt 42.1pt 43pt;
+      }
+
+      .heading {
+        max-height: 75pt;
+        font-size: 34.1pt;
+        font-weight: 900;
+        line-height: 1.1em;
+        letter-spacing: -1.3pt;
+        text-transform: uppercase;
+        color: var(--font-regular-colour);
+      }
+
+      .heading--frontPage { margin-bottom: 24pt; }
+
+      .heading strong {
+        color: var(--font-bold-colour);
+        font-weight: 900;
+      }
+
+      .heading__inner { line-height: 1.1em; }
+
+      .title {
+        text-transform: uppercase;
+        color: var(--font-regular-colour);
+      }
+
+      .title strong {
+        color: var(--font-bold-colour);
+        font-weight: 900;
+      }
+
+      .title h1 {
+        font-size: 32.4pt;
+        font-weight: 900;
+        line-height: 1.15em;
+      }
+
+      .title h3 {
+        margin-top: 3.5pt;
+        font-size: 15.9pt;
+        line-height: 1.1em;
+      }
+
+      .logo {
+        width: 128pt;
+        margin-bottom: 31.5pt;
+      }
+
+      .subheading {
+        font-size: 18.8pt;
+        line-height: 1.2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -0.4pt;
+        color: var(--font-regular-colour);
+      }
+
+      .body { flex: 1; }
+
+      .body--frontPage { padding: 41.1pt 48.7pt 7pt 54.4pt; }
+
+      .body--internalPage { padding: 55pt 41pt 20pt; }
+
+      .body--backPage {
+        display: flex;
+        flex-direction: column;
+        padding: 25.8pt 43.7pt 32pt 40.9pt;
+      }
+
+      .body__top {
+        flex: 1;
+        margin-bottom: 13pt;
+      }
+
+      .copy h1 {
+        margin-bottom: 10.7pt;
+        font-size: 19.3pt;
+        line-height: 1.2em;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .copy h1 strong {
+        font-weight: 900;
+        color: var(--blue);
+      }
+
+      .copy p {
+        margin-bottom: 12pt;
+        font-size: 9.7pt;
+        line-height: 1.3em;
+      }
+
+      .copy p strong { font-weight: bold; }
+
+      .copy h1:last-child,
+      .copy p:last-child {
+        margin-bottom: 0;
+      }
+
+      .table__container { margin-bottom: 32.5pt; }
+
+      .table__container:last-child { margin-bottom: 0; }
+
+      .table__heading { margin-bottom: 3pt; }
+
+      .table__heading h4 {
+        font-size: 11.7pt;
+        line-height: 1.2em;
+        font-weight: 900;
+        color: var(--blue);
+      }
+
+      .table { width: 100%; }
+
+      .table:last-child { margin-bottom: 0; }
+
+      .table__row { border-bottom: 1pt solid var(--white); }
+
+      .table__row:nth-child(even) { background-color: #f2f2f2; }
+
+      .table__row:nth-child(odd) { background-color: #f9f9f9; }
+
+      tr.table__row--heading {
+        border-bottom: 3pt solid var(--white);
+        color: var(--white);
+      }
+
+      .table__cell {
+        padding: 1.5pt 4.9pt 1.9pt;
+        font-size: 10pt;
+        line-height: 1.2em;
+        vertical-align: top;
+        border-right: 1pt solid var(--white); 
+      }
+
+      th.table__cell { background-color: var(--20-black); }
+
+      .table__cell:last-child { border-right: none; }
+
+      .table__cell--heading {
+        padding: 3.5pt 6pt 2pt;
+        font-size: 12pt;
+      }
+
+      .table__cell--small { width: 95pt; }
+
+      .table__cell--medium { width: 125pt; }
+
+      .column__container {
+        display: flex;
+        margin-left: -19.6pt;
+      }
+
+      .column {
+        flex: 1;
+        margin-left: 19.6pt;
+      }
+
+      .column h4 {
+        font-size: 11.2pt;
+        line-height: 1.1em;
+        text-transform: uppercase;
+        font-weight: 900;
+        color: var(--blue);
+      }
+
+      .column h4 strong { font-weight: 900; }
+
+      .column p {
+        margin-bottom: 11.5pt;
+        font-size: 9.5pt;
+        line-height: 1.3em;;
+      }
+
+      .column p strong {
+        font-weight: bold;
+      }
+
+      .column ul {
+        padding-left: 1pt;
+        margin-bottom: 12.4pt;
+      }
+
+      .column p + ul { margin-top: -11pt; }
+
+      .column li {
+        position: relative;
+        padding-left: 12pt;
+        font-size: 10pt;
+        line-height: 1.2em;
+      }
+
+      .column li:before {
+        content: "\2022";
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 1.2em;
+      }
+
+      .column:last-child,
+      .column h4:last-child,
+      .column p:last-child {
+        margin-bottom: 0;
+      }
+
+      .body__bottom { height: 188pt; }
+
+      .no-host-photo.no-host-details { display: none; }
+
+      .info {
+        display: flex;
+        height: 100%;
+      }
+
+      .info__image {
+        position: relative;
+        height: 100%;
+        width: 150pt;
+      }
+
+      .info__content {
+        flex: 1;
+        padding: 23pt 37pt 20pt;
+        background-color: var(--80-black);
+      }
+
+      .info__copy { color: var(--white); }
+
+      .info__copy h2 {
+        margin-bottom: 15.7pt;
+        font-size: 18.7pt;
+        text-transform: uppercase;
+        font-weight: 900;
+        line-height: 1.2em;
+      }
+
+      .info__copy p {
+        margin-bottom: 12.3pt;
+        font-size: 9.6pt;
+        line-height: 1.3em;
+      }
+
+      .info__copy h2:last-child,
+      .info__copy p:last-child {
+        margin-bottom: 0;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 0pt 51pt 31.9pt 54pt;
+        font-size: 10.1pt;
+        line-height: 1.2em;
+        color: var(--grey);
+      }
+
+      .footer__text { margin-right: 50pt; }
+
+      .master { display: none; }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" 
+        data-crop="{{show-crop}}" 
+        data-reduce-export-font-size-by-percent="0" 
+        data-reduce-firefox-font-size-by-percent="0" 
+        data-prevent-export-overflow="false"
+        class="headingTextColour--{{{UON_heading-text-colour--aptsi}}}{{^UON_heading-text-colour--aptsi}}black-blue{{/UON_heading-text-colour--aptsi}}">
+
+    <div class="master">
+      <div class="js-inject-src" data-target-id="website">{{{UON_website--aptsi}}}</div><!--js-inject-webiste-->
+    </div><!--master-->
+
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--frontPage">
+
+          <div class="header header--frontPage">
+            {{#UON_heading-front--aptsi}}
+            <div class="heading heading--frontPage"><div class="heading__inner textFit--vert">{{{UON_heading-front--aptsi}}}</div></div><!--heading-->
+            {{/UON_heading-front--aptsi}}
+            <img class="logo" src="{{{account.logos.primary}}}">
+            {{#UON_subheading--aptsi}}
+            <div class="subheading" data-max-line="3">{{{UON_subheading--aptsi}}}</div><!--subheading-->
+            {{/UON_subheading--aptsi}}
+          </div><!--header-->
+          <div class="body body--frontPage">
+            <div class="body__inner" data-max-height="dynamic">
+              <div class="copy">{{{UON_body-copy-aptsi}}}</div><!--copy-->
+            </div><!--body__inner-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="footer__text">The University of Newcastle</div><!--footer__text-->
+            <div class="website" data-max-line="1">{{{UON_website--aptsi}}}</div><!--website-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+
+    {{#collection.UON_internal-pages--aptsi}}
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--internalPage">
+
+          {{#UON_heading-internal--aptsi}}
+          <div class="header header--internalPage u-heading-patch">
+            {{#UON_heading-internal--aptsi}}<div class="title u-heading-patch" data-max-height="dynamic">{{{UON_heading-internal--aptsi}}}</div>{{/UON_heading-internal--aptsi}}<!--title-->
+          </div><!--header-->
+          {{/UON_heading-internal--aptsi}}
+          <div class="body body--internalPage">
+            <div class="body__inner" data-max-height="dynamic">
+              {{#collection.UON_tables--aptsi}}
+              <div class="table__container">
+
+                <div class="table__heading" data-max-height="63">{{{UON_table-heading--aptsi}}}</div><!--table__heading-->
+                {{#block.UON_table--aptsi}}
+                <table class="table">
+                  <tr class="table__row table__row--heading">
+                    <th class="table__cell table__cell--heading table__cell--small">Time</th><!--table__cell--heading-->
+                    <th class="table__cell table__cell--heading table__cell--big">Activity</th><!--table__cell--heading-->
+                    <th class="table__cell table__cell--heading table__cell--medium">Who</th><!--table__cell--heading-->
+                  </tr><!--table__row--heading-->
+                  {{#spreadsheet.UON_timetable--aptsi}}
+                  <tr class="table__row">
+                    <td class="table__cell table__cell--small"><div class="js-customRichText-src">{{time}}</div></td><!--table__cell-->
+                    <td class="table__cell"><div class="js-customRichText-src">{{activity}}</div></td><!--table__cell-->
+                    <td class="table__cell table__cell--medium"><div class="js-customRichText-src">{{who}}</div></td><!--table__cell-->
+                  </tr><!--table__row-->
+                  {{/spreadsheet.UON_timetable--aptsi}}
+                </table><!--table-->
+                {{/block.UON_table--aptsi}}
+
+              </div><!--table__container-->
+              {{/collection.UON_tables--aptsi}}
+            </div><!--body__inner-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="footer__text">The University of Newcastle</div><!--footer__text-->
+            <div class="website" data-max-line="1" data-target="website"></div><!--website-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+    {{/collection.UON_internal-pages--aptsi}}
+
+
+
+
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--backPage">
+
+          {{#UON_backpage-heading--aptsi}}
+          <div class="header header--backPage">
+            <div class="heading"><div class="heading__inner textFit--vert">{{{UON_backpage-heading--aptsi}}}</div></div><!--heading-->
+          </div><!--header-->
+          {{/UON_backpage-heading--aptsi}}
+          <div class="body body--backPage">
+            <div class="body__top">
+              <div class="column__container" data-max-height="dynamic">
+                {{#collection.UON_content-columns--aptsi}}
+                {{#block.UON_column-aptsi}}
+                <div class="column">{{{UON_body-copy--aptsi}}}</div><!--column-->
+                {{/block.UON_column-aptsi}}
+                {{/collection.UON_content-columns--aptsi}}
+              </div><!--column__container-->
+            </div><!--body__top-->
+            <div class="body__bottom {{^UON_host-photo--aptsi}}no-host-photo{{/UON_host-photo--aptsi}} {{^UON_host-details--aptsi}}no-host-details{{/UON_host-details--aptsi}}">
+              <div class="info">
+                {{#UON_host-photo--aptsi}}
+                <div class="info__image"><div class="reposition-fix">{{{UON_host-photo--aptsi}}}</div></div><!--info__image-->
+                {{/UON_host-photo--aptsi}}
+                {{#UON_host-details--aptsi}}
+                <div class="info__content">
+                  <div class="info__copy" data-max-height="dynamic">{{{UON_host-details--aptsi}}}</div><!--info__copy-->
+                </div><!--info__content-->
+                {{/UON_host-details--aptsi}}
+              </div><!--info-->
+            </div><!--body__bottom-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="footer__text">The University of Newcastle</div><!--footer__text-->
+            <div class="website" data-max-line="1">{{{UON_website--aptsi}}}</div><!--website-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Fuse V.2 Display'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          maxLineCheck();
+          maxHeightCheck();
+          injectDynamicContent();
+          hideEmptyTitles();
+          customRichText();
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--vert',
+        fitMode: 'vertical',
+        alignItems: 'flex-start'
+      });
+
+      setInterval(() => {
+        textFitMin('.fit--frontPage .textFit--vert', 19);
+        textFitMin('.fit--backPage .textFit--vert', 19);
+      }, 1000);
+
+    </script>
+
+  </body>
+</html>

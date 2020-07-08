@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html data-sign="OS?">
+  <head>
+    <title>Bendigo Bank Digital HTML Advertisements</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ad.size" content="width={{digitalAdvertWidth}},height={{digitalAdvertHeight}}">
+
+    <style>
+
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{margin:0;padding:0}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}ul{list-style:none}button,input,select,textarea{margin:0}html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}img,embed,iframe,object,audio,video{height:auto;max-width:100%}iframe{border:0}table{border-collapse:collapse;border-spacing:0}td,th{padding:0;text-align:left}
+      
+      :root{
+        --width: calc({{{digitalAdvertWidth}}}px);
+        --height: calc({{{digitalAdvertHeight}}}px);
+        
+        --grey: {{{account.colors.80--black}}};
+        --blue: {{{account.colors.web-blue}}};
+        --white: {{{account.colors.white}}};
+      }
+
+      html {
+        font-size: 11pt;
+        word-break: break-word;
+        overflow: hidden;
+      }
+
+      .container{
+        width: var(--width);
+        height: var(--height);
+        position: relative;
+        overflow: hidden;
+        background: var(--grey);
+      }
+      
+      .background-image{
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .frame, .frame-container, .heading, .cricos, .cta{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .frame-container{
+        position: relative;
+      }
+      
+      #frame1, #frame2, #frame3, #frame4{
+        opacity: 0;
+      } 
+      
+      .constant-elements{
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .logo {
+        position: absolute;
+        left: 1rem;
+        bottom: 1rem;
+        width: 40%;
+      }
+      
+      .heading, .cricos, .cta{
+        background-size: 970px 600px;
+      }
+      
+      .heading.frame1{
+        background-image: url("https://newcastleuniversity.outfit.io/projects/175297/documents/1412537/dynamic_export?access_token=3bgvz92ZNGkJfLMbT6xr3sUY&context%5BdigitalAdvertWidth%5D={{{digitalAdvertWidth}}}&context%5BdigitalAdvertHeight%5D={{{digitalAdvertHeight}}}&context%5Bcontent-type%5D=heading&context%5Bheading%5D={{{digi-advert-frame1}}}");
+      }
+      
+      .heading.frame2{
+        background-image: url("https://newcastleuniversity.outfit.io/projects/175297/documents/1412537/dynamic_export?access_token=3bgvz92ZNGkJfLMbT6xr3sUY&context%5BdigitalAdvertWidth%5D={{{digitalAdvertWidth}}}&context%5BdigitalAdvertHeight%5D={{{digitalAdvertHeight}}}&context%5Bcontent-type%5D=heading&context%5Bheading%5D={{{digi-advert-frame2}}}");
+      }
+      
+      .heading.frame3{
+        background-image: url("https://newcastleuniversity.outfit.io/projects/175297/documents/1412537/dynamic_export?access_token=3bgvz92ZNGkJfLMbT6xr3sUY&context%5BdigitalAdvertWidth%5D={{{digitalAdvertWidth}}}&context%5BdigitalAdvertHeight%5D={{{digitalAdvertHeight}}}&context%5Bcontent-type%5D=heading&context%5Bheading%5D={{{digi-advert-frame3}}}");
+      }
+      
+      .cricos{
+         background-image: url("https://newcastleuniversity.outfit.io/projects/175297/documents/1412537/dynamic_export?access_token=3bgvz92ZNGkJfLMbT6xr3sUY&context%5BdigitalAdvertWidth%5D={{{digitalAdvertWidth}}}&context%5BdigitalAdvertHeight%5D={{{digitalAdvertHeight}}}&context%5Bcontent-type%5D=cricos&context%5Bheading%5D=CRICOS Provider {{{account.snippets.cricos}}}");
+      }
+      
+      .cta{
+        background-image: url("https://newcastleuniversity.outfit.io/projects/175297/documents/1412537/dynamic_export?access_token=3bgvz92ZNGkJfLMbT6xr3sUY&context%5BdigitalAdvertWidth%5D={{{digitalAdvertWidth}}}&context%5BdigitalAdvertHeight%5D={{{digitalAdvertHeight}}}&context%5Bcontent-type%5D=cta&context%5Bheading%5D={{{cta}}}");
+      }
+
+
+     
+      
+    </style>
+    <script type="text/javascript">
+      var clickTag = '{{{clickTag}}}{{^clickTag}}https://www.bendigobank.com.au/{{/clickTag}}';
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <a href="javascript:window.open(window.clickTag)">
+        <div class="constant-elements">
+          <div class="background-image">{{{background-image}}}</div>
+          <div class="cta"></div>
+          <div class="cricos"></div>
+        </div>
+        <div class="frame frame1" id="frame1">
+          <div class="frame-container">
+            <div class="heading frame1"></div>
+            <img class="logo" src="{{{logo}}}">
+          </div>
+        </div>
+        <div class="frame frame2" id="frame2">
+          <div class="frame-container">
+            <div class="heading frame2"></div>
+            <img class="logo" src="{{{logo}}}">
+          </div>
+        </div>
+        <div class="frame frame3" id="frame3">
+          <div class="frame-container">
+            <div class="heading frame3"></div>
+            <img class="logo" src="{{{logo}}}">
+          </div>
+        </div>
+        <div class="frame frame4" id="frame4">
+          <div class="frame-container">
+            
+          </div>
+        </div>
+      </a>
+    </div>
+    <script src="cquence.min.js"></script>
+    <script type="text/javascript">
+      
+      render = Cq.combine(
+        	Cq.sequence(
+              Cq.sleep(200),
+              Cq.easeIn('frame1', 700, { opacity: 0 }, { opacity: 1}),
+              Cq.sleep(2000),
+              Cq.easeOut('frame1', 700, { opacity: 1 }, { opacity: 0}),
+              Cq.easeIn('frame2', 700, { opacity: 0 }, { opacity: 1}),
+              Cq.sleep(2000),
+              Cq.easeOut('frame2', 700, { opacity: 1 }, { opacity: 0}),
+              Cq.easeIn('frame3', 700, { opacity: 0 }, { opacity: 1}),
+              Cq.sleep(2000),
+              Cq.easeIn('frame4', 700, { opacity: 0 }, { opacity: 1}),
+            ),
+      );
+
+      // launch the animation
+      Cq.renderloop();
+    </script>
+  </body>
+</html>

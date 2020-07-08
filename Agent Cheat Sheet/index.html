@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html data-sign="OSZ">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+
+      /* order inputs */
+
+      /*
+      {{show-crop}} 
+
+
+      {{{UON_background-image--acs}}}
+      {{{UON_gradient-colour--acs}}}
+      {{top-grad-height}}
+      {{left-grad-width}}
+      {{bottom-grad-height}}
+      {{{UON_heading-text-colour--acs}}}
+      {{{UON_heading-acs}}}
+      {{{UON_subheading-acs}}}
+      {{{UON_usp-text-colour-item}}}
+      {{{UON_usp-item}}}
+      {{#collection.UON_internal-pages--acs}}{{/collection.UON_internal-pages--acs}}
+      {{{UON_backpage-background-image--acs}}}
+      {{{UON_backpage-top-section-text-colour--acs}}}
+      {{{UON_website--acs}}}
+      {{{UON_secondary-website--acs}}}
+      {{UON_phone-number--acs}}}
+      {{UON_secondary-phone-number--acs}}}
+      {{{UON_social-media--acs}}}
+      {{{UON_we-chat-qr-code--acs}}}
+      {{{UON_address--acs}}}
+      {{{UON_backpage-bottom-section-text-colour--acs}}}
+      {{{UON_qr-code--acs}}}
+      {{{UON_qr-code-caption--acs}}}
+      {{{UON_cta--acs}}}
+      {{{UON_social-icons--acs}}}
+      */
+
+      :root {
+        --80-black: {{{account.colors.80--black}}};
+        --blue: {{{account.colors.blue}}};
+        --light-grey: #ededed;
+        --light-blue: #e2f0fb;
+        --white: {{{account.colors.white}}};
+        --purple: #ff00ff;
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+        --gradient-dynamic-colour: var(--80-black);
+      }
+
+      .headingColour--black-blue { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--blue);
+        --dynamic-background-colour: var(--white);
+      }
+
+      .headingColour--white-blue  { 
+        --font-regular-colour: var(--white);
+        --font-bold-colour: var(--blue);
+        --dynamic-background-colour: var(--80-black);
+      }
+
+      .headingColour--black-white  { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--white);
+        --dynamic-background-colour: var(--blue);
+      }
+
+      .uspTextColour--black-blue { 
+        --font-colour: var(--80-black);
+        --font-heading-colour: var(--blue);
+      }
+
+      .uspTextColour--white-blue  { 
+        --font-colour: var(--white);
+        --font-heading-colour: var(--blue);
+      }
+
+      .uspTextColour--black-white  { 
+        --font-colour: var(--80-black);
+        --font-heading-colour: var(--white);
+      }
+
+      .backpageTopSectionColour--black {
+        --font-colour-top-section: var(--80-black);
+      }
+
+      .backpageTopSectionColour--white {
+        --font-colour-top-section: var(--white);
+      }
+
+      .backpageBottomSectionColour--black {
+        --font-colour-bottom-section: var(--80-black);
+      }
+
+      .backpageBottomSectionColour--white {
+        --font-colour-bottom-section: var(--white);
+      }
+
+      .gradientColour--white { --gradient-dynamic-colour: var(--white); }
+      .gradientColour--black { --gradient-dynamic-colour: var(--80-black); }
+      .gradientColour--off { --gradient-dynamic-colour: unset; }
+
+      html {
+        font-family: 'Fuse V.2 Display';
+        font-size: 11pt;
+        color: var(--80-black);
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .fit--frontPage {
+        padding: 42pt 45pt 21pt;
+      }
+
+      .fit--internalPage {
+        padding: 43pt 42pt 35pt;
+      }
+
+      .fit--backPage {
+        padding: 78pt 42pt 41pt 45pt;
+      }
+
+      .noBackgroundImage.fit {
+        background-color: var(--dynamic-background-colour); 
+      }
+
+      .noBackgroundImage.fit--backPage {
+        background-color: var(--80-black);
+      }
+
+      .body {
+        position: relative;
+        display: flex;
+        flex: 1;
+      }
+
+      .body--frontPage {
+        justify-content: space-between;
+      }
+
+      .body--backPage {
+        flex-direction: column;
+        padding: 0pt 20pt 0pt 6pt;
+      }
+
+      .column {
+        position: relative;
+      }
+
+      .heading {
+        position: relative;
+        max-height: 4.2rem;
+        margin-bottom: 25pt;
+        font-size: 49.6pt;
+        text-transform: uppercase;
+        font-weight: 900;
+        color: var(--font-regular-colour);
+      }
+
+      .heading__inner { 
+        line-height: 0.9em;
+      }
+
+      .heading strong {
+        font-weight: 900;
+        color: var(--font-bold-colour);
+      }
+
+      .subheading {
+        max-height: 200pt;
+        position: relative;
+      }
+
+      .subheading h2 {
+        margin-bottom: 1.3em;
+        font-size: 22.1pt;
+        line-height: 1.2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: var(--font-regular-colour);
+      }
+
+      .subheading h2 strong {  
+        font-weight: 900; 
+        color: var(--font-bold-colour);
+      }
+
+      .subheading p {
+        margin-bottom: 0.4em;
+        font-size: 13pt;
+        line-height: 1.2em;
+        color: var(--font-regular-colour);
+      }
+
+      .subheading h2:last-child,
+      .subheading p:last-child {
+        margin-bottom: 0;
+      }
+
+      .logo__container {
+        position: relative;
+        flex-shrink: 0;
+        margin-top: 3pt;
+        margin-left: 60pt;
+      }
+
+      .logo {
+        width: 126pt;
+      }
+
+      .footer {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .footer--frontPage {
+      }
+
+      .footer__content {
+        display: flex;
+      }
+
+      .footer__column {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .footer__column--primary {
+        flex: 1;
+        flex-direction: column;
+      }
+
+      .footer__column--socials {
+        margin-bottom: 2pt;
+        width: 165pt;
+        align-items: flex-end;
+      }
+
+      .usp__container {
+        position: relative;
+        display: flex;
+        margin-bottom: 15pt;
+      }
+
+      .usp__container.hasPopup {
+        min-height: 161pt;
+      }
+
+      .usp {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        max-width: 50%;
+        align-items: center;
+        padding: 0 7.5pt;
+        text-align: center;
+      }
+
+      .usp__icon {
+        flex-shrink: 0;
+        margin-bottom: 5pt;
+        width: 60pt;
+        object-fit: contain;
+        object-position: bottom center;
+      }
+
+      .uspIconSize--large .usp__icon {
+        height: 56pt;
+      }
+
+      .uspIconSize--small .usp__icon {
+        height: 40pt;
+      }
+
+      .usp__text {
+        position: relative;
+        max-height: 100pt;
+        font-size: 0.83rem;  
+      }
+
+      .usp__text h3 {
+        margin-bottom: 0.2em;
+        font-size: 1em;  
+        font-weight: 900;
+        line-height: 1em;
+        text-transform: uppercase;
+        color: var(--font-heading-colour);
+      }
+
+      .usp__text p {
+        font-size: 0.3em;
+        line-height: 1.1em;
+        color: var(--font-colour);
+      }
+
+      .usp__text sup {
+        vertical-align: top;
+        top: auto;
+        font-size: 0.5em;
+        color: var(--font-colour);
+      }
+
+      .disclaimer {
+        text-align: center;
+        font-size: 0.13rem;
+        line-height: 1.7em;
+        color: var(--font-colour);
+      }
+
+      .disclaimer span + span {
+        margin-left: 5pt;
+      }
+
+      .degree__container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .degree {
+        position: relative;
+        margin-bottom: 12.7pt;
+      }
+
+      .is-firefox .degree { margin-bottom: 12.5pt; }
+
+      .degree:last-child {
+        margin-bottom: 0pt;
+      }
+
+      .degree__header {
+        padding: 5.2pt 9pt;
+        background-color: var(--blue);
+      }
+
+      .degree__heading {
+        font-size: 10pt;
+        font-weight: 900;
+        line-height: 1em;
+        color: var(--white);
+      }
+
+      .degree__heading  span {
+        font-weight: 500;
+      }
+
+      .degree__body {
+        display: flex;
+      }
+
+      .degree__content {
+        width: 259pt;
+        padding: 6pt 9pt;
+        background-color: var(--light-grey);
+      }
+
+      .degree__content p {
+        margin-bottom: 2.5pt;
+        font-size: 7.54pt;
+        line-height: 1.2em;
+      }
+
+      .degree__content ul {
+        margin-bottom: 2.5pt;
+        padding-left: 5pt;
+        list-style-type: none;       
+      }
+
+      .degree__content li {
+        position: relative;
+        margin-bottom: 2.2pt;
+        font-size: 7.54pt;
+        line-height: 1.2em;
+      }
+
+      .degree__content li:before {
+        content: " • ";
+        position: absolute;
+        top: 0pt;
+        left: -5pt;
+      }
+
+      .degree__content p:last-child,
+      .degree__content ul:last-child,
+      .degree__content li:last-child {
+        margin-bottom: 0pt;
+      }
+
+      .table {
+        position: relative;
+        width: 270pt;
+        border-collapse: collapse;
+        background-color: var(--light-blue);
+      }
+
+      .table__row {
+        padding: 1pt 4pt;
+        border-bottom: 0.7pt solid var(--white);
+      }
+
+      .table__cell {
+        font-size: 7.54pt;
+        line-height: 1.45em;
+      }
+
+      .is-firefox .table__cell { font-size: 7.35pt; }
+
+      .table__cell--label {
+        width: 94pt;
+        padding: 2pt 4pt 2pt 1.3pt;
+        text-transform: uppercase;
+        font-size: 7.8pt;
+        text-transform: uppercase;
+        font-weight: 900;
+      }
+
+      .table__cell--value { 
+        width: 97pt;
+      }
+
+      .table__cell--value,
+      .table__cell--valueSecondary {
+        vertical-align: top;
+      }
+
+      .tableQr__container {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        bottom: 0;
+        right: 0;
+        height: 44pt;
+        width: 45pt;
+        padding: 3pt;
+        background-color: var(--white);
+      }
+
+      .info__container {
+        margin-bottom: 12pt;
+        padding-bottom: 12pt;
+        border-bottom: 0.7pt solid var(--font-colour-top-section);
+      }
+      
+      .noBackgroundImage .info__container {
+        border-bottom: 0.7pt solid var(--white);
+      }
+
+      .info__row {
+        display: flex;
+        margin-bottom: 12pt;
+      }
+
+      .info__container:last-child,
+      .info__row:last-child {
+        margin-bottom: 0pt;
+      }
+
+      .info {
+        display: flex;
+        align-items: center;
+      }
+
+      .info + .info {
+        margin-left: 23pt;
+      }
+
+      .info--number + .info {
+        margin-left: 29pt;
+      }
+
+      .icon {
+        width: 22.4pt;
+        margin-right: 11pt;
+        object-fit: contain;
+        object-position: top;
+      }
+
+      .info__value {
+        font-size: 13.7pt;
+        line-height: 1.2em;
+        color: var(--font-colour-top-section);
+      }
+      
+      .noBackgroundImage .info__value {
+        color: var(--white);
+      }
+
+      .info__value--number {
+        font-size: 16.9pt;
+      }
+
+      .info__value--number span {
+        font-size: 11.6pt;
+      }
+
+      .qrCode__container {
+        position: relative;
+        flex-shrink: 0;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .qrCode__container--body {
+        margin-bottom: 4pt;
+      }
+
+      .qrCode {
+        position: relative;
+        display: flex;
+        flex-shrink: 0;
+        justify-content: center;
+        align-items: center;
+        padding: 1pt;
+        background-color: var(--white);
+      }
+
+      .qrCode--body {
+        margin-left: 7pt;
+      }
+
+      .qrCode--footer {
+        margin-right: 14pt;
+      }
+
+      .qrCode__image--body {
+        position: relative;
+        height: 50pt;
+        width: 50pt;
+        object-fit: contain;
+      }
+
+      .qrCode__image--footer {
+        height: 52pt;
+        width: 52pt;
+        object-fit: contain;
+      }
+
+      .qrCode__text {
+        font-size: 6.88pt;
+      }
+
+      .qrCode__text--body {
+        text-align: right;
+        line-height: 1.25em;
+        color: var(--font-colour-top-section);
+
+      }
+
+      .qrCode__text--footer {
+        margin-bottom: 2.3pt;
+        line-height: 1.35em;
+        color: var(--font-colour-bottom-section);
+      }
+
+      .noBackgroundImage .qrCode__text--footer {
+        color: var(--white);
+      }
+
+      .cta {
+        margin-top: 19pt;
+        text-transform: uppercase;
+        font-size: 16pt;
+        font-weight: 900;
+        line-height: 1em;
+        color: var(--blue);
+      }
+
+      .socials__item {
+        margin-left: 13.8pt;
+        width: 20pt;
+        height: 20pt;
+        border-radius: 50%;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      } 
+
+      .socials__item:first-child {
+        margin-left: 0;
+      }
+
+      .socials__item--facebook {
+        background-image: url(https://files.outfit.io/media_library_items/177513/Facebook-icon.svg);
+      }
+
+      .socials__item--twitter {
+        background-image: url(https://files.outfit.io/media_library_items/195222/Uon-twitter-icon.svg);
+      }
+
+      .socials__item--instagram {
+        background-image: url(https://files.outfit.io/media_library_items/177969/instagram-icon.png);
+      }
+
+      .socials__item--linkedin {
+        background-image: url(https://files.outfit.io/media_library_items/195216/Uon-linkedin-icon.svg);
+      }
+
+      .socialMedia__container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 18pt;
+        padding-bottom: 13pt;
+        border-bottom: 0.7pt solid var(--font-colour-top-section);
+      } 
+      
+      .noBackgroundImage .socialMedia__container {
+        border-bottom: 0.7pt solid var(--white);
+      }
+
+      .socialMedia__container:last-child {
+        margin-bottom: 0;
+      }
+
+      .socialMedia {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-rows: repeat(3, auto);
+        row-gap: 10pt;
+        column-gap: 4pt;
+        width: 380pt;
+      }
+
+      .socialMedia__item {
+        display: flex;
+        align-items: center;
+      }
+
+      .socialMedia__icon {
+        width: 22.4pt;
+        margin-right: 11pt;
+      }
+
+      .socialMedia__text {
+        font-size: 11.4pt;
+        line-height: 1.2em;
+        color: var(--font-colour-top-section);
+      }
+      
+      .noBackgroundImage .socialMedia__text {
+        color: var(--white);
+      }
+
+      .address__container {
+        display: flex;
+      }
+
+      .address {
+        display: grid;
+        margin-top: 5pt;
+        grid-template-columns: repeat(3, auto);
+        grid-template-rows: repeat(2, auto);
+        row-gap: 10pt;
+        column-gap: 22pt;
+      }
+
+      .address__item {
+        color: var(--font-colour-top-section);
+      }
+      
+      .noBackgroundImage .address__item {
+        color: var(--white);
+      }
+
+      .address__item h1 {
+        margin-bottom: 4pt;
+        font-size: 12.4pt;
+        font-weight: 900;
+        line-height: 1em;
+      }
+
+      .address__item h1 span {
+        font-size: 11pt;
+        font-weight: 500;
+      }
+
+      .address__item p {
+        font-size: 8.8pt;
+        line-height: 1.4em;
+      }
+
+      .cricos__container {
+        position: absolute;
+        bottom: -25%;
+        left: 0%;
+        width: 70vw;
+        font-size: 10pt;
+        font-weight: 500;
+        color: var(--font-colour-bottom-section);
+      }
+
+      .noBackgroundImage .cricos__container {
+        color: var(--white);
+      }
+
+      .cricos,
+      .exportID {
+        font-size: 5.9pt;
+        line-height: 1.2em;
+      }
+
+      .popup {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-width: 50%;
+        max-height: 30%;
+        transform: translate(-50%, -50%);
+        padding: 0.05rem;
+        text-align: center;
+        font-size: 0.63rem;
+        line-height: 1.2em;
+        font-weight: normal;
+        color: var(--purple);
+        background-color: var(--white);
+        border: 0.2em solid var(--purple);
+        z-index: 2;
+      }
+
+      {{{account.snippets.gradientCss}}}
+      .gradient--top { height: {{top-grad-height}}%; }      
+      .gradient--left { width: {{left-grad-width}}%; }
+      .gradient--bottom { height: {{bottom-grad-height}}%; }
+
+      .heading__inner.overflow:hover:after {
+        content: 'Minimum text size exceeded';        
+      }
+
+      .heading__inner.heading:before {
+        font-size: 1em;
+      }
+
+      .heading__inner:hover:after {
+        font-size: 1em;
+      }
+
+      .heading__inner:hover:before {
+        font-size: 1em;
+      }  
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" 
+        data-crop="{{show-crop}}" 
+        data-reduce-export-font-size-by-percent="0" 
+        data-reduce-firefox-font-size-by-percent="0" 
+        data-prevent-export-overflow="false"
+        class="headingColour--{{{UON_heading-text-colour--acs}}}{{^UON_heading-text-colour--acs}}white-blue{{/UON_heading-text-colour--acs}}
+               gradientColour--{{{UON_gradient-colour--acs}}}
+               uspTextColour--{{{UON_usp-text-colour-item}}}{{^UON_usp-text-colour-item}}white-blue{{/UON_usp-text-colour-item}}
+               backpageTopSectionColour--{{{UON_backpage-top-section-text-colour--acs}}}{{^UON_backpage-top-section-text-colour--acs}}white{{/UON_backpage-top-section-text-colour--acs}}
+               backpageBottomSectionColour--{{{UON_backpage-bottom-section-text-colour--acs}}}{{^UON_backpage-bottom-section-text-colour--acs}}black{{/UON_backpage-bottom-section-text-colour--acs}}">
+
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--frontPage {{^UON_background-image--acs}}noBackgroundImage{{/UON_background-image--acs}}">
+          <div class="backgroundImage"><div class="reposition-fix">{{{UON_background-image--acs}}}</div></div><!--backgroundImage-->
+          <div class="gradient gradient--left"></div><!--left-grad-->
+          <div class="gradient gradient--top"></div><!--top-grad-->
+          <div class="gradient gradient--bottom"></div><!--bottom-grad-->
+          <div class="body body--frontPage">
+            <div class="column">
+              {{#UON_heading-acs}}
+              <div class="heading">
+                <div class="heading__inner textFit--vertical">{{{UON_heading-acs}}}</div> <!--heading__inner-->
+              </div> <!--heading-->
+              {{/UON_heading-acs}}
+              {{#UON_subheading-acs}}
+              <div class="subheading" data-max-height="css">{{{UON_subheading-acs}}}</div> <!--subheading-->
+              {{/UON_subheading-acs}}
+            </div> <!--column-->
+            <div class="logo__container">
+              <img class="logo" src="{{{account.logos.primary}}}"> <!--logo-->
+            </div> <!--logo__container-->
+          </div> <!--body-->
+          <div class="footer footer-frontPage">
+            <div class="usp__container usp__container js-usp-controller-container"></div> <!--usp__container-->    
+            <div class="disclaimer js-usp-controller-disclaimer"></div> <!--disclaimer-->
+          </div> <!--footer-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{#collection.UON_internal-pages--acs}}
+    {{#block.UON_internal-page--acs}}
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--internalPage">
+          <div class="degree__container js-degrees-container" data-selected-degrees="" data-max-height="dynamic">
+            <div class="js-degrees-selected" style="display: none;">{{{UON_degrees--acs}}}</div>
+          </div> <!--degree__container-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/block.UON_internal-page--acs}}
+    {{/collection.UON_internal-pages--acs}}
+
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--backPage {{^UON_backpage-background-image--acs}}noBackgroundImage{{/UON_backpage-background-image--acs}}">
+          <div class="backgroundImage"><div class="reposition-fix">{{{UON_backpage-background-image--acs}}}</div></div><!--backgroundImage-->
+          <div class="body body--backPage">
+            <div class="info__container">
+              <div class="info__row {{^UON_website--acs}}u-{{/UON_website--acs}}{{^UON_secondary-website--acs}}hide{{/UON_secondary-website--acs}}">
+                {{#UON_website--acs}}
+                <div class="info">
+                  <img class="icon" src="https://files.outfit.io/media_library_items/195221/Uon-arrow-icon.svg"> <!--icon-->
+                  <div class="info__value" data-max-line="1">{{{UON_website--acs}}}</div> <!--info__value-->
+                </div> <!--info-->
+                {{/UON_website--acs}}
+                {{#UON_secondary-website--acs}}
+                <div class="info">
+                  <img class="icon" src="https://files.outfit.io/media_library_items/195221/Uon-arrow-icon.svg"> <!--icon-->
+                  <div class="info__value" data-max-line="1">{{{UON_secondary-website--acs}}}</div> <!--info__value-->
+                </div> <!--info-->
+                {{/UON_secondary-website--acs}}
+              </div> <!--info__row-->
+              <div class="info__row {{^UON_phone-number--acs}}u-{{/UON_phone-number--acs}}{{^UON_secondary-phone-number--acs}}hide{{/UON_secondary-phone-number--acs}}">
+                {{#UON_phone-number--acs}}
+                <div class="info info--number">
+                  <img class="icon" src="https://files.outfit.io/media_library_items/195219/Uon-phone-icon.svg"> <!--icon-->
+                  <div class="info__value info__value--number" data-max-line="1">{{{UON_phone-number--acs}}}</div> <!--info__value-->
+                </div> <!--info-->
+                {{/UON_phone-number--acs}}
+                {{#UON_secondary-phone-number--acs}}
+                <div class="info info--number">
+                  <img class="icon" src="https://files.outfit.io/media_library_items/195219/Uon-phone-icon.svg"> <!--icon-->
+                  <div class="info__value info__value--number" data-max-line="1">{{{UON_secondary-phone-number--acs}}} <span>(inside Australia)</span></div> <!--info__value-->
+                </div> <!--info-->
+                {{/UON_secondary-phone-number--acs}}
+              </div> <!--info__row-->
+            </div> <!--info__container-->
+            <div class="socialMedia__container">
+              <div class="socialMedia js-social-media">
+              </div> <!--socialMedia-->
+              {{#UON_we-chat-qr-code--acs}}
+              <div class="qrCode__container qrCode__container--body">
+                <div class="qrCode__text qrCode__text--body">Scan to connect{{^UON_social-media--acs.length}}HELLLOOOOOOOO{{/UON_social-media--acs.length}}<br>on WeChat.</div> <!--qrCode__text-->
+                <div class="qrCode qrCode--body">
+                  <img class="qrCode__image qrCode__image--body" src="{{{UON_we-chat-qr-code--acs}}}" /> <!--qrCode__image-->
+                </div> <!--qrCode-->
+              </div> <!--qrCode__container-->
+              {{/UON_we-chat-qr-code--acs}}
+            </div> <!--socialMedia__container-->
+            <div class="address__container">
+              <img class="icon" src="https://files.outfit.io/media_library_items/195220/Uon-location-icon.svg"> <!--icon-->
+              <div class="address js-address">
+              </div> <!--address-->
+            </div> <!--address__container-->
+          </div> <!--body-->
+          <div class="footer footer--backPage">
+            <div class="footer__content">
+              <div class="footer__column footer__column--primary">
+                <div class="qrCode__container qrCode__container--footer">
+                  {{#UON_qr-code--acs}}
+                  <div class="qrCode qrCode--footer">
+                    <img class="qrCode__image qrCode__image--footer" src="{{{UON_qr-code--acs}}}" /> <!--qrCode__image-->
+                  </div> <!--qrCode-->
+                  {{/UON_qr-code--acs}}
+                  <div class="qrCode__text qrCode__text--footer" data-max-line="2">{{{UON_qr-code-caption--acs}}}</div> <!--qrCode__text-->
+                </div> <!--qrCode__container-->
+                <div class="cta" data-max-line="1">{{{UON_cta--acs}}}</div> <!--cta-->
+              </div> <!--footer__column-->
+              <div class="footer__column footer__column--socials js-socials">
+              </div> <!--footer__column-->
+            </div> <!--footer__content-->
+            <div class="cricos__container">
+              <span class="exportID">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT{{/metadata}}</span>
+              <span class="cricos"> | CRICOS Provider {{{account.snippets.cricos}}}</span>
+            </div><!--cricos__container-->
+          </div> <!--footer-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+
+    <script>
+
+      console.clear();    
+
+      function uspPopupInject(container) {
+        if ( container.querySelector('.usp-popup') === null ) {
+          const popup = document.createElement('div');
+          popup.classList.add('usp-popup');
+          popup.style.cssText = `
+position: absolute;
+display: flex;
+align-items: center;
+justify-content: center;
+top: 50%;
+left: 50%;
+width: 50%;
+min-height: 60%;
+font-size: 0.4rem;
+color: #FF00FF;
+border: 6px solid #FF00FF;
+border-radius: 3px;
+transform: translate(-50%, -50%);
+background: #fff;
+padding: 0.2rem;
+text-align: center;
+`;
+          popup.innerText = 'Only 3 USP\'s can be added here';
+          container.appendChild(popup);
+          container.classList.add('hasPopup');
+        }       
+      }
+
+      function uspPopupRemove(container) {
+        if ( container.querySelector('.usp-popup') !== null ) {
+          const popup = container.querySelector('.usp-popup');
+          container.removeChild(popup);
+          container.classList.remove('hasPopup');
+        }
+      }
+
+      function uspController() {
+        const container = document.querySelector('.js-usp-controller-container');
+        const disclaimerContainer = document.querySelector('.js-usp-controller-disclaimer');
+        const uspSnippetObj2 = {{{account.snippets.uspSnippetObj}}};
+      let iconColour = 'white';
+
+      const uspSnippetObj = {
+        "ranked-197-in-the-world-1": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "RANKED 197",
+          "text": "in the world",
+          "disclaimerNumberSup": "1",
+          "disclaimer": "QS World University Rankings 2021"
+        },
+        "top-200-university-in-the-world-1": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183104/Icons2_Australia_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196408/Icons2_Australia_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196409/Icons2_Australia_140px_Black.png"
+          },
+          "heading": "TOP 200",
+          "text": "university in the world",
+          "disclaimerNumberSup": "1",
+          "disclaimer": "QS World University Rankings 2021"
+        },
+        "top-50-university-in-the-asia-pacific-region-2": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "TOP 50",
+          "text": "university in the Asia-Pacific Region",
+          "disclaimerNumberSup": "2",
+          "disclaimer": "Times Higher Education Golden Age University Ranking 2019"
+        },
+        "highest-ranked-regional-university-in-australia-1": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183104/Icons2_Australia_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196408/Icons2_Australia_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196409/Icons2_Australia_140px_Black.png"
+          },
+          "heading": "HIGHEST RANKED",
+          "text": "Regional University in Australia",
+          "disclaimerNumberSup": "1",
+          "disclaimer": "QS World University Rankings 2020"
+        },
+        "200-million-investment-in-the-future-of-stemm": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183126/Icons2_Science_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196410/Icons2_Science_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196411/Icons2_Science_140px_Black.png"
+
+          },
+          "heading": "$200 MILLION",
+          "text": "investment in the future of STEMM",
+          "disclaimerNumberSup": "",
+          "disclaimer": ""
+        },
+        "37946-students-from-113-nations-7": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183115/Icons2_Graduate_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196415/Icons2_Graduate_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196414/Icons2_Graduate_140px_Black.png"
+          },
+          "heading": "37,946 STUDENTS",
+          "text": "from 113 nations",
+          "disclaimerNumberSup": "7",
+          "disclaimer": "The University of Newcastle Data Warehouse as at 4 February 2020 "
+        },
+        "90-of-our-undergraduates-and-94-8-of-our-postgraduates-find-employment-within-four-months-of-graduating-above-the-australian-university-average": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183115/Icons2_Graduate_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196415/Icons2_Graduate_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196414/Icons2_Graduate_140px_Black.png"
+          },
+          "heading": "90%",
+          "text": "of our undergraduate graduates find employment within four months of graduating - above the Australian university average",
+          "disclaimerNumberSup": "3",
+          "disclaimer": "QILT Graduates Outcomes Survey 2017-2019 (qilt.edu.au)"
+        },
+        "5-star-maximum-rating-for-full-time-employment-starting-salary-learner-engagement,-overall-student-experience-and-teaching-quality-for-postgraduate-studies-4": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183097/Icons2_Handshake_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196420/Icons2_Handshake_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196421/Icons2_Handshake_140px_Black.png"
+          },
+          "heading": "5-STAR",
+          "text": "maximum rating for full time employment, starting salary, learner engagement, overall student experience and teaching quality for postgraduate studies",
+          "disclaimerNumberSup": "4",
+          "disclaimer": "2020 Good Universities Guide"
+        },
+        "no-1-ranked-university-in-australia-for-industry-collaboration-5": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183097/Icons2_Handshake_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196420/Icons2_Handshake_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196421/Icons2_Handshake_140px_Black.png"
+          },
+          "heading": "NO.1",
+          "text": "ranked University in Australia for industry collaboration",
+          "disclaimerNumberSup": "5",
+          "disclaimer": "Innovation Connections IC Report 2014 – 2019"
+        },
+        "top-8-in-australia-for-research-well-above-world-standard-6": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183104/Icons2_Australia_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196408/Icons2_Australia_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196409/Icons2_Australia_140px_Black.png"
+          },
+          "heading": "TOP 8 ",
+          "text": "for research 'well above world standard'",
+          "disclaimerNumberSup": "6",
+          "disclaimer": "Excellence in Research Australia, 2018"
+        },
+        "10-subjects-ranked-in-the-top-200-in-the-world-1": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "TOP 200",
+          "text": "10 subjects ranked in the top 200 in the world",
+          "disclaimerNumberSup": "1",
+          "disclaimer": "QS World University Rankings 2020"
+        },
+        "94.8-of-our-postgraduate-graduates-find-employment-within-four-months-of-graduating-above-the-australian-university-average-3": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183115/Icons2_Graduate_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196415/Icons2_Graduate_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196414/Icons2_Graduate_140px_Black.png"
+          },
+          "heading": "94.8%",
+          "text": "of our postgraduate graduates find employment within four months of graduating - above the Australian university average",
+          "disclaimerNumberSup": "3",
+          "disclaimer": "QILT Graduates Outcomes Survey 2017-2019 (qilt.edu.au)"
+        },
+        "95-million-nuspace-facility": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "$95 MILLION",
+          "text": "NUspace facility",
+          "disclaimerNumberSup": "",
+          "disclaimer": ""
+        },
+        "top-10-newcastle-listed-as-top-10-city-in-the-world-9": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "TOP 10",
+          "text": "Newcastle listed as top 10 city in the world",
+          "disclaimerNumberSup": "9",
+          "disclaimer": "Lonely Planet's Top 10 Cities, 2011"
+        },
+        "top-50-australian-golden-age-university-2": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "TOP 50",
+          "text": "Australian Golden Age University",
+          "disclaimerNumberSup": "2",
+          "disclaimer": "Times Higher Education Golden Age University Ranking 2019"
+        },
+        "national-geographic-smart-city-10": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "NATIONAL GEOGRAPHIC",
+          "text": "Smart City",
+          "disclaimerNumberSup": "10",
+          "disclaimer": "National Geographic Smart Cities 20179"
+        },
+        "more-than-100-million-invested-into-the-newcastle-city-campus-over-the-past-five-years": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "MORE THAN $100 MILLION",
+          "text": "invested into the Newcastle city campus over the past five years",
+          "disclaimerNumberSup": "",
+          "disclaimer": ""
+        },
+        "ranked-45-in-the-world-for-impact-11": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "RANKED 45",
+          "text": "in the world for impact",
+          "disclaimerNumberSup": "11",
+          "disclaimer": "Times Higher Education Rankings, 2020"
+        },
+        "73991-international-enrolments-from-over-113-countries-7": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "73,991",
+          "text": "international enrolments from over 113 countries",
+          "disclaimerNumberSup": "7",
+          "disclaimer": "The University of Newcastle Data Warehouse as at 4 February 2020 "
+        },
+        "180-partnerships-in-32-countries-student-exchange-and-study-abroad-programs": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "180 PARTNERSHIPS IN 32 COUNTRIES",
+          "text": "student exchange and study abroad programs",
+          "disclaimerNumberSup": "",
+          "disclaimer": ""
+        },
+        "5-star-maximum-rating-for-student-retention-and-social-equity-4": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "5-STAR",
+          "text": "maximum rating for student retention and social equity",
+          "disclaimerNumberSup": "4",
+          "disclaimer": "The Good Universities Guide 2020"
+        },
+        "148000-in-our-global-alumni-community-based-in-144-countries-around-the-world-12": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "148,000+",
+          "text": "in our global alumni community based in 144 countries around the world",
+          "disclaimerNumberSup": "12",
+          "disclaimer": "Salesforce as at 13 January 2020"
+        },
+        "over-23000-work-integrated-learning-experiences-delivered-each-year-at-the-university-of-newcastle-13": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "OVER 23,000",
+          "text": "Work Integrated Learning experiences delivered each year at the University of Newcastle",
+          "disclaimerNumberSup": "13",
+          "disclaimer": "Universities Australia Work Integrated Learning audit 2017"
+        },
+        "1107-academic-staff-14": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "1,107",
+          "text": "Academic Staff",
+          "disclaimerNumberSup": "14",
+          "disclaimer": "The University of Newcastle Annual Report 2018"
+        },
+        "over-1000-study-abroad-experiences-in-2018": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "OVER 1000",
+          "text": "Study abroad experiences in 2018",
+          "disclaimerNumberSup": "15",
+          "disclaimer": "UON Global data warehouse as at 7 February 2020"
+        },
+        "top-5-in-australia-for-overall-experience-for-postgraduate-studies-4": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "TOP 5",
+          "text": "in Australia for overall experience for postgraduate studies",
+          "disclaimerNumberSup": "4",
+          "disclaimer": "The Good Universities Guide 2020"
+        },
+        "62600-median-starting-salary-for-undergraduate-employment–above-the-national-average-3": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "$62,600",
+          "text": "median starting salary for undergraduate employment – above the national average",
+          "disclaimerNumberSup": "3",
+          "disclaimer": "QILT Graduates Outcomes Survey 2017-2019"
+        },
+        "92000-median-starting-salary-for-postgraduate-employment–above-the-national-average-3": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "$92,000",
+          "text": "median starting salary for postgraduate employment – above the national average",
+          "disclaimerNumberSup": "3",
+          "disclaimer": "QILT Graduates Outcomes Survey 2017-2019"
+        },
+        "15-million-facility-to-support-global-contamination-research-opened": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "$15 MILLION",
+          "text": "facility to support global contamination research opened",
+          "disclaimerNumberSup": "",
+          "disclaimer": ""
+        },
+        "95-of-our-research-is-at-or-above-world-standard": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "95%",
+          "text": "of our research is 'at' or 'above world standard'",
+          "disclaimerNumberSup": "6",
+          "disclaimer": "Excellence in Research Australia, 2018"
+        },
+        "top-9-in-australia-for-research-income-herdc-1008-m-in-total-16": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "TOP 9",
+          "text": "in Australia for research income (HERDC), $100.8M in total",
+          "disclaimerNumberSup": "16",
+          "disclaimer": "The Audited Higher Education Research Data Collection returns 2018"
+        },
+        "1900-higher-degree-by-research-17": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "1,900+",
+          "text": "Higher Degree by Research",
+          "disclaimerNumberSup": "17",
+          "disclaimer": "Research and Innovation Division June 2019"
+        },
+        "wgea-employer-of-choice-for-gender-equity-five-years-in-a-row-18": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "WGEA",
+          "text": "Employer of Choice for Gender Equity, five years in a row",
+          "disclaimerNumberSup": "18",
+          "disclaimer": "Workplace for Gender Equity Agency (WGEA)"
+        },
+        "300-industry-partners-in-2018-19": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "300+",
+          "text": "industry partners in 2018",
+          "disclaimerNumberSup": "19",
+          "disclaimer": "The University of Newcastle Research Partners Engagement Survey 2018"
+        },
+        "100-of-our-stemm-research-is-at-or-above-world-standard-6": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "100%",
+          "text": "of our STEMM research is 'at' or 'above world standard'",
+          "disclaimerNumberSup": "6",
+          "disclaimer": "Excellence in Research Australia, 2018"
+        },
+        "3000-employer-connections-20": {
+          "iconSrc": "https://files.outfit.io/media_library_items/183106/Icons2_Globe_140px_Blue.png",
+          "iconMultiColor": {
+            "white": "https://files.outfit.io/media_library_items/196392/Icons2_Globe_140px_White.png",
+            "black": "https://files.outfit.io/media_library_items/196389/Icons2_Globe_140px_Grey.png"
+          },
+          "heading": "3000+",
+          "text": "employer connections",
+          "disclaimerNumberSup": "20",
+          "disclaimer": "The University of Newcastle Employability and Enterprise data"
+        }
+      };
+
+
+
+      {{#UON_usp-text-colour-item}}
+      switch('{{UON_usp-text-colour-item}}') {
+        case 'black-blue':
+          iconColour = 'black';
+          break;
+        case 'white-blue':
+          iconColour = 'white';
+          break;
+        case 'black-white':
+          iconColour = 'black';
+          break;
+        default:
+          iconColour = 'white';
+      }
+        {{/UON_usp-text-colour-item}}      
+          //        console.log(uspSnippetObj2);
+          const selectedArr = {{{UON_usp-item}}} || [];
+        let disclaimers = [];           
+
+        if ( selectedArr === [] ) return;
+
+        // adding warning popup if more than 3 items are selected
+        if ( selectedArr.length > 3 ) {
+          uspPopupInject(container);
+          return;
+        } else {
+          uspPopupRemove(container);  
+        }
+
+
+
+        const uspHTML = selectedArr.map(item => {
+          const { iconMultiColor, heading, text, disclaimer } = uspSnippetObj[item];
+          let disclaimerNumberSup = '';
+
+          // If disclaimer property of the current USP item is not empty or already added to disclaimers array in some of the previous iterations
+          // we add it here
+          if ( disclaimer !== '' && !disclaimers.includes(disclaimer) ) disclaimers.push(disclaimer);
+
+          // Checking if the disclaimers array includes current USP item's disclaimer property value 
+          if ( disclaimers.includes(disclaimer) ) disclaimerNumberSup = disclaimers.indexOf(disclaimer) + 1;
+
+          return `
+<div class="usp usp--top10">
+<img src=${iconMultiColor[iconColour]} class="usp__icon" />
+<div class="usp__text">
+<div class="textFit--usp">
+<h3>${heading}</h3>
+<p>${text}<sup>${disclaimerNumberSup}</sup></p>
+      </div> <!--textFit-->
+      </div> <!--usp__text-->
+      </div> <!--usp-->
+`;
+        }).join('');
+
+        const disclaimersHTML = disclaimers.map((disclaimer, index) => {
+          return `<span>${index + 1} ${disclaimer}</span>`
+        }).join(' ');
+
+        // injecting html into columns and disclaimer
+        container.innerHTML = uspHTML;
+        disclaimerContainer.innerHTML = disclaimersHTML;
+       }     
+
+       function socialIconsInject() {
+         const container = document.querySelector('.fit--backPage');
+         const socialsContainer = container.querySelector('.js-socials');
+         const socials = {{{UON_social-icons--acs}}} || [];
+
+      if (socials.length === 0) {
+        socialsContainer.classList.add('u-hide');
+      }
+
+      socials.forEach(icon =>{
+        socialsContainer.innerHTML += `
+<div class="socials__item socials__item--${icon}"></div> <!--socials__item-->
+`;
+      });
+      }
+
+      socialIconsInject();
+
+      function showSocialMediaItems() {
+        const container = document.querySelector('.fit--backPage');
+        const socialMediaContainer = container.querySelector('.js-social-media');
+        const socialMediaBlock = container.querySelector('.socialMedia__container');
+        const socialMedia = {{{UON_social-media--acs}}} || [];
+      const socialMediaObj = {
+        "instagram": {
+          "iconSrc": "https://files.outfit.io/media_library_items/195217/Uon-instagram-icon.svg",
+          "url": "uni_newcastle"
+        },
+        "facebook": {
+          "iconSrc": "https://files.outfit.io/media_library_items/195224/Uon-facebook-icon.svg",
+          "url": "TheUniversityofNewcastleAustralia"
+        },
+        "youtube": {
+          "iconSrc": "https://files.outfit.io/media_library_items/195223/Uon-youtube-icon.svg",
+          "url": "UniversityNewcastle"
+        },
+        "linkedin": {
+          "iconSrc": "https://files.outfit.io/media_library_items/195216/Uon-linkedin-icon.svg",
+          "url": "University of Newcastle"
+        },
+        "twitter": {
+          "iconSrc": "https://files.outfit.io/media_library_items/195222/Uon-twitter-icon.svg",
+          "url": "uni_newcastle"
+        },
+        "wechat": {
+          "iconSrc": "https://files.outfit.io/media_library_items/195218/Uon-wechat-icon.svg",
+          "url": "UON_Australia"
+        }
+      };
+
+      if (socialMedia.length === 0) {
+        socialMediaBlock.classList.add('u-hide');
+      }
+
+      socialMedia.forEach(item =>{
+        const { iconSrc, url } = socialMediaObj[item];
+        socialMediaContainer.innerHTML += `
+<div class="socialMedia__item">
+<img class="socialMedia__icon" src="${iconSrc}"> <!--socialMedia__icon-->
+<div class="socialMedia__text">${url}</div> <!--socialMedia__text-->
+      </div> <!--socialMedia__item-->
+`; 
+      });
+      }
+
+      showSocialMediaItems();
+
+      function showAddressItem() {
+        const container = document.querySelector('.fit--backPage');     
+        const addressContainer = container.querySelector('.js-address');
+        const addressBlock = container.querySelector('.address__container');
+        const addresses = {{{UON_address--acs}}} || [];
+      const addressesObj = {
+        "newcastle-campus": {
+          "campus": "NEWCASTLE CAMPUS<br><span>CALLAGHAN</span>",
+          "address": "University Drive,<br>Callaghan NSW 2308"
+        },
+        "newcastle-city-campus": {
+          "campus": "NEWCASTLE CITY CAMPUS",
+          "address": "Corner Hunter and Auckland Streets<br>Newcastle NSW 2300"
+        },
+        "central-coast-campus": {
+          "campus": "CENTRAL COAST CAMPUS<br><span>OURIMBAH</span>",
+          "address": "Chittaway Road,<br>Ourimbah NSW 2258"
+        },
+        "sydney-campus": {
+          "campus": "SYDNEY CAMPUS",
+          "address": "55 Elizabeth Street,<br>Sydney NSW 2000"
+        },
+        "singapore-campus": {
+          "campus": "SINGAPORE CAMPUS",
+          "address": "6 Temasek Boulevard,<br>#10-02/03, Suntec Tower 4<br>Singapore 038986"
+        }
+      };
+
+      if (addresses.length === 0) {
+        addressBlock.classList.add('u-hide');
+      }
+
+      addresses.forEach(item =>{
+        const { campus, address } = addressesObj[item];
+        addressContainer.innerHTML += `
+<div class="address__item">
+<h1>${campus}</h1>
+<p>${address}</p>
+      </div> <!--address__item-->
+`;
+      });
+      }
+
+      showAddressItem();
+
+      function showDegreeItem() {
+        const internalPages = document.querySelectorAll('.fit--internalPage');
+        const degreesObj = {
+          "bachelor-of-business": {
+            "degree": "BACHELOR OF BUSINESS",
+            "content": "<p>Our Bachelor of Business is dynamic, flexible and industry–engaged<br>and can unlock opportunities across Australia and the world. Gain<br>an in-depth knowledge of contemporary Australian and global<br>business environments. You could work as a marketing manager,<br>sales manager, research analyst or a people leader, within the sports<br>or tourism industry or become an entrepreneur and start your own<br>successful company</p><ul><li>Work Integrated Learning (WIL) opportunities through<br>industry placements.</li><li>AACSB accredited</li><li>Choose from 8 majors</li>",
+            "cricosCode": "001133A",
+            "duration": "3 yrs FT",
+            "city": "Newcastle – City<br>Singapore",
+            "region": "Central Coast",
+            "indicativeAnnualFeeCurrentYear": "2020 A$29,260<br>2021 A$30,723",
+            "indicativeAnnualFeeNextYear": "",
+            "ieltsOverallMin": "IELTS overall minimum - 6.0",
+            "ieltsSectionMin": "IELTS section minimum - 6.0",
+            "intake": "S1, S2",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          },
+
+          "bachelor-of-chemical-engineering": {
+            "degree": "BACHELOR OF CHEMICAL ENGINEERING",
+            "content": "<p>Want to use mathematics, science and creativity to overcome<br>challenges and find solutions? Chemical engineers help develop<br>everyday products like toothpaste, chocolate, lipstick, paracetamol<br>and petrol. You could work as part of a team developing high<br>efficiency insulation products that improve heating and cooling. You<br>could work on biofuel production in remote communities. You might<br>work in the food industry. The possibilities are diverse and exciting.</p><ul><li>Ranked 8 in the world for automation and control</li><li>Choose from 13 specialisations</li><li>Engineers Australia accredited</li>",
+            "cricosCode": "018788M",
+            "duration": "4 yrs FT",
+            "city": "Newcastle – Callaghan",
+            "region": "",
+            "indicativeAnnualFeeCurrentYear": "2020 A$36,195<br>2021 A$38,005",
+            "indicativeAnnualFeeNextYear": "",
+            "ieltsOverallMin": "IELTS overall minimum - 6.0",
+            "ieltsSectionMin": "IELTS section minimum - 6.0",
+            "intake": "S1, S2",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          },
+          "bachelor-information-technology": {
+            "degree": "BACHELOR INFORMATION TECHNOLOGY",
+            "content": "<p>Information technology (IT) involves developing, building and<br>maintaining software systems to meet the challenges faced by<br>society and seizing the opportunities that new technology creates<br>The Bachelor of Information Technology prepares you for a diverse<br>career, you could specialise in business technologies and manage<br>complex systems for big corporations and government. If you are<br>passionate about media and entertainment, you could even create<br>exciting games, animations and digital content</p><ul><li>Option for a combined degree with Bachelor of Business</li><li>Choose from 3 majors</li><li>Professional recognition through the Australian Computing Society</li>",
+            "cricosCode": "044439E",
+            "duration": "3 yrs FT",
+            "city": "Newcastle – Callaghan",
+            "region": "Singapore",
+            "indicativeAnnualFeeCurrentYear": "2020 A$34,105",
+            "indicativeAnnualFeeNextYear": "2021 A$35,810",
+            "ieltsOverallMin": "IELTS overall minimum - 6.0 ",
+            "ieltsSectionMin": "IELTS section minimum - 6.0",
+            "intake": "S1, S2 – Callaghan<br>T2, T3 – Singapore",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          },
+          "bachelor-of-psychological-science": {
+            "degree": "BACHELOR OF PSYCHOLOGICAL SCIENCE",
+            "content": "<p>Psychological science is a fascinating area which examines the<br>cause of human behaviour. This understanding is then used to solve<br>practical problems that will positively impact the lives of others. The<br>need for psychology expertise is growing in popularity, with demand<br>for psychologists predicted to increase by 140% over the next 10<br>years. Learn from renowned researchers in the field and have the<br>opportunity to undertake Work Integrated Learning.</p><ul><li>Accredited by the Australian Psychology Accreditation Council (APAC)</li><li>Recognised by the Psychology Board of Australia and the Australian<br>Psychological Society (APS)</li><li>84.4% employed within 4 months of graduating</li>",
+            "cricosCode": "095149D",
+            "duration": "3 yrs FT",
+            "city": "Newcastle – Callaghan",
+            "region": "Central Coast",
+            "indicativeAnnualFeeCurrentYear": "2020 A$38,350",
+            "indicativeAnnualFeeNextYear": "2021 A$40,268",
+            "ieltsOverallMin": "IELTS overall minimum - 7.0",
+            "ieltsSectionMin": "IELTS section minimum - 7.0",
+            "intake": "S1, S2",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          },
+          "bachelor-of-commerce": {
+            "degree": "BACHELOR OF COMMERCE",
+            "content": "<p>From working in a global consultancy, providing economic forecasts<br>for the Reserve Bank or managing finances in the corporate sector,<br>there are so many opportunities offered by a Bachelor of Commerce.<br>Learn about the interplay between the financial, legal, political and<br>economic systems and how these factors influence contemporary<br>business in Australia and around the world.</p><ul><li>Get hands on experience in the Greater Bank Finance Lab located at<br>NUspace - a $95 million state-of-the-art education precinct located<br>in the heart of Newcastle and the business hub.</li><li>• 93.8% employed within 4 months of graduating</li><li>Up to 3 years post-study work opportunities</li>",
+            "cricosCode": "001603J",
+            "duration": "3 yrs FT",
+            "city": "Newcastle – Callaghan<br>Singapore",
+            "region": "Central Coast",
+            "indicativeAnnualFeeCurrentYear": "2020 A$29,225",
+            "indicativeAnnualFeeNextYear": "2021 A$30,686",
+            "ieltsOverallMin": "IELTS overall minimum - 7.0",
+            "ieltsSectionMin": "IELTS section minimum - 7.0",
+            "intake": "S1, S2",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          },
+          "master-of-business-administration-mba": {
+            "degree": "MASTER OF BUSINESS ADMINISTRATION <span>(MBA)</span>",
+            "content": "<p>Our Master of Business Administration equips professionals with the<br>high level skills and competencies to succeed in senior management<br>roles. It focuses on developing a higher understanding and skills in<br>business management, decision marketing, organisational behaviour,<br>accounting and finance, strategic management and international<br>business.</p><ul><li>AACSB accredited</li><li>Choose from 7 specialisations</li><li>Study at NUspace – a $95 million state-of-the-art education<br>precinct located in the heart of Newcastle and the business hub.</li>",
+            "cricosCode": "083519D",
+            "duration": "1.5 yrs FT",
+            "city": "Newcastle – Callaghan<br>Singapore",
+            "region": "Central Coast<br>Online",
+            "indicativeAnnualFeeCurrentYear": "2020 A$38,300",
+            "indicativeAnnualFeeNextYear": "2021 A$40,215",
+            "ieltsOverallMin": "IELTS overall minimum - 6.5",
+            "ieltsSectionMin": "IELTS section minimum - 6.0",
+            "intake": "T1, T2, T3",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          },
+          "master-of-business-administration-global": {
+            "degree": "<span>MASTER OF BUSINESS ADMINISTRATION (GLOBAL)</span>",
+            "content": "<p>This program will develop your global mindset and improve skills in<br>business management, decision making, marketing, organisational<br>behaviour, accounting and finance, strategic management and<br>international business. You will gain work experience and build<br>employable skills through a blend of theory and active learning with<br>a compulsory internship. You could reduce your study load by up to a<br>third with prior learning credits.</p><ul><li>AACSB accredited</li><li>Option for a combined MBA (Global)/Master of Science (Data<br>Analytics)</li><li>Study in the heart of the Sydney CBD at our Sydney campus</li>",
+            "cricosCode": "096747G",
+            "duration": "2 yrs FT",
+            "city": "Newcastle – City",
+            "region": "Sydney",
+            "indicativeAnnualFeeCurrentYear": "2020 A$29,770",
+            "indicativeAnnualFeeNextYear": "2021 A$31,259",
+            "ieltsOverallMin": "IELTS overall minimum - 6.5",
+            "ieltsSectionMin": "IELTS section minimum - 6.0",
+            "intake": "S1, S2 - NC<br>T1, T2, T3 - S",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          },
+          "master-of-information-technology": {
+            "degree": "MASTER OF INFORMATION TECHNOLOGY",
+            "content": "<p>Develop the critical knowledge and skills required to work as an IT<br>professional. As well as providing foundational IT skills for entrants<br>with limited IT experience, the Master of Information Technology<br>(MIT) provides opportunities for experienced IT professionals to<br>enhance their skills. Apply your learning to technology-driven<br>areas including communications, management, and business and<br>entrepreneurship.</p><ul><li>Option to specialise in three key interest areas </li><li>A$94,000 average starting salary for computing and information</li><li>systems graduates</li>",
+            "cricosCode": "083517F",
+            "duration": "2 yrs FT<br>Accelerated options available",
+            "city": "Newcastle – Callaghan<br>Online",
+            "region": "Sydney",
+            "indicativeAnnualFeeCurrentYear": "2020 A$38,340",
+            "indicativeAnnualFeeNextYear": "2021 A$40,257 ",
+            "ieltsOverallMin": "IELTS overall minimum - 6.5",
+            "ieltsSectionMin": "IELTS section minimum - 6.0",
+            "intake": "T1, T2, T3",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          },
+          "master-of-professional-engineering": {
+            "degree": "MASTER OF PROFESSIONAL ENGINEERING <span>(CHEMICAL)</span>",
+            "content": "<p>If you are looking to start or advance your career in chemical<br>engineering, the Master of Professional Engineering (Chemical)<br>at the University of Newcastle will help you develop management<br>expertise, specialise and deepen your technical skills and be ready to<br>lead projects and move into more senior roles. </p><ul><li>Ranked 8 in the world for automation and control</li><li>Choose from 9 specialisations</li><li>International recognition through Engineers Australia and the<br>Washington Accord.</li>",
+            "cricosCode": "098282G",
+            "duration": "3 yrs FT<br>Accelerated options available",
+            "city": "Newcastle – Callaghan",
+            "region": "",
+            "indicativeAnnualFeeCurrentYear": "2020 A$39,790",
+            "indicativeAnnualFeeNextYear": "2021 A$41,780",
+            "ieltsOverallMin": "IELTS overall minimum - 6.5",
+            "ieltsSectionMin": "IELTS section minimum - 6.0",
+            "intake": "S1, S2",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          },
+          "master-of-nursing": {
+            "degree": "MASTER OF NURSING",
+            "content": "<p>The Master of Nursing will enhance your skills in professional<br>leadership, clinical education, healthcare improvement, research, and<br>evidence-based practice. You’ll learn from some of the best in the<br>field – our industry experts will deliver clinical theory and practical<br>applications to help you strengthen your existing knowledge. You’ll<br>engage in discussions with nurses from all around the world to share<br>strategies, change practice and help improve global healthcare.</p><ul><li>Ranked 38 in the world for Nursing</li><li>99% employed within 4 months of graduating</li><li>Learn from some of the best clinical experts in the field</li>",
+            "cricosCode": "097897G",
+            "duration": "1 yr FT",
+            "city": "Newcastle – Callaghan",
+            "region": "Online",
+            "indicativeAnnualFeeCurrentYear": "2020 A$36,865",
+            "indicativeAnnualFeeNextYear": "2021 A$38,708",
+            "ieltsOverallMin": "IELTS overall minimum - 6.5",
+            "ieltsSectionMin": "IELTS section minimum - 6.0",
+            "intake": "T1, T2, T3",
+            "practicalExperience": "Opportunities available",
+            "qrCodeSrc": "https://files.outfit.io/media_library_items/195227/Uon-QRcode.svg"
+          }
+        };
+
+        internalPages.forEach(page => {
+          const degreeContainer = page.querySelector('.js-degrees-container');
+          const degrees = JSON.parse(degreeContainer.querySelector('.js-degrees-selected').innerText); 
+
+          degrees.forEach(item =>{
+            const { degree, content , cricosCode, duration, city, region, indicativeAnnualFeeCurrentYear, indicativeAnnualFeeNextYear, ieltsOverallMin, ieltsSectionMin, intake, practicalExperience, qrCodeSrc} = degreesObj[item];
+            degreeContainer.innerHTML += `
+<div class="degree">
+<div class="degree__header">
+<div class="degree__heading" data-max-line="2">${degree}</div> <!--degree__heading-->
+      </div> <!--degree__header-->
+<div class="degree__body">
+<div class="degree__content">${content}</div> <!--degree__content-->
+<table class="table">
+<tr class="table__row">
+<td class="table__cell table__cell--label">CRICOS CODE</td> <!--table__cell-->
+<td class="table__cell table__cell--value">${cricosCode}</td> <!--table__cell-->
+<td class="table__cell table__cell--valueSecondary"></td> <!--table__cell-->
+      </tr> <!--table__row-->               
+<tr class="table__row">
+<td class="table__cell table__cell--label">DURATION</td> <!--table__cell-->
+<td class="table__cell table__cell--value">${duration} </td> <!--table__cell-->
+<td class="table__cell table__cell--valueSecondary"></td> <!--table__cell-->
+      </tr> <!--table__row-->
+<tr class="table__row table__row--locations">
+<td class="table__cell table__cell--label">LOCATIONS</td> <!--table__cell-->
+<td class="table__cell table__cell--value">${city}</td> <!--table__cell-->
+<td class="table__cell table__cell--valueSecondary">${region}</td> <!--table__cell-->
+      </tr> <!--table__row-->
+<tr class="table__row">
+<td class="table__cell table__cell--label">INDICATIVE ANNUAL FEE</td> <!--table__cell-->
+<td class="table__cell table__cell--value">${indicativeAnnualFeeCurrentYear}</td> <!--table__cell-->
+<td class="table__cell table__cell--valueSecondary">${indicativeAnnualFeeNextYear}</td> <!--table__cell-->
+      </tr> <!--table__row-->
+<tr class="table__row">
+<td class="table__cell table__cell--label">IELTS</td> <!--table__cell-->
+<td class="table__cell table__cell--value">${ieltsOverallMin}<br>${ieltsSectionMin}</td> <!--table__cell-->
+<td class="table__cell table__cell--valueSecondary"></td> <!--table__cell-->
+      </tr> <!--table__row-->
+<tr class="table__row">
+<td class="table__cell table__cell--label">INTAKE</td> <!--table__cell-->
+<td class="table__cell table__cell--value">${intake}</td> <!--table__cell-->
+<td class="table__cell table__cell--valueSecondary"></td> <!--table__cell-->
+      </tr> <!--table__row-->
+<tr class="table__row">
+<td class="table__cell table__cell--label">PRACTICAL EXPERIENCE</td> <!--table__cell-->
+<td class="table__cell table__cell--value">${practicalExperience}</td> <!--table__cell-->
+<td class="table__cell table__cell--valueSecondary"></td> <!--table__cell-->
+      </tr> <!--table__row-->
+      </table> <!--table-->
+<div class="tableQr__container">
+<img class="tableQr" src="${qrCodeSrc}" /> <!--tableQr-->
+      </div> <!--tableQr__container-->
+      </div> <!--degree__body-->
+      </div> <!--degree-->
+`;
+          });          
+        });
+      }
+
+      showDegreeItem();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Fuse V.2 Display'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          maxLineCheck();
+          maxHeightCheck();
+          injectDynamicContent();
+          hideEmptyTitles();
+          uspController(); 
+
+          // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+          TextFit.fit({
+            selector: '.textFit'
+          });
+
+          TextFit.fit({
+            selector: '.textFit--vertical',
+            fitMode: 'vertical',
+            alignItems: 'flex-start'
+          });
+
+          TextFit.fit({
+            selector: '.textFit--usp',
+            fitMode: 'vertical',
+            alignItems: 'center'
+          });
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+
+      setInterval(() => textFitMin('.textFit--vertical',40), 500);
+      setInterval(() => {textFitMin('.textFit--usp', 8)}, 500);
+
+    </script>
+
+
+  </body>
+</html>
