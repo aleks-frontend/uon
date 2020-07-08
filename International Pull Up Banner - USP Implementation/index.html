@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html data-sign="OSR">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+
+      /* Inputs Order
+
+      {{show-crop}}
+      {{placeholder-opacity}}
+      {{placeholder-image-1}}
+      {{placeholder-toggle-new}}
+      {{placeholder-validation}}
+
+      {{UON_layout--ipub}}
+      {{UON_background-image--ipub}}
+      {{UON_gradient-colour--ipub}}
+      {{top-grad-height}}
+      {{left-grad-width}}
+      {{bottom-grad-height}}
+      {{UON_heading-text-colour--ipub}}
+      {{{UON_heading--ipub}}}
+      {{UON_body-text-colour--ipub}}
+      {{#collection.UON_content--ipub}}{{/collection.UON_content--ipub}}
+      {{{UON_cta--ipub}}}
+      {{UON_qr-code-selection--ipub}}
+      {{qr-code-image}}
+      {{qr-code-build}}
+      {{UON_qr-code-position--ipub}}
+      {{UON_location-display--ipub}}
+      */
+
+      :root {
+        --black: {{{account.colors.80--black}}};
+        --blue: {{{account.colors.blue}}};
+        --light-grey: {{{account.colors.20--black}}};
+        --white: {{{account.colors.white}}};
+        --purple: #ff00ff;
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+        --gradient-dynamic-colour: var(--80-black);
+      }
+
+      .headingColour--black-blue { 
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--blue);
+      }
+
+      .headingColour--white-blue  { 
+        --font-regular-colour: var(--white);
+        --font-bold-colour: var(--blue);
+      }
+
+      .headingColour--black-white  { 
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+      }
+
+      .bodyTextColour--blue-black {
+        --dynamic-heading-colour: var(--blue);
+        --dynamic-paragraph-colour: var(--black);
+        --dynamic-text-colour: var(--blue);
+        --dynamic-area-of-study-colour: var(--blue);
+      }
+
+      .bodyTextColour--blue-white {
+        --dynamic-heading-colour: var(--blue);
+        --dynamic-paragraph-colour: var(--white);
+        --dynamic-text-colour: var(--white);
+        --dynamic-area-of-study-colour: var(--white);
+      }
+
+      .bodyTextColour--white-black {
+        --dynamic-heading-colour: var(--white);
+        --dynamic-paragraph-colour: var(--black);
+        --dynamic-text-colour: var(--black);
+        --dynamic-area-of-study-colour: var(--black);
+      }      
+
+      .gradientColour--white { --gradient-dynamic-colour: var(--white); }
+      .gradientColour--black { --gradient-dynamic-colour: var(--black); }
+      .gradientColour--off { --gradient-dynamic-colour: unset; }
+
+      html {
+        font-family: 'Fuse V.2 Display';
+        word-break: break-word;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* 
+      Blank Area and Bleed:
+      ( BLANK AREA: top-10mm; left-0; right-0; bottom-150mm; )
+      ( BLEED: top-3mm; left-3mm; right-3mm; botom-50mm; )
+      */
+      .layoutChoice--pull-up-banner-6-feet .bleed,
+      .layoutChoice--pull-up-banner-5-feet .bleed {
+        top: 10mm!important;
+        left: 0!important;
+        right: 0!important;
+        bottom: 150mm!important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .body {
+        position: relative;
+        flex: 1;
+      }
+
+      .headingColour--white-blue.u-no-background-image .body { background-color: var(--black); }
+      .headingColour--black-white.u-no-background-image .body { background-color: var(--blue); }
+
+      .layoutChoice--pull-up-banner-6-feet .body { padding: 218pt 155pt 100pt 181pt;}
+      .layoutChoice--pull-up-banner-5-feet .body { padding: 176pt 383pt 110pt 164pt; }
+      .layoutChoice--x-rack-banner .body { padding: 55pt 184pt 25pt 47pt;}
+
+      .body__inner {
+        position: relative;
+        font-size: 0;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .heading {
+        position: relative;
+        line-height: 0.9em;
+        text-transform: uppercase;
+        font-weight: 900;
+        color: var(--font-regular-colour);
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .heading { 
+        max-height: 820pt; 
+        margin-bottom: 85pt;
+        font-size: 299pt; 
+      }
+      .layoutChoice--pull-up-banner-5-feet .heading {  max-height: 700pt; }
+      .layoutChoice--x-rack-banner .heading { max-height: 185pt; }
+
+      .heading__inner { line-height: 0.9em; }
+
+      .heading strong {
+        font-weight: 900;
+        color: var(--font-bold-colour);
+      }
+
+      .heading sup,
+      .heading sub {
+        font-size: 0.2em;
+      }
+
+      .heading sup {
+        vertical-align: top;
+        top: 0;
+      }
+
+      .heading sub {
+        vertical-align: bottom;
+        bottom: 0;
+      }
+
+      .layoutChoice--pull-up-banner-5-feet .heading {
+        margin-bottom: 81pt;
+        font-size: 254pt;
+      }
+
+      .layoutChoice--x-rack-banner .heading {
+        margin-bottom: 17pt;
+        font-size: 68.8pt;
+      }
+
+      .logo {
+        position: relative;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .logo {
+        width: 521pt;
+        margin-bottom: 118pt;
+      }
+
+      .layoutChoice--pull-up-banner-5-feet .logo {
+        width: 437pt;
+        margin-bottom: 61pt;
+      }
+
+      .layoutChoice--x-rack-banner .logo {
+        width: 120pt;
+        margin-bottom: 20pt;
+      }
+
+      .qrCode__container {
+        position: relative;
+        display: none;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .qrCode__container { margin-bottom: 125pt; }
+      .layoutChoice--pull-up-banner-5-feet .qrCode__container { margin-bottom: 60pt; }
+      .layoutChoice--x-rack-banner .qrCode__container { margin-bottom: 15pt; }
+
+      .layoutChoice--pull-up-banner-6-feet.qrCodePosition--footer .qrCode__container { margin-left: 105pt; }
+      .layoutChoice--pull-up-banner-5-feet.qrCodePosition--footer .qrCode__container { margin-left: 250pt; }
+      .layoutChoice--x-rack-banner.qrCodePosition--footer .qrCode__container { margin-left: 50pt; }
+
+      .qrCode__container:last-child {
+        margin-bottom: 0;
+      }
+
+      .qrCodePosition--below-the-logo .qrCode__container--belowTheLogo,
+      .qrCodePosition--below-the-content .qrCode__container--belowTheContent,
+      .qrCodePosition--footer .qrCode__container--footer {
+        display: block;
+      }
+
+      .qrCode {
+        display: none;
+        object-fit: contain;  
+        background-color: var(--white);
+      }  
+
+      .qrCodeSelection--qr-code-image .qrCode--image { display: block; }
+
+      .qrCodeSelection--build-qr-code .qrCode--qr-code { display: block; }
+
+      .qrCodePosition--below-the-logo .qrCode, 
+      .qrCodePosition--below-the-content .qrCode { object-position: left; }      
+      .qrCodePosition--footer .qrCode { object-position: right; }
+
+      .layoutChoice--pull-up-banner-6-feet .qrCode {
+        width: 307pt;
+        max-height: 307pt;
+        border: 7pt solid var(--white);
+      }
+
+      .layoutChoice--pull-up-banner-5-feet .qrCode {
+        width: 217pt;
+        max-height: 217pt;
+        border: 7pt solid var(--white);
+      }
+
+      .layoutChoice--x-rack-banner .qrCode {
+        width: 75pt;
+        max-height: 75pt;
+        border: 3pt solid var(--white);
+      }
+
+      .qrCodeSelection--qr-code-image .qrCode--image,
+      .qrCodeSelection--build-qr-code .qrCode--code {
+        display: block;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .content + .qrCode__container { margin-top: 125pt; }
+      .layoutChoice--pull-up-banner-5-feet .content + .qrCode__container { margin-top: 65pt; }
+      .layoutChoice--x-rack-banner .content + .qrCode__container { margin-top: 15pt; }
+
+      .content:last-child {
+        margin-bottom: 0;
+      }
+
+      .copy sup,
+      .copy sub {
+        left: 0.5em;
+        font-size: 0.5em;
+      }
+
+      .copy sup {
+        top: 0;
+        vertical-align: top;
+      }
+
+      .copy sub {
+        bottom: 0;
+        vertical-align: bottom;
+      }
+
+      .copy h1 {
+        font-weight: 900;
+        text-transform: uppercase;
+        color: var(--dynamic-text-colour);
+      }
+
+      .copy .usp h1 { color: var(--dynamic-heading-colour); }
+
+      .copy p {
+        margin-bottom: 0.5em;
+        font-weight: 800;
+        color: var(--dynamic-text-colour);
+      }
+
+      .copy .usp p { color: var(--dynamic-paragraph-colour); }
+
+      .copy h1,
+      .copy p { line-height: 1em; }
+
+      .layoutChoice--pull-up-banner-6-feet .copy h1 { font-size: 119.5pt; }
+      .layoutChoice--pull-up-banner-5-feet .copy h1 { font-size: 93pt; }
+      .layoutChoice--x-rack-banner .copy h1 {
+        font-size: 22.9pt;
+        line-height: 0.95em;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .copy p { font-size: 51.6pt; }
+      .layoutChoice--pull-up-banner-5-feet .copy p { font-size: 40pt; }
+      .layoutChoice--x-rack-banner .copy p { font-size: 10pt; line-height: 0.95em; }
+
+      .layoutChoice--pull-up-banner-6-feet .copy p + h1 { margin-top: 72pt; }
+      .layoutChoice--pull-up-banner-5-feet .copy p + h1 { margin-top: 52pt; }
+      .layoutChoice--x-rack-banner .copy p + h1 { margin-top: 17pt; }
+
+      .areaOfStudy {
+        display: flex;
+        align-items: center;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .areaOfStudy { margin-bottom: 50pt; }
+      .layoutChoice--pull-up-banner-5-feet .areaOfStudy {  margin-bottom: 50pt; }
+      .layoutChoice--x-rack-banner .areaOfStudy { margin-bottom: 10pt; }
+
+      .layoutChoice--pull-up-banner-6-feet .areaOfStudy:last-child,
+      .layoutChoice--pull-up-banner-5-feet .areaOfStudy:last-child,
+      .layoutChoice--x-rack-banner .areaOfStudy:last-child {
+        margin-bottom: 0;
+      }
+
+      .areaOfStudy__icon {
+        display: none;
+        object-fit: contain;
+      }
+
+      .bodyTextColour--blue-black .areaOfStudy__icon--blue,
+      .bodyTextColour--white-black .areaOfStudy__icon--black,
+      .bodyTextColour--blue-white .areaOfStudy__icon--white {
+        display: block;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .areaOfStudy__icon {
+        width: 123pt;
+        height: 123pt;
+      }
+
+      .layoutChoice--pull-up-banner-5-feet .areaOfStudy__icon {
+        width: 107pt;
+        height: 107pt;
+      }
+
+      .layoutChoice--x-rack-banner .areaOfStudy__icon {
+        width: 31pt;
+        height: 31pt;
+      }
+
+      .areaOfStudy__text {
+        line-height: 1.2em;
+        font-weight: bold;
+        color: var(--dynamic-area-of-study-colour);
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .areaOfStudy__text {
+        margin-left: 50pt;
+        font-size: 80pt;
+      }
+
+      .layoutChoice--pull-up-banner-5-feet .areaOfStudy__text {
+        margin-left: 50pt;
+        font-size: 55pt;
+      }
+
+      .layoutChoice--x-rack-banner .areaOfStudy__text {
+        margin-left: 15pt;
+        font-size: 15pt;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .usp + .usp { margin-top: 72pt; }
+      .layoutChoice--pull-up-banner-5-feet .usp + .usp { margin-top: 52pt; }
+      .layoutChoice--x-rack-banner .usp + .usp { margin-top: 16pt; }
+
+      .footer {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .footer {
+        height: 981pt;
+        padding: 136pt 119pt 355pt 178pt;
+      }
+
+      .layoutChoice--pull-up-banner-5-feet .footer {
+        height: 769pt;
+        padding: 89pt 119pt 350pt 169pt;
+      }
+
+      .layoutChoice--x-rack-banner .footer {
+        height: 181pt;
+        padding: 18pt 49pt 64pt 49pt;
+      }
+
+      .footer__inner {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .footer__inner,
+      .layoutChoice--pull-up-banner-5-feet .footer__inner { font-size: 150pt; }
+      .layoutChoice--x-rack-banner .footer__inner { font-size: 20pt; }
+
+      .footer__content {
+        display: flex;
+        align-items: center;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .footer__content { margin-bottom: 49pt; }
+      .layoutChoice--pull-up-banner-5-feet .footer__content {  margin-bottom: 27pt; }
+      .layoutChoice--x-rack-banner .footer__content { margin-bottom: 7pt; }
+
+      .footer__text { 
+        flex: 1; 
+      }
+
+      .footer__heading {
+        font-weight: 900;
+        text-transform: uppercase;
+        color: var(--blue);
+        line-height: 1em;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .footer__heading {
+        margin-bottom: 60pt;
+        font-size: 90pt;
+      }
+
+      .layoutChoice--pull-up-banner-5-feet .footer__heading {
+        margin-bottom: 24pt;
+        font-size: 72pt;
+      }
+
+      .layoutChoice--x-rack-banner .footer__heading {
+        margin-bottom: 7pt;
+        font-size: 19.5pt;
+      }
+
+      .location {
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.2em;
+        color: var(--black);
+      }
+
+      .locationDisplay--show .location {
+        display: block;
+      }
+
+      .locationDisplay--hide .location {
+        display: none;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .location { font-size: 62.5pt; }
+      .layoutChoice--pull-up-banner-5-feet .location { font-size: 50.7pt; }
+      .layoutChoice--x-rack-banner .location { font-size: 13.8pt; }
+
+      .info__container {
+        line-height: 1.2em;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .info__container,
+      .layoutChoice--pull-up-banner-5-feet .info__container { font-size: 21pt; }
+      .layoutChoice--x-rack-banner .info__container { font-size: 6pt; }
+
+      .info--disclaimer { display: none; }      
+      .info--disclaimer::before { content: ' | '; }
+
+      {{{account.snippets.gradientCss}}}
+      .gradient--top { height: {{top-grad-height}}%; }      
+      .gradient--left { width: {{left-grad-width}}%; }
+      .gradient--bottom { height: {{bottom-grad-height}}%; }
+
+      .popup__container {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0, 0.3);
+        z-index: 2;
+      }
+
+      .headingColour--black-blue.u-no-background-image .popup__container--primary {
+        display: block;
+      }
+
+      .usp-visible.headingColour--white-blue.bodyTextColour--blue-black.u-no-background-image .popup__container--secondary,
+      .headingColour--white-blue.bodyTextColour--white-black.u-no-background-image .popup__container--secondary,
+      .usp-visible.headingColour--black-white.bodyTextColour--blue-white.u-no-background-image .popup__container--secondary,
+      .headingColour--black-white.bodyTextColour--blue-black.u-no-background-image .popup__container--secondary {
+        display: block;
+      }
+
+      .popup {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20pt;
+        text-align: center;
+        line-height: 1.2em;
+        color: #ff00ff;
+        background-color: var(--white);
+        border: 3pt solid #ff00ff;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .popup,
+      .layoutChoice--pull-up-banner-5-feet .popup {
+        max-width: 1500pt;
+        max-height: 1130pt;
+        font-size: 116pt;
+      }
+
+      .layoutChoice--x-rack-banner .popup {
+        max-width: 350pt;
+        max-height: 350pt;
+        font-size: 28pt;
+      }
+
+      .layoutChoice--pull-up-banner-6-feet .body__inner.overflow:before,
+      .layoutChoice--pull-up-banner-6-feet .body__inner.overflow:after {
+        font-size: 150pt;
+      }
+
+      .layoutChoice--pull-up-banner-5-feet .body__inner.overflow:before,
+      .layoutChoice--pull-up-banner-5-feet .body__inner.overflow:after {
+        font-size: 150pt;
+      }
+
+      .layoutChoice--x-rack-banner .body__inner.overflow:before,
+      .layoutChoice--x-rack-banner .body__inner.overflow:after {
+        font-size: 30pt;
+      }
+
+      .textFit--vert.overflow:hover:after{ content: 'Min font size exceeded'; }
+
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" 
+        class="layoutChoice--{{{UON_layout--ipub}}}
+               gradientColour--{{{UON_gradient-colour--ipub}}}
+               headingColour--{{{UON_heading-text-colour--ipub}}}{{^UON_heading-text-colour--ipub}}white-blue{{/UON_heading-text-colour--ipub}}
+               bodyTextColour--{{{UON_body-text-colour--ipub}}}{{^UON_body-text-colour--ipub}}blue-black{{/UON_body-text-colour--ipub}}
+               qrCodeSelection--{{UON_qr-code-selection--ipub}}{{^UON_qr-code-selection--ipub}}qr-code-image{{/UON_qr-code-selection--ipub}}
+               qrCodePosition--{{UON_qr-code-position--ipub}}
+               {{^UON_cta--ipub}}no-footer-heading{{/UON_cta--ipub}}
+               {{^UON_background-image--ipub}}u-no-background-image{{/UON_background-image--ipub}}
+               locationDisplay--{{UON_location-display--ipub}}{{^UON_location-display--ipub}}show{{/UON_location-display--ipub}}
+               {{#collection.UON_content--ipub}}
+               {{#block.UON_areas-of-study--ipub}}areas-of-study-visible{{/block.UON_areas-of-study--ipub}}
+               {{#block.UON_customised-text--ipub}}customised-text-visible{{/block.UON_customised-text--ipub}}
+               {{#block.UON_USP-new--ipub}}usp-visible{{/block.UON_USP-new--ipub}}
+               {{/collection.UON_content--ipub}}"
+        data-reduce-export-font-size-by-percent="0" data-reduce-firefox-font-size-by-percent="0" data-prevent-export-overflow="false">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+    </div><!-- end placeholderMaster -->
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="manualPlaceholder manualPlaceholder--primary"></div>
+          <div class="manualPlaceholder manualPlaceholder--secondary"></div>
+          <div class="body">
+            <div class="backgroundImage">
+              <div class="reposition-fix">{{{UON_background-image--ipub}}}</div><!--reposition-fix-->
+            </div><!--backgroundImage-->
+            <div class="gradient gradient--left"></div><!--left-grad-->
+            <div class="gradient gradient--top"></div><!--top-grad-->
+            <div class="gradient gradient--bottom"></div><!--bottom-grad-->
+            <div class="body__inner" data-max-height="dynamic">
+              {{#UON_heading--ipub}}
+              <div class="heading">
+                <div class="heading__inner textFit--vert">{{{UON_heading--ipub}}}</div>
+              </div><!--heading-->
+              {{/UON_heading--ipub}}
+              <img src="{{{account.logos.primary}}}" class="logo js-logo" />
+              <div class="qrCode__container qrCode__container--belowTheLogo">
+                {{#qr-code-image}}<img class="js-qrCode qrCode qrCode--image" src="{{{qr-code-image}}}">{{/qr-code-image}}
+                {{#qr-code-build}}<img class="js-qrCode qrCode qrCode--code" src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data={{{qr-code-build}}}">{{/qr-code-build}}
+              </div><!--qrCode__container--belowTheLogo-->
+              <div class="content">
+                {{#collection.UON_content--ipub}}
+                {{#block.UON_customised-text--ipub}}
+                <div class="copy">{{{copy}}}</div><!--copy-->
+                {{/block.UON_customised-text--ipub}}
+                {{#block.UON_areas-of-study--ipub}}
+                <div class="areaOfStudy__container {{#block.UON_areas-of-study--ipub}}study-area-container-displayed{{/block.UON_areas-of-study--ipub}}">
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168879/NB-_icons_Accounting-and-Finance_NEW-WHITE.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176690/NB-_icons_Accounting-and-Finance_NEW-GREY.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176715/NB-_icons_Accounting-and-Finance_NEW-BLUE.png">
+                    <div class="areaOfStudy__text">Accounting and Finance</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168872/NB-_icons_Building-and-construction_NEW-WHITE.png"> 
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176691/NB-_icons_Building-and-construction_NEW-GREY.png"> 
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176724/NB-_icons_Building-and-construction_NEW-BLUE.png"> 
+                    <div class="areaOfStudy__text">Architecture, Building and Construction</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168868/NB-_icons_Business-and-Entrepreneurship_NEW-WHITE.png">   
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176692/NB-_icons_Business-and-Entrepreneurship_NEW-GREY.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176717/NB-_icons_Business-and-Entrepreneurship_NEW-BLUE.png">
+                    <div class="areaOfStudy__text">Business, Management and Enterpreneurship</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168876/NB-_icons_Communication-and-Creative-Industries_NEW-WHITE.png">   
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176696/NB-_icons_Communication-and-Creative-Industries_NEW-GREY.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176720/NB-_icons_Communication-and-Creative-Industries_NEW-BLUE.png">
+                    <div class="areaOfStudy__text">Communication and Creative Industries</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168873/NB-_icons_CommunityServices_NEW-WHITE.png"> 
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176695/NB-_icons_CommunityServices_NEW-GREY.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176725/NB-_icons_CommunityServices_NEW-BLUE.png">
+                    <div class="areaOfStudy__text">Community</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168869/NB-_icons_Computing-Maths-and-Technology_NEW-WHITE.png">      
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176693/NB-_icons_Computing-Maths-and-Technology_NEW-GREY.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176722/NB-_icons_Computing-Maths-and-Technology_NEW-BLUE.png">
+                    <div class="areaOfStudy__text">Computing, Maths and Technology</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168874/NB-_icons_Education_NEW-WHITE.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176694/NB-_icons_Education_NEW-GREY.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176719/NB-_icons_Education_NEW-BLUE.png">
+                    <div class="areaOfStudy__text">Education</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168875/NB-_icons_Engineering_NEW-WHITE.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176701/NB-_icons_Engineering_NEW-GREY.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176718/NB-_icons_Engineering_NEW-BLUE.png">
+                    <div class="areaOfStudy__text">Engineering</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168871/NB-_icons_Health-and-Medical-Services_NEW-WHITE.png">  
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176697/NB-_icons_Health-and-Medical-Services_NEW-GREY.png">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176716/NB-_icons_Health-and-Medical-Services_NEW-BLUE.png">
+                    <div class="areaOfStudy__text">Health and Medicine</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168870/NB-_icons_Law_NEW-WHITE.png">   
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176699/NB-_icons_Law_NEW-GREY.png">  
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176721/NB-_icons_Law_NEW-BLUE.png">  
+                    <div class="areaOfStudy__text">Law</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168878/NB-_icons_Science-and-the-Environment_NEW-WHITE.png">       
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176700/NB-_icons_Science-and-the-Environment_NEW-GREY.png"> 
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176723/NB-_icons_Science-and-the-Environment_NEW-BLUE.png"> 
+                    <div class="areaOfStudy__text">Science and the Environment</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                  <div class="areaOfStudy">
+                    <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168877/NB-_icons_Society-and-Culture_NEW-WHITE.png">     
+                    <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/176698/NB-_icons_Society-and-Culture_NEW-GREY.png"> 
+                    <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/176714/NB-_icons_Society-and-Culture_NEW-BLUE.png">
+                    <div class="areaOfStudy__text">Society and Culture</div><!--areaOfStudy__text-->
+                  </div><!--areaOfStudy-->
+                </div><!--areaOfStudy__container-->
+                {{/block.UON_areas-of-study--ipub}}
+                {{#block.UON_USP-new--ipub}}
+                <div class="usp__container copy">
+                  {{#collection.UON_usp-collection--ipub}}
+                  {{#block.ranked-207-in-the-world-1}}
+                  <div class="usp" data-disclaimer="QS World University Rankings 2020">
+                    <h1>RANKED 207</h1>
+                    <p>in the world</p>
+                  </div><!--usp-->
+                  {{/block.ranked-207-in-the-world-1}}
+                  {{#block.top-10-university-in-australia-1}}
+                  <div class="usp" data-disclaimer="QS World University Rankings 2020">
+                    <h1>TOP 10</h1>
+                    <p>university in Australia</p>
+                  </div><!--usp-->
+                  {{/block.top-10-university-in-australia-1}}
+                  {{#block.top-50-university-in-the-Asia-Pacific-region-2}}
+                  <div class="usp" data-disclaimer="Times Higher Education Golden Age University Ranking 2019">
+                    <h1>TOP 50</h1>
+                    <p>university in the Asia-Pacific Region</p>
+                  </div><!--usp-->
+                  {{/block.top-50-university-in-the-Asia-Pacific-region-2}}
+                  {{#block.highest-ranked-regional-university-in-australia-1}}
+                  <div class="usp" data-disclaimer="QS World University Rankings 2020">
+                    <h1>HIGHEST RANKED</h1>
+                    <p>Regional University in Australia</p>
+                  </div><!--usp-->
+                  {{/block.highest-ranked-regional-university-in-australia-1}}
+                  {{#block.200-milion-investment-in-the-future-of-stemm}}
+                  <div class="usp" >
+                    <h1>$200 MILLION</h1>
+                    <p>investment in the future of STEMM</p>
+                  </div><!--usp-->
+                  {{/block.200-milion-investment-in-the-future-of-stemm}}
+                  {{#block.37946-students-from-113-nations-7}}
+                  <div class="usp" data-disclaimer="The University of Newcastle Data Warehouse as at 4 February 2020">
+                    <h1>37,946 STUDENTS</h1>
+                    <p>from 113 nations</p>
+                  </div><!--usp-->
+                  {{/block.37946-students-from-113-nations-7}}
+                  {{#block.90-of-our-undergraduates-find-employment-within-four-months-of-graduating-above-the-australian-university-average-3}}
+                  <div class="usp" data-disclaimer="QILT Graduates Outcomes Survey 2017-2019">
+                    <h1>90%</h1>
+                    <p>of our undergraduate graduates find employment within four months of graduating - above the Australian university average</p>
+                  </div><!--usp-->
+                  {{/block.90-of-our-undergraduates-find-employment-within-four-months-of-graduating-above-the-australian-university-average-3}}
+                  {{#block.5-star-maximum-raiting-for-full-time-employment-starting-salary-lerner-engagement-overall-sutent-experience-and-teaching-quality-for-postgraduate-studies--4}}
+                  <div class="usp" data-disclaimer="The Good Universities Guide 2020">
+                    <h1>5-STAR</h1>
+                    <p>maximum rating for full time employment, starting salary, learner engagement, overall student experience and teaching quality for postgraduate studies</p>
+                  </div><!--usp-->
+                  {{/block.5-star-maximum-raiting-for-full-time-employment-starting-salary-lerner-engagement-overall-sutent-experience-and-teaching-quality-for-postgraduate-studies--4}}
+                  {{#block.no-1-ranked-university-in-australia-for-industry-collaboration-5}}
+                  <div class="usp" data-disclaimer="Innovation Connections IC Report 2014 – 2019">
+                    <h1>NO.1</h1>
+                    <p>ranked University in Australia for industry collaboration</p>
+                  </div><!--usp-->
+                  {{/block.no-1-ranked-university-in-australia-for-industry-collaboration-5}}
+                  {{#block.top-8-in-australia-for-research-well-above-world-standard-6}}
+                  <div class="usp" data-disclaimer="Excellence in Research Australia, 2018">
+                    <h1>TOP 8</h1>
+                    <p>in Australia for research ‘well above world standard'</p>
+                  </div><!--usp-->
+                  {{/block.top-8-in-australia-for-research-well-above-world-standard-6}}
+                  {{#block.10-subjects-ranked-in-the-top-200-in-the-world-8}}
+                  <div class="usp" data-disclaimer="QS World University Rankings by Subject 2020">
+                    <h1>TOP 200</h1>
+                    <p>10 subjects ranked in the top 200 in the world</p>
+                  </div><!--usp-->
+                  {{/block.10-subjects-ranked-in-the-top-200-in-the-world-8}}
+                  {{#block.948-of-our-posgraduate-graduates-find-employment-within-four-months-of-graduating-above-the-australian-university-average-3}}
+                  <div class="usp" data-disclaimer="QILT Graduates Outcomes Survey 2017-2019">
+                    <h1>94.8%</h1>
+                    <p>of our postgraduate graduates find employment within four months of graduating - above the Australian university average</p>
+                  </div><!--usp-->
+                  {{/block.948-of-our-posgraduate-graduates-find-employment-within-four-months-of-graduating-above-the-australian-university-average-3}}
+                  {{/collection.UON_usp-collection--ipub}}
+                </div>
+                {{/block.UON_USP-new--ipub}}
+                {{/collection.UON_content--ipub}}
+              </div><!--content-->
+              <div class="qrCode__container qrCode__container--belowTheContent">
+                {{#qr-code-image}}<img class="js-qrCode qrCode qrCode--image" src="{{{qr-code-image}}}">{{/qr-code-image}}
+                {{#qr-code-build}}<img class="js-qrCode qrCode qrCode--code" src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data={{{qr-code-build}}}">{{/qr-code-build}}
+              </div><!--qrCode--belowTheContent-->
+            </div><!--body__inner-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="footer__inner" data-max-height="dynamic">
+              <div class="footer__content">
+                <div class="footer__text">
+                  {{#UON_cta--ipub}}
+                  <div class="footer__heading" data-max-line="2">{{{UON_cta--ipub}}}</div><!--footer__heading-->
+                  {{/UON_cta--ipub}}
+                  <div class="location">newcastle | central coast | sydney | singapore</div><!--location-->
+                </div><!--footer__text-->
+                <div class="qrCode__container qrCode__container--footer">
+                  {{#qr-code-image}}<img class="js-qrCode qrCode qrCode--image" src="{{{qr-code-image}}}">{{/qr-code-image}}
+                  {{#qr-code-build}}<img class="js-qrCode qrCode qrCode--code" src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data={{{qr-code-build}}}">{{/qr-code-build}}
+                </div><!--qrCode__container--footer-->
+              </div><!--footer__content-->
+              <div class="info__container" data-max-line="2">
+                UON {{{account.snippets.account-data}}} | CRICOS Provider {{{account.snippets.cricos}}} 
+                <span class="info info--disclaimer js-disclaimerInject-target"></span>
+              </div><!--info__container-->
+            </div><!--footer__inner-->
+          </div><!--footer-->
+          <div class="popup__container popup__container--primary {{^UON_background-image--ipub}}u-no-background-image{{/UON_background-image--ipub}}">
+            <div class="popup">Please add an image to use this text colour or change the text colour.</div><!--popup-->
+          </div><!--popup__container--primary-->
+          <div class="popup__container popup__container--secondary {{^UON_background-image--ipub}}u-no-background-image{{/UON_background-image--ipub}}">
+            <div class="popup">Please add an image to use this body text colour or change the body text colour.</div><!--popup-->
+          </div><!--popup__container--secondary-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    <script>
+
+      console.clear();
+      
+      function disclaimerInject() {
+        const uspSnippetObj = {{{account.snippets.uspSnippetObj}}};
+      const fullDisclaimers = [];
+      for ( const uspKey of Object.keys(uspSnippetObj)  ) {
+        fullDisclaimers.push(uspSnippetObj[uspKey].disclaimer);
+      }
+      console.log(fullDisclaimers);
+        const disclaimerSrcs = document.querySelectorAll('[data-disclaimer]');
+        const disclaimers = [];
+        for ( const [index, disclaimerSrc] of disclaimerSrcs.entries() ) {
+          const disclaimerText = disclaimerSrc.dataset.disclaimer;
+          disclaimers.push({
+            index,
+            text: disclaimerText
+          });
+        }
+        
+//        console.log(disclaimers);
+      }
+      disclaimerInject();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      function imageLoadCheck() {
+        const logo = document.querySelector('.js-logo');
+        const qrCodes = document.querySelectorAll('.js-qrCode');
+
+        logo.onload = () => maxHeightCheck();
+
+        if ( qrCodes.length > 0 ) {
+          qrCodes.forEach(qrCode => {
+            qrCode.onload = () => maxHeightCheck();            
+          });
+        }
+      }
+
+      imageLoadCheck();
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Fuse V.2 Display'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          maxLineCheck();
+          maxHeightCheck();
+          injectDynamicContent();
+          hideEmptyTitles();
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--vert',
+        fitMode: 'vertical',
+      });
+
+      const layout = '{{{UON_layout--ipub}}}' || 'pull-up-banner-6-feet';
+      let headingMinFont = null;
+
+      if ( layout === 'pull-up-banner-6-feet' ) {
+        headingMinFont = 185;
+      } else if ( layout === 'pull-up-banner-5-feet' ) {
+        headingMinFont = 160;
+      } else {
+        headingMinFont = 50;
+      }
+
+      setInterval(() => textFitMin('.textFit--vert', headingMinFont));
+
+    </script>
+      <script> /*nikhila script*/
+      function handleBoldSpace(){
+        console.log('this is function handle Bold space');
+        var headingDiv = document.querySelector('.heading__inner token-value');
+       var headingText = headingDiv.innerHTML;
+        console.log('heading text is ', headingText);
+        //var str= "&nbsp;</strong>";
+        
+		//var n = str.replace("</strong>&nbsp;");
+       // var m = str[1].replace("</strong>&nbsp;");
+      }
+      handleBoldSpace();
+    </script>
+
+
+  </body>
+</html>
