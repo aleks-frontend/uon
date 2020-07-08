@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html data-sign="OSZ">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Heuristica/stylesheet.css');
+
+      /*
+      {{show-crop}}
+      {{{UON_layout-size--sm}}}
+      {{{UON_feature-image--sm}}}
+      {{grad-colour}}
+      {{left-grad-width}}
+      {{top-grad-height}}
+      {{bottom-grad-height}}
+      {{{UON_heading--sm}}}
+      {{{UON_text-colour--sm}}}
+      */
+
+      :root {
+        --black-80: {{{account.colors.80--black}}};
+        --white: {{{account.colors.white}}};
+        --blue: {{{account.colors.blue}}};
+        --grey: {{{account.colors.50--black}}};
+        --light-gray: {{{account.colors.20--black}}};
+        --red: #ff0000;
+      }
+
+      .textColour--black-blue,
+      .textColour--black-white {
+        --dynamic-colour: var(--black-80);
+      }
+
+      .textColour--white-blue {
+        --dynamic-colour: var(--white);
+      }
+
+      .gradColour--white {
+        --dynamic-grad-colour: var(--white);
+      }
+
+      .gradColour--black {
+        --dynamic-grad-colour: var(--black-80);
+      }
+
+      .textColour--black-blue,
+      .textColour--white-blue {
+        --dynamic-text-colour: var(--blue);
+        --dynamic-dark-colour: var(--blue);
+      }
+
+      .textColour--black-white {
+        --dynamic-text-colour: var(--white);
+        --dynamic-dark-colour: var(--black-80);
+      }
+
+      html {
+        font-family: 'Fuse V.2 Display';
+        font-size: 11pt;
+        color:var(--black-80);
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .textColour--white-blue.u-no-feature-image .backgroundImage {
+        background-color: var(--black-80);
+      }
+
+      .textColour--black-white.u-no-feature-image .backgroundImage {
+        background-color: var(--blue);
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      } 
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .layoutSize--1920x1080 .fit {
+        padding: 71pt 65pt;
+      }
+
+      .layoutSize--1200x628 .fit {
+        padding: 62pt 57pt 71pt;
+      }
+
+      .layoutSize--900x500 .fit {
+        padding: 110pt 59pt 36pt;
+      }
+
+      .layoutSize--1500x500 .fit {
+        padding: 50pt 63pt;
+      }
+
+      .layoutSize--506x253 .fit {
+        padding: 27pt 24pt;
+      }
+
+      .layoutSize--1128x376 .fit {
+        padding: 41pt;
+      }
+
+      .layoutSize--1080x1080 .fit {
+        padding: 60pt 55pt 67pt 67pt;
+      }
+
+      .layoutSize--story-1080x1920 .fit {
+        padding: 62pt 71pt 67pt 64pt;
+      }
+
+      .layoutSize--story-1080x1920 .safeZone {
+        display: block;
+      }
+
+      .layoutSize--1080x1920 .fit {
+        padding: 75pt 81pt 75pt 81pt;
+      }
+
+      .layoutSize--1080x1920 .safeZone {
+        display: block;
+      }
+
+      .body {
+        flex: 1;
+        position: relative;
+      }
+
+      .heading {
+        position: relative;
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 0.9em;
+        color: var(--dynamic-colour);
+        z-index: 2;
+      }
+
+      .layoutSize--1920x1080 .heading {
+        font-size: 94pt;
+        letter-spacing: 0.005em;
+      }
+
+      .layoutSize--1200x628 .heading {
+        font-size: 55.5pt;
+        letter-spacing: 0.005em;
+        line-height: 0.91em;
+      }
+
+      .layoutSize--900x500 .heading {
+        font-size: 59.6pt;
+        letter-spacing: 0.002em;
+      }
+
+      .layoutSize--1500x500 .heading {
+        font-size: 65.9pt;
+        letter-spacing: 0.002em;
+      }
+
+      .layoutSize--506x253 .heading {
+        font-size: 26.8pt;
+        letter-spacing: 0.002em;
+      }
+
+      .layoutSize--1128x376 .heading {
+        font-size: 39.6pt;
+        letter-spacing: 0.002em;
+        line-height: 0.91em;
+      }
+
+      .layoutSize--1080x1080 .heading {
+        font-size: 93.9pt;
+        letter-spacing: 0.002em;
+        line-height: 0.92em;
+      }
+
+      .layoutSize--story-1080x1920 .heading {
+        font-size: 181pt;
+        line-height: 0.92em;
+        /*text-shadow: -5pt 6pt 11pt var(--grey);*/
+      }
+
+      .layoutSize--1080x1920 .heading {
+        margin-bottom: 24pt;
+        font-size: 96.3pt;
+        letter-spacing: 0.002em;
+        line-height: 0.98em;
+        display: none;
+      }
+
+      .heading--instagram {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        display: none;
+      }
+
+      .layoutSize--1080x1920 .heading--instagram {
+        display: block;
+        padding-top: 95pt;
+      }
+
+      .heading strong {
+        font-weight: 900;
+        color: var(--dynamic-text-colour);
+      }
+
+      .logo {
+        display: none;
+        position: relative;
+      }
+
+      .layoutSize--1080x1920.logoVisibility--show .logo{
+        display: block;
+        width: 220pt;       
+      }
+
+      .cricos {
+        position: absolute;
+        bottom: 10%;
+        left: 98%;
+        width: 70vh;
+        transform: rotate(-90deg);
+        transform-origin: left bottom;
+        line-height: 1.2em;
+        color: var(--white);
+      }
+
+      .layoutSize--1920x1080 .cricos {
+        bottom: 4%;
+        left: 98%;
+        font-size: 13pt;
+      }
+
+      .layoutSize--1200x628 .cricos {
+        bottom: 5%;
+        left: 98%;
+        font-size: 8.2pt;
+      }
+
+      .layoutSize--900x500 .cricos {
+        bottom: 5%;
+        left: 97.5%;
+        font-size: 6.8pt;
+      }
+
+      .layoutSize--1500x500 .cricos {
+        bottom: 7%;
+        left: 98%;
+        font-size: 8.8pt;
+      }
+
+      .layoutSize--506x253 .cricos {
+        bottom: 8%;
+        left: 96.3%;
+        font-size: 4.7pt;
+      }
+
+      .layoutSize--1128x376 .cricos {
+        bottom: 7%;
+        left: 98%;
+        font-size: 6.4pt;
+      }
+
+      .layoutSize--1080x1080 .cricos {
+        bottom: 3%;
+        left: 97%;
+        font-size: 9.8pt;
+      }
+
+      .layoutSize--story-1080x1920 .cricos,
+      .layoutSize--1080x1920 .cricos {
+        bottom: 2%;
+        left: 97%;
+        font-size: 14pt;
+      }
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .popup__container {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0, 0.3);
+      }
+
+      .textColour--black-blue.u-no-feature-image .popup__container {
+        display: block;
+      }
+
+      .popup {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-width: 350pt;
+        max-height: 130pt;
+        transform: translate(-50%, -50%);
+        padding: 15pt;
+        text-align: center;
+        font-size: 17pt;
+        line-height: 1.2em;
+        color: #ff00ff;
+        background-color: var(--white);
+        border: 3pt solid #ff00ff;
+        z-index: 2;
+      }
+
+      .layoutSize--1080x1080 .popup,
+      .layoutSize--1080x1920 .popup {
+        max-width: 420pt;
+        max-height: 230pt;
+        font-size: 32pt;
+      }
+
+      .layoutSize--1920x1080 .popup {
+        max-width: 580pt;
+        max-height: 230pt;
+        font-size: 32pt;
+      }
+
+      .layoutSize--506x253 .popup {
+        font-size: 12pt;
+      }
+
+      /* Gradients */
+      .left-grad,
+      .top-grad,
+      .bottom-grad {
+        position:absolute;
+        left:0;
+        z-index: 1;
+        mix-blend-mode: multiply;
+      }
+
+      .left-grad,
+      .top-grad {
+        top:0;
+      }
+
+      .bottom-grad {
+        bottom:0;
+      }
+
+      .top-grad{
+        height: {{top-grad-height}}%;
+        width:100%;
+        background: linear-gradient(180deg, var(--dynamic-grad-colour), transparent 100%);
+      }
+
+      .left-grad{
+        height:100%;
+        width: {{left-grad-width}}%; 
+        background: linear-gradient(90deg, var(--dynamic-grad-colour), transparent 100%);        
+      }
+
+      .bottom-grad{
+        height: {{bottom-grad-height}}%;
+        width:100%;
+        background: linear-gradient(0deg, var(--dynamic-grad-colour), transparent 100%);
+      }
+
+      .gradColour--white .top-grad,
+      .gradColour--white .left-grad, 
+      .gradColour--white .bottom-grad {
+        mix-blend-mode: normal !important;
+      }
+
+      .safeZone {
+        display: none;
+        position: absolute;
+        background-image: url(https://files.outfit.io/media_library_items/144334/instagram-story-png.png);       
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+
+      .is-export-mode .safeZone {
+        display: none;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" 
+        class="layoutSize--{{{UON_layout-size--sm}}}{{^UON_layout-size--sm}}1920x1080{{/UON_layout-size--sm}}
+               textColour--{{{UON_text-colour--sm}}}{{^UON_text-colour--sm}}white-blue{{/UON_text-colour--sm}}
+               {{^UON_feature-image--sm}}u-no-feature-image{{/UON_feature-image--sm}}
+               gradColour--{{{grad-colour}}}{{^grad-colour}}white{{/grad-colour}}"
+        data-crop="{{show-crop}}">
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+          <div class="left-grad"></div>
+          <div class="top-grad"></div>
+          <div class="bottom-grad"></div>
+          <div class="backgroundImage"><div class="reposition-fix">{{{UON_feature-image--sm}}}</div>
+            <div class="safeZone"></div>
+          </div> <!--backgroundImage-->
+          <div class="body">
+            <div class="heading heading--instagram" data-max-height="1500">
+              {{{UON_heading--sm}}}
+
+            </div><!--heading--instagram-->
+            {{#UON_heading--sm}}
+            <div class="heading" data-max-line="4">{{{UON_heading--sm}}}</div> <!--heading-->
+            {{/UON_heading--sm}}
+            <img class="logo" src="{{{account.logos.primary}}}"><!--logo-->
+          </div> <!--body-->
+          <div class="popup__container">
+            <div class="popup">Please add an image to use this text colour or change the text colour.</div><!--popup-->
+          </div><!--popup__container-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      function injectDate() {
+        const date = document.querySelector(".js-inject-date");
+        let today = new Date();
+        let dd = today.getDate();
+
+        let mm = today.getMonth()+1; 
+        let yyyy = today.getFullYear();
+        if(dd<10) 
+        {
+          dd='0'+dd;
+        } 
+
+        if(mm<10) 
+        {
+          mm='0'+mm;
+        }
+
+        today = mm+'-'+dd+'-'+yyyy;
+
+        date.innerHTML = today;
+      }
+
+      injectDate();
+
+    </script>
+
+
+  </body>
+</html>
