@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html data-sign="OSR">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+
+      /* Inputs order
+
+      {{show-crop}}
+      {{placeholder-validation}}
+      {{ placeholder-opacity }}
+      {{ placeholder-toggle-new }}
+      {{ placeholder-image-1 }}  
+      {{ placeholder-image-2 }}
+      {{ placeholder-image-3 }}
+      {{ placeholder-image-4 }}
+      {{ placeholder-image-5 }}
+      {{ placeholder-image-6 }}
+      {{ placeholder-image-7 }}
+      {{ placeholder-image-8 }}
+
+      {{#collection.UON_cover-page--mp}}{{/collection.UON_cover-page--mp}}
+      {{#collection.UON_internal-pages--mp}}{{/collection.UON_internal-pages--mp}}
+      {{#collection.UON_back-page--mp}}{{/collection.UON_back-page--mp}}
+      */
+
+      :root {
+        --black: {{{account.colors.80--black}}};
+        --white: {{{account.colors.white}}};
+        --blue: {{{account.colors.blue}}};
+
+        --black-80: {{{account.colors.80--black}}};
+        --blue-20: #d9ecfb;
+        --black-10: {{{account.colors.10--black}}};
+      }
+
+      .headingTextColour--black-blue,
+      .backPageContentColour--black-blue { 
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--blue);
+      }
+
+      .headingTextColour--white-blue,
+      .backPageContentColour--white-blue { 
+        --font-regular-colour: var(--white);
+        --font-bold-colour: var(--blue);
+      }
+
+      .headingTextColour--black-white,
+      .backPageContentColour--black-white { 
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+      }
+
+      .gradientColour--white { --gradient-dynamic-colour: var(--white); }
+      .gradientColour--black { --gradient-dynamic-colour: var(--black); }
+      .gradientColour--off { --gradient-dynamic-colour: unset; }
+
+      html {
+        font-family: 'Fuse V.2 Display';
+        word-break: break-word;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .fit--backgroundImagePage { padding: 48pt 51pt; }
+      .fit--backPage { padding: 47pt 51pt 49pt; }
+      .fit--horizontalImageAndContentGrid { padding: 50pt 47pt 50pt 51pt; }
+      .fit--contentsPage { padding: 68pt 102pt 46pt 51pt; }
+      .fit--tablePage { padding: 67pt 52pt 14pt; }
+
+      .pageTheme--black-80 .fit--flexiPage,
+      .pageTheme--black-80 .fit--contentsPage { background: var(--black-80); }
+      .pageTheme--blue-20 .fit--flexiPage,
+      .pageTheme--blue-20 .fit--contentsPage { background: var(--blue-20); }
+      .pageTheme--full-blue .fit--flexiPage,
+      .pageTheme--full-blue .fit--contentsPage { background: var(--blue); }
+      .pageTheme--black-10 .fit--flexiPage,
+      .pageTheme--black-10 .fit--contentsPage { background: var(--black-10); }
+
+      .backPageContentColour--black-blue .fit--backPage { background: var(--white); }
+      .backPageContentColour--white-blue .fit--backPage { background: var(--black); }
+      .backPageContentColour--black-white .fit--backPage { background: var(--blue); }
+
+      .no-background-image.headingTextColour--black-blue .fit--backgroundImagePage { background: var(--white); }
+      .no-background-image.headingTextColour--white-blue .fit--backgroundImagePage { background: var(--black); }
+      .no-background-image.headingTextColour--black-white .fit--backgroundImagePage { background: var(--blue); }
+
+      .headingTextColour--black-blue .fit--tablePage { background: var(--white); }
+      .headingTextColour--white-blue .fit--tablePage { background: var(--black); }
+      .headingTextColour--black-white .fit--tablePage { background: var(--blue); }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      {{{account.snippets.gradientCss}}}
+
+      .body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .body--coverPage {
+        padding: 0 40pt 31pt;
+        overflow: hidden;
+      }
+
+      .body--backPage,
+      .body--tablePage {
+        padding-bottom: 15pt;
+      }
+
+      .body--flexiPage {
+        overflow: hidden;
+      }
+
+      .body--contentsPage {
+        padding-bottom: 25pt;
+      }
+
+      .heading {
+        position: relative;
+        margin-bottom: 19pt;
+        font-size: 54pt;
+        line-height: 0.85em;
+        text-transform: uppercase;
+        font-weight: 900;
+        color: var(--font-regular-colour);
+      }
+
+      .fit--coverPage .heading {
+        margin-bottom: 0.32em;
+        font-size: 56pt;
+        max-height: 195px;
+      }
+
+      .fit--horizontalImageAndContentGrid .heading {
+        margin-bottom: 21pt;
+        font-size: 50pt;
+        line-height: 0.8em;
+        color: var(--black);
+      }
+
+      .fit--contentsPage .heading {
+        font-size: 46pt;
+      }
+
+      .fit--tablePage .heading {
+        font-size: 46.9pt;
+        line-height: 0.9em;
+      }
+
+      .headingTextColour--black .fit--contentsPage .heading {
+        color: var(--black);
+      }
+
+      .headingTextColour--blue .fit--contentsPage .heading {
+        color: var(--blue);
+      }
+
+      .headingTextColour--white .fit--contentsPage .heading {
+        color: var(--white);
+      }
+
+      .heading strong {
+        font-weight: 900;
+        color: var(--font-bold-colour);
+      }
+
+      .fit--horizontalImageAndContentGrid .heading strong {
+        font-weight: 900;
+        color: var(--blue);
+      }
+
+      .heading:last-child {
+        margin-bottom: 0;
+      }
+
+      .box__container {
+        display: flex;
+        flex: 1;
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+
+      .boxedContentPosition--top-right .box__container { justify-content: flex-end; }
+      .boxedContentPosition--bottom-left .box__container { align-items: flex-end; }
+      .boxedContentPosition--bottom-right .box__container { align-items: flex-end; justify-content: flex-end; }
+
+      .box {
+        position: relative;
+        width: 250pt;
+        /*max-height: 450pt;*/
+      }
+
+      .boxedContentPosition--top-left .box,
+      .boxedContentPosition--bottom-left .box {
+        padding: 29pt 24pt 29pt 0;
+      }
+
+      .boxedContentPosition--top-right .box,
+      .boxedContentPosition--bottom-right .box {
+        padding: 29pt 0 29pt 24pt;
+      }
+
+      .box__text {
+        position: relative;
+        max-height: 450pt;
+      }
+
+      .box__text p,
+      .copy p {
+        margin-bottom: 0.5em;
+        line-height: 1.3em;
+      }
+
+      .box__text p {
+        font-size: 11pt;
+      }
+
+      .copy p {
+        font-size: 9pt;
+      }
+
+      .fit--coverPage .copy p {
+        font-size: 10pt;
+      }
+
+      .box__text h2,
+      .box__text h3,
+      .copy h2 {
+        text-transform: uppercase;
+        line-height: 1.2em;
+      }
+
+      .box__text h2,
+      .copy h2 {
+        font-size: 16.55pt;
+        font-weight: 900;
+      }
+
+      .box__text h2 {
+        margin-bottom: 0.3em;
+      }
+
+      .copy h2 {
+        margin-bottom: 0.25em;
+      }
+
+      .fit--coverPage .copy h2 {
+        font-size: 15pt;
+        margin-bottom: 0.35em;
+      }
+
+      .fit--flexiPage .copy h2 {
+        font-size: 12pt;
+      }
+
+      .box__text h3 {
+        margin-bottom: 0.2em;
+        font-size: 11.97pt;
+        font-weight: 600;
+      }
+
+      ul {
+      }
+
+      .box__text ul {
+        margin-bottom:0.15em;
+        padding-left: 15pt;
+      }
+
+      .fit--coverPage ul {
+        margin-bottom:0.15em;
+        padding-left: 10pt;
+      }
+
+      li {
+        position: relative;
+      }
+
+      .fit--coverPage li {
+        font-size: 10pt;
+      }
+
+      .box__text li {
+        font-size: 11pt;
+      }
+
+      li:last-child {
+        margin-bottom: 0;
+      }
+
+      li:before {
+        content: "\2022";
+        position: absolute;
+        top: 0;  
+        left: -10pt;        
+      }
+
+      .box__text p:last-child,
+      .copy p:last-child,
+      .box__text h2:last-child,
+      .copy h2:last-child,
+      .box__text h3:last-child,
+      ul:last-child {
+        margin-bottom: 0;
+      }
+
+      .boxColour--blue .box__text { color: var(--white); }
+      .boxColour--black .box__text { color: var(--white); }
+      .boxColour--white .box__text { color: var(--blue); }
+
+      .box__background {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      .boxedContentPosition--top-left .box__background { left: -55pt; }
+      .boxedContentPosition--top-right .box__background { right: -55pt; }
+      .boxedContentPosition--bottom-left .box__background { left: -55pt; bottom: -55pt; }
+      .boxedContentPosition--bottom-right .box__background { right: -55pt; bottom: -55pt; }
+
+      .boxColour--blue .box__background { background: var(--blue); }
+      .boxColour--black .box__background { background: var(--black); }
+      .boxColour--white .box__background { background: var(--white); }
+
+      .footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 157pt;
+      }
+
+      .copy {
+        color: var(--font-regular-colour);
+      }
+
+      .fit--flexiPage .copy {
+        margin-bottom: 10pt;
+        color: var(--black);
+      }
+
+      .pageTheme--full-blue .fit--flexiPage .copy {
+        color: var(--white);
+      }
+
+      .pageTheme--black-80 .fit--flexiPage .copy {
+        color: var(--white);
+      }
+
+      .fit--flexiPage .copy:last-child {
+        margin-bottom: 0;
+      }
+
+      .fit--coverPage .copy {
+        color: var(--black);
+      }
+
+      .copy strong {
+        font-weight: 900;
+        color: var(--font-bold-colour);
+      }
+
+      .fit--coverPage .copy strong {
+        color: var(--blue);
+      }
+
+      .logo {
+        position: relative;
+        display: none;
+        align-self: center;
+        height: 91pt;
+        width: 91pt;
+        object-fit: contain;
+        object-position: center;
+      }
+
+      .backPageContentColour--black-blue .logo--black,
+      .backPageContentColour--white-blue .logo--white,
+      .backPageContentColour--black-white .logo--white,
+      .fit--coverPage .logo {
+        display: block;
+      }
+
+      .fit--coverPage .logo {
+        height: 138pt;
+        width: 138pt;
+      }
+
+      .footer__copy {
+        margin-top: 20pt;
+        font-size: 7pt;
+        line-height: 1.3em;
+        max-height: 28.5pt;
+        color: var(--font-regular-colour);
+      }
+
+      .hero {
+        position: relative;
+        margin-bottom: 25pt;
+        padding: 44pt 43pt;
+      }
+
+      .no-background-image.headingTextColour--black-blue .hero { background: var(--white); }
+      .no-background-image.headingTextColour--white-blue .hero { background: var(--black); }
+      .no-background-image.headingTextColour--black-white .hero { background: var(--blue); }
+
+      .hero__image {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      .column__container {
+        display: flex;
+        flex: 1;
+        margin-left: -19pt;
+        margin-bottom: 15pt;
+        overflow: hidden;
+      }
+
+      .fit--flexiPage .column__container {
+        margin-bottom: 0;
+      }
+
+      .featureImagePosition--top .column__container {
+        margin-bottom: 48pt;
+      }
+
+      .column__container:last-child {
+        margin-bottom: 0;
+      }
+
+      .column {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .fit--coverPage .column {
+        margin-left: 19pt;
+      }
+
+      .fit--flexiPage .column  {
+        margin-right: 29pt;
+      }
+
+      .fit--flexiPage .column:last-child {
+        margin-right: 0;
+      }
+
+      .fit--flexiPage .column:first-child .copy,
+      .fit--flexiPage .column:first-child .spacer,
+      .fit--flexiPage .column:first-child .columnImage__container {
+        margin-left: 70pt;
+      }
+
+      .fit--flexiPage .column:nth-child(2) .copy,
+      .fit--flexiPage .column:nth-child(2) .spacer,
+      .fit--flexiPage .column:nth-child(2) .columnImage__container {
+        margin-right: 52pt;
+      }
+
+      .location__container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+
+      .location__heading,
+      .location {
+        text-transform: uppercase;
+        line-height: 1.2em;
+        font-weight: 900;
+      }
+
+      .location__heading {
+        max-height: 50px;
+        font-size: 15pt;
+        color: var(--blue);
+      }
+
+      .location {
+        display: none;
+        font-size: 9pt;
+        color: var(--black);
+      }
+
+      .locationDisplay--show .location {
+        display: block;
+      }
+
+      .location__heading + .location {
+        margin-top: 9pt;
+      }
+
+      .cricos {
+        position: absolute !important;
+        bottom: 32pt;
+        left: 100%;
+        width: 140pt;
+        transform: rotate(-90deg) translateY(-26pt);
+        transform-origin: left bottom;
+        text-align: left;
+        font-size: 0.1rem;
+        line-height: 1.2em;
+        color: var(--black);
+      }
+
+      .boxedContent {
+        display: flex;
+        height: 113pt;
+        margin-bottom: 23pt;
+      }
+
+      .boxedContent:last-child {
+        margin-bottom: 0;
+      }
+
+      .boxedContent__image {
+        position: relative;
+        height: 100%;
+        width: 120pt;
+      }
+
+      .boxedContent__column {
+        flex: 1;
+        padding-top: 5pt;
+      }
+
+      .boxedContent__image + .boxedContent__column {
+        margin-left: 11pt;
+      }
+
+      .boxedContent__text h2,
+      .boxedContent__text h3 {
+        text-transform: uppercase;
+      }
+
+      .boxedContent__text h2 {
+        margin-bottom: 0.5em;
+        font-size: 16.6pt;
+        line-height: 0.85em;
+        font-weight: 900;
+        color: var(--blue);
+      }
+
+      .boxedContent__text h3 {
+        margin-bottom: 0.6em;
+        font-size: 12pt;
+        line-height: 0.85em;
+        font-weight: 600;
+        color: var(--black);
+      }
+
+      .boxedContent__text p {
+        margin-bottom: 0.3em;
+        font-size: 8.7pt;
+        line-height: 1.3em;
+        color: var(--black);
+      }
+
+      .boxedContent__text h2:last-child,
+      .boxedContent__text h3:last-child,
+      .boxedContent__text p:last-child {
+        margin-bottom: 0;
+      }
+
+      .heading__container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 156pt;
+        padding: 45pt 52pt 30pt;
+        margin-bottom: 11pt;
+        background: var(--blue);
+      }
+
+      .fit--boxedGridContentPage .heading {
+        max-height: 120px;
+        color: var(--white);
+      }
+
+      .fit--boxedGridContentPage .heading h1 {
+        margin-bottom: 0.2em;
+        text-transform: uppercase;
+        font-size: 34pt;
+        line-height: 1em;
+        font-weight: 900;
+      }
+
+      .fit--boxedGridContentPage .heading p {
+        margin-bottom: 0.25em;
+        text-transform: none;
+        font-size: 10pt;
+        line-height: 1.35em;
+        font-weight: normal;
+      }
+
+      .fit--boxedGridContentPage .heading h1:last-child,
+      .fit--boxedGridContentPage .heading p:last-child {
+        margin-bottom: 0;
+      }
+
+      .grid {
+        display: grid;
+        justify-content: center;
+        flex: 1;
+        padding: 0 50pt 50pt;
+      }
+
+      .grid.gridItemContainer--1 {
+        grid-template-columns: 163.5pt;
+        grid-template-rows: 318pt;
+      }
+
+      .grid.gridItemContainer--2 {
+        grid-template-columns: repeat(2, 163.5pt);
+        grid-template-rows: 318pt;
+        grid-gap: 11pt;
+      }
+
+      .grid.gridItemContainer--3 {
+        grid-template-columns: repeat(3, 163.5pt);
+        grid-template-rows: 318pt;
+        grid-gap: 11pt;
+      }
+
+      .grid.gridItemContainer--4 {
+        grid-template-columns: repeat(2, 163.5pt);
+        grid-template-rows: repeat(2, 318pt);
+        grid-gap: 11pt;
+      }
+
+      .grid.gridItemContainer--5 {
+        grid-template-columns: [col] 57.5pt [col] 106pt [col] 11pt [col] 46.25pt [col] 71pt [col] 46.25pt [col] 11pt [col] 106pt [col] 57.5pt;
+        grid-template-rows: [row] 318pt [row] 318pt;
+        grid-row-gap: 11pt;
+      }
+
+      .grid.gridItemContainer--6 {
+        grid-template-columns: repeat(3, 163.5pt);
+        grid-template-rows: repeat(2, 318pt);
+        grid-gap: 11pt;
+      }
+
+      .grid__item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .grid__item.textBackgroundColour--black-80 {
+        background: var(--black-80);
+      }
+
+      .grid__item.textBackgroundColour--blue-20 {
+        background: var(--blue-20);
+      }
+
+      .grid__item.textBackgroundColour--black-10 {
+        background: var(--black-10);
+      }
+
+      .grid.gridItemContainer--5 .grid__item:first-child {
+        grid-column: col / span 2;
+        grid-row: row ;
+      }
+
+      .grid.gridItemContainer--5 .grid__item:nth-child(2) {
+        grid-column: col 4 / span 3;
+        grid-row: row ;
+      }
+
+      .grid.gridItemContainer--5 .grid__item:nth-child(3) {
+        grid-column: col 8 / span 2;
+        grid-row: row ;
+      }
+
+      .grid.gridItemContainer--5 .grid__item:nth-child(4) {
+        grid-column: col 2 / span 3;
+        grid-row: row 2;
+      }
+
+      .grid.gridItemContainer--5 .grid__item:nth-child(5) {
+        grid-column: col 6 / span 3;
+        grid-row: row 2;
+      }
+
+      .grid__content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .grid__image {
+        position: relative;
+        width: 100%;
+      }
+
+      .grid__copy {
+        flex: 1;
+        padding: 15pt 18pt 7pt;
+      }
+
+      .grid__copy h2 {
+        margin-bottom: 0.4em;
+        line-height: 1em;
+        text-transform: uppercase;
+        font-weight: 900;
+        color: var(--blue);
+      }
+
+      .grid__copy p {
+        margin-bottom: 0.3em;
+        line-height: 1.25em;
+        color: var(--black);
+      }
+
+      .textBackgroundColour--black-80 .grid__copy p {
+        color: var(--white);
+      }
+
+      .grid__copy h2 {
+        font-size: 16pt;
+      }
+
+      .grid__copy p {
+        font-size: 9pt;
+      }
+
+      .grid__copy h2:last-child,
+      .grid__copy p:last-child {
+        margin-bottom: 0;
+      }
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .no-title .content {
+        margin-top: 48pt;
+      }
+
+      .title {
+        max-height: 153pt;
+        margin: 48pt 51pt 10.5pt;
+        font-size: 54pt;
+      }
+
+      .title:last-child {
+        margin-bottom: 0;
+      }
+
+      .title h1 {
+        margin-bottom: 0.31em;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 1em;
+        line-height: 0.85em;
+        color: var(--blue);
+      }
+
+      .pageTheme--full-blue .title h1 {
+        color: var(--white);
+      }
+
+      .title p {
+        margin-bottom: 0.5em;
+        font-size: 0.2em;
+        line-height: 1.3em;
+        font-weight: 600;
+        color: var(--black);
+      }
+
+      .pageTheme--full-blue .title p,
+      .pageTheme--black-80 .title p {
+        color: var(--white);
+      }
+
+      .title h1:last-child,
+      .title p:last-child {
+        margin-bottom: 0;
+      }
+
+      .callOut {
+        position: relative;
+        margin-bottom: 10pt;
+      }
+
+      .column:first-child .callOut {
+        padding: 13pt 10pt 13pt 0;
+      }
+
+      .column:nth-child(2) .callOut {
+        padding: 13pt 0 13pt 10pt;
+      }
+
+      .callOut:last-child {
+        margin-bottom: 0;
+      }
+
+      .callOut__background {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--blue);
+      }
+
+      .callOut__text {
+        font-size: 11pt;
+        line-height: 1.3em;
+        color: var(--white);
+      }
+
+      .column:first-child .callOut__text {
+        padding-left: 72pt;
+      }
+
+      .column:nth-child(2) .callOut__text {
+        padding-right: 52pt;
+      }
+
+      .columnImage__container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10pt;
+      }
+
+      .columnImage__container:last-child {
+        margin-bottom: 0;
+      }
+
+      .columnImage {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .columnImage__text {
+        padding: 14pt 19pt 10pt 18pt;
+      }
+
+      .columnImage__text.boxTheme--black-10 { background: var(--black-10); }
+      .columnImage__text.boxTheme--black-80 { background: var(--black-80); }
+      .columnImage__text.boxTheme--blue-20 { background: var(--blue-20); }
+      .columnImage__text.boxTheme--blue-100 { background: var(--blue); }
+
+      .columnImage__text h2 {
+        margin-bottom: 0.4em;
+        text-transform: uppercase;
+        font-size: 16.5pt;
+        font-weight: 900;
+        line-height: 1em;
+        color: var(--blue);
+      }
+
+      .boxTheme--blue-100.columnImage__text h2 {
+        color: var(--white);
+      }
+
+      .columnImage__text p {
+        margin-bottom: 0.2em;
+        font-size: 9pt;
+        line-height: 1.2em;
+        color: var(--black);
+      }
+
+      .boxTheme--black-80.columnImage__text p,
+      .boxTheme--blue-100.columnImage__text p {
+        color: var(--white);
+      }
+
+      .columnImage__text h2:last-child,
+      .columnImage__text p:last-child {
+        margin-bottom: 0;
+      }
+
+      .columnImage__container:last-child {
+        margin-bottom: 0;
+      }
+
+      .featureImage__container {
+        position: relative;
+      }
+
+      .featureImagePosition--top .featureImage__container {
+        margin: 0 51pt 15pt 51pt;
+      }
+
+      .featureImagePosition--bottom .featureImage__container {
+        margin: 15pt 51pt 48pt;
+      }
+
+      .featureImagePosition--top .featureImage__container {
+        order: 1;
+      }
+
+      .featureImagePosition--top .column__container {
+        order: 2;
+      }
+
+      .contents {
+        flex: 1;
+      }
+
+      .contents__item {
+        display: flex;
+        margin-bottom: 3.7pt;
+      }
+
+      .contents__item:last-child {
+        margin-bottom: 0;
+      }
+
+      .contents__label {
+        width: 23pt;
+        font-size: 16pt;
+        line-height: 1.2em;
+        color: var(--blue);
+      }
+
+      .pageTheme--full-blue .contents__label {
+        color: var(--white);
+      }
+
+      .contents__value {
+        flex: 1;
+        font-size: 14pt;
+        line-height: 1.3em;
+      }
+
+      .pageTheme--full-blue .contents__value,
+      .pageTheme--black-80 .contents__value {
+        color: var(--white);
+      }
+
+      .disclaimer {
+        max-height: 49.5pt;
+      }
+
+      .disclaimer__text {
+        position: relative;
+
+        font-size: 8.9pt;
+        line-height: 1.35em;
+      }
+
+      .pageTheme--full-blue .disclaimer__text,
+      .pageTheme--black-80 .disclaimer__text {
+        color: var(--white);
+      }
+
+      .disclaimer__text:before {
+        position: absolute;
+        top: -16pt;
+        left: 0;
+        width: 59pt;
+        height: 4pt;
+        content: "";
+        background: var(--blue);
+      }
+
+      .pageTheme--full-blue .disclaimer__text:before {
+        background: var(--white);
+      }
+
+      .table {
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      .table__cell {
+        border-left: 1pt solid var(--white);
+        color: var(--black);
+      }
+
+      .table__cell:first-child {
+        border-left: none;
+      }
+
+      td span {
+        -ms-writing-mode: tb-rl;
+        -webkit-writing-mode: vertical-rl;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        white-space: nowrap;
+      }
+
+      .table__cell--header {
+        font-size: 15pt;
+        font-weight: 900;
+      }
+
+      .tableHeadingTheme--blue .table__cell--header { background: var(--blue); color: var(--white); }
+      .tableHeadingTheme--black .table__cell--header { background: var(--black); color: var(--white); }
+      .tableHeadingTheme--white .table__cell--header { background: var(--white); color: var(--blue); border-left: 1pt solid var(--blue); }
+
+      .table__cell--header:first-child {
+        border-left: none;
+      }
+
+      .table__cell--firstColumn {
+        padding: 3pt 3pt 3pt 6pt;
+        font-size: 15.8pt;
+        line-height: 1em;
+        text-transform: uppercase;
+      }
+
+      .table__cell--headerRotated {
+        padding: 3pt 5pt;
+        text-align:center;
+        vertical-align: text-bottom;
+        font-size: 9pt;
+      }
+
+      .table__row--body .table__cell {
+        padding: 2pt 0;
+        font-size: 7.7pt;
+        line-height: 1.35em;
+        text-align: center;
+        font-weight: 600;
+        background: var(--white);
+      }
+
+      .tableTheme--blue .table__row--body:nth-child(even) .table__cell { background: var(--blue-20); }
+      .tableTheme--black .table__row--body:nth-child(even) .table__cell { background: var(--black-10); }
+
+      .table__row--body .table__cell:first-child {
+        padding-left: 5pt;
+        text-align: left;
+      }
+
+      .notes {
+        display: flex;
+        flex-direction: column;
+        padding-top: 13pt;
+        color: var(--black);
+        border-top: 1pt solid var(--black);
+      }
+      
+      .no-notes.no-disclaimer .notes {
+        display: none;
+      }
+
+      .headingTextColour--white-blue .notes,
+      .headingTextColour--black-white .notes { color: var(--white); border-top: 1pt solid var(--white); }
+
+      .note__container {
+        display: flex;
+        /*flex: 1;*/
+      }
+
+      .note {
+        position: relative;
+        flex: 1;
+      }
+
+      .note__heading {
+        margin-bottom: 2pt;
+        padding-right: 20pt;
+        font-size: 7.9pt;
+        line-height: 1.2em;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      .note__heading:last-child {
+        margin-bottom: 0;
+      }
+
+      .note__content {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 10pt;
+      }
+
+      .note__item {
+        display: flex;
+        align-items: center;
+        width: 127pt;
+        padding-right: 10pt;
+        font-size: 10pt;
+      }
+
+      .note__label {
+        width: 18pt;
+        padding-right: 2pt;
+        text-transform: uppercase;
+        font-size: 9pt;
+        line-height: 1.05em;
+        font-weight: 900;
+      }
+
+      .note__value {
+        font-size: 7.8pt;
+        line-height: 0.8em;
+      }
+
+      .note__image {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 5pt;
+        right: 5pt;
+      }
+
+      .terms {
+        font-size: 6pt;
+        line-height: 1.2em;
+      }
+      
+      .note__container + .terms {
+        margin-top: 29pt;
+      }
+
+      .textFit--vertical.overflow:hover:after{ content: 'Min font size exceeded'; }
+      .textFit--vertical2.overflow:hover:after{ content: 'Min font size exceeded'; }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" 
+        data-crop="{{show-crop}}" 
+        data-reduce-export-font-size-by-percent="0" 
+        data-reduce-firefox-font-size-by-percent="0" 
+        data-prevent-export-overflow="false"
+        class="">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-2 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-3 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-4 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-5 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-6 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-7 }}"></div>
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-8 }}"></div>
+    </div><!-- end placeholderMaster -->
+
+    {{#collection.UON_cover-page--mp}}
+    <!-- {{UON_data-contents-entry--mp}}
+         {{{UON_background-image--mp}}}
+         {{UON_background-image-height}}
+         {{UON_gradient-colour--mp}}
+         {{top-grad-height}}
+         {{left-grad-width}}
+         {{bottom-grad-height}}
+         {{UON_heading-text-colour--mp}}
+         {{{UON_heading--mp}}}
+         {{#collection.UON_columns--mp}}{{/collection.UON_columns--mp}}
+         {{{UON_footer--mp}}}
+         {{UON_location-display--mp}}-->
+    <div class="page
+                {{^UON_background-image--mp}}no-background-image{{/UON_background-image--mp}}
+                gradientColour--{{{UON_gradient-colour--mp}}}{{^UON_gradient-colour--mp}}off{{/UON_gradient-colour--mp}}
+                headingTextColour--{{{UON_heading-text-colour--mp}}}{{^UON_heading-text-colour--mp}}white-blue{{/UON_heading-text-colour--mp}}
+                locationDisplay--{{{UON_location-display--mp}}}{{^UON_location-display--mp}}show{{/UON_location-display--mp}}">
+
+      <div class="bleed">
+
+        <div class="container fit fit--coverPage" data-contents-entry="">
+          <div class="hero" style="height: {{UON_background-image-height}}{{^UON_background-image-height}}60{{/UON_background-image-height}}%">
+            <div class="hero__inner" data-max-height="dynamic">
+            <div class="hero__image">
+              <div class="reposition-fix">{{{UON_background-image--mp}}}</div><!--reposition-fix-->
+            </div><!--hero__image-->
+            <div class="gradient gradient--top" style="height: {{top-grad-height}}%;"></div><!--grad--top-->
+            <div class="gradient gradient--left" style="width: {{left-grad-width}}%;"></div><!--grad--left-->
+            <div class="gradient gradient--bottom" style="height: {{bottom-grad-height}}%;"></div><!--grad--bottom-->
+            {{#UON_heading--mp}}
+            <div class="heading"><div class="heading__inner textFit--vertical" style="line-height: 0.85em;">{{{UON_heading--mp}}}</div></div><!--heading-->
+            {{/UON_heading--mp}}
+            <img src="{{{account.logos.primary}}}" class="logo"><!--logo-->
+              </div><!--hero__inner-->
+          </div><!--hero-->
+          <div class="body body--coverPage">
+            <div class="column__container js-element-container-height-setter">
+              {{#collection.UON_columns--mp}}
+              <div class="column" data-max-height="dynamic">
+                {{#block.UON_column--mp}}
+                {{#collection.UON_content--mp}}
+                {{#block.UON_copy--mp}}
+                <div class="copy">{{{UON_copy--mp}}}</div><!--copy-->
+                {{/block.UON_copy--mp}}
+                {{#block.UON_spacer--mp}}
+                <div class="spacer js-element-height-setter" data-element-height="{{gap-height}}"></div><!--spacer-->
+                {{/block.UON_spacer--mp}}
+                {{/collection.UON_content--mp}}
+                {{/block.UON_column--mp}}
+              </div><!--column-->
+              {{/collection.UON_columns--mp}}
+            </div><!--column__container-->
+            <div class="location__container">
+              {{#UON_footer--mp}}
+              <div class="location__heading"><div class="location__headingInner textFit--vertical2" style="line-height: 1.2em;">{{{UON_footer--mp}}}</div></div><!--location__heading-->
+              {{/UON_footer--mp}}
+              <div class="location">newcastle | central coast | sydney | singapore</div><!--location__heading-->
+            </div><!--location__container-->
+          </div><!--body-->
+          <div class="cricos">CRICOS {{account.snippets.cricos}}</div><!--cricos-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/collection.UON_cover-page--mp}}
+    {{#collection.UON_internal-pages--mp}}
+    {{#block.UON_contents-page--mp}}
+    <!--{{UON_data-contents-entry--mp}}
+        {{UON_page-theme--mp}}
+        {{UON_heading-text-colour--mp}}
+        {{{UON_footer--mp}}}-->
+    <div class="page
+                pageTheme--{{UON_page-theme--mp}}{{^UON_page-theme--mp}}black-10{{/UON_page-theme--mp}}
+                headingTextColour--{{UON_heading-text-colour--mp}}{{^UON_heading-text-colour--mp}}blue{{/UON_heading-text-colour--mp}}">
+
+      <div class="bleed">
+
+        <div class="container fit fit--contentsPage" data-contents-entry="">
+          <div class="body body--contentsPage">
+            <div class="body__inner" data-max-height="dynamic">
+              <div class="heading">contents</div><!--heading-->
+              <div class="contents js-contents-container-target">
+              </div><!--contents-->
+            </div><!--body__inner-->
+          </div><!--body--contentsPage-->
+          {{#UON_footer--mp}}
+          <div class="disclaimer" data-max-height="css">
+            <div class="disclaimer__text">{{{UON_footer--mp}}}</div><!--disclaimer__text-->
+          </div><!--disclaimer-->
+          {{/UON_footer--mp}}
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/block.UON_contents-page--mp}}
+
+    {{#block.UON_table-page--mp}}
+    <!--{{UON_data-contents-entry--mp}}
+        {{UON_heading-text-colour--mp}}
+        {{{UON_heading--mp}}}
+        {{UON_table-heading-theme--mp}}
+        {{UON_table-theme--mp}}
+        {{UON_first-column-width--mp}}-->
+    <div class="page
+                headingTextColour--{{{UON_heading-text-colour--mp}}}{{^UON_heading-text-colour--mp}}black-blue{{/UON_heading-text-colour--mp}}
+                tableHeadingTheme--{{UON_table-heading-theme--mp}}{{^UON_table-heading-theme--mp}}blue{{/UON_table-heading-theme--mp}}
+                tableTheme--{{UON_table-theme--mp}}{{^UON_table-theme--mp}}black{{/UON_table-theme--mp}}
+                {{^collection.UON_key-notes--mp.length}}no-notes{{/collection.UON_key-notes--mp.length}}
+                {{^UON_disclaimer--mp}}no-disclaimer{{/UON_disclaimer--mp}}">
+
+      <div class="bleed">
+
+        <div class="container fit fit--tablePage" data-contents-entry="{{UON_data-contents-entry--mp}}">
+          <div class="body body--tablePage">
+            <div class="body__inner" data-max-height="dynamic">
+              {{#UON_heading--mp}}
+              <div class="heading" data-max-line="2">{{{UON_heading--mp}}}</div><!--heading-->
+              {{/UON_heading--mp}}
+              <table class="table js-emptyColumnsCheck-table">
+                <tr class="table__row table__row--header">
+                  <td class="table__cell table__cell--header table__cell--firstColumn {{^first-column}}empty-col-1{{/first-column}}" style="width: {{UON_first-column-width--mp}}{{^UON_first-column-width--mp}}32{{/UON_first-column-width--mp}}%;">faculty of engineering and build environment</td>
+                  <td class="table__cell table__cell--header table__cell--headerRotated {{^second-column}}empty-col-2{{/second-column}}"><span>CRICOS</span></td>
+                  <td class="table__cell table__cell--header table__cell--headerRotated {{^third-column}}empty-col-3{{/third-column}}"><span>DURATION (Years)</span></td>
+                  <td class="table__cell table__cell--header table__cell--headerRotated {{^fourth-column}}empty-col-4{{/fourth-column}}"><span>LOCATION</span></td>
+                  <td class="table__cell table__cell--header table__cell--headerRotated {{^fifth-column}}empty-col-5{{/fifth-column}}"><span>INTAKES</span></td>
+                  <td class="table__cell table__cell--header table__cell--headerRotated {{^sixth-column}}empty-col-6{{/sixth-column}}"><span>IELTS</span></td>
+                  <td class="table__cell table__cell--header table__cell--headerRotated {{^seventh-column}}empty-col-7{{/seventh-column}}"><span>2020 INDICATIVE<br>ANNUAL FEE AS</span></td>
+                  <td class="table__cell table__cell--header table__cell--headerRotated {{^eighth-column}}empty-col-8{{/eighth-column}}"><span>2021 INDICATIVE<br>ANNUAL FEE AS</span></td>
+                </tr>
+                {{#spreadsheet.UON_table--mp}}
+                <tr class="table__row table__row--body">
+                  <td class="table__cell {{^first-column}}empty-col-1{{/first-column}}">{{{first-column}}}</td>
+                  <td class="table__cell {{^second-column}}empty-col-2{{/second-column}}">{{{second-column}}}</td>
+                  <td class="table__cell {{^third-column}}empty-col-3{{/third-column}}">{{{third-column}}}</td>
+                  <td class="table__cell {{^fourth-column}}empty-col-4{{/fourth-column}}">{{{fourth-column}}}</td>
+                  <td class="table__cell {{^fifth-column}}empty-col-5{{/fifth-column}}">{{{fifth-column}}}</td>
+                  <td class="table__cell {{^sixth-column}}empty-col-6{{/sixth-column}}">{{{sixth-column}}}</td>
+                  <td class="table__cell {{^seventh-column}}empty-col-7{{/seventh-column}}">{{{seventh-column}}}</td>
+                  <td class="table__cell {{^eighth-column}}empty-col-8{{/eighth-column}}">{{{eighth-column}}}</td>
+                </tr>
+                {{/spreadsheet.UON_table--mp}}
+              </table>
+            </div><!--body__inner-->
+          </div><!--body--tablePage-->
+          <div class="notes">
+            {{#collection.UON_key-notes--mp.length}}
+            <div class="note__container">
+              {{#collection.UON_key-notes--mp}}
+              <div class="note">
+                <div class="note__inner" data-max-height="55">
+                  {{#block.UON_key-notes--mp}}
+                  <div class="note__heading">{{{UON_note-heading--mp}}}</div><!--note__heading-->
+                  <div class="note__content">
+                    {{#spreadsheet.UON_note-item--mp}}
+                    <div class="note__item" data-max-line="1">
+                      <div class="note__label">{{{UON_note-label--mp}}}</div><!--note__label-->
+                      <div class="note__value">{{{UON_note-value--mp}}}</div><!--note__value-->
+                    </div><!--note__item-->
+                    {{/spreadsheet.UON_note-item--mp}}
+                  </div><!--note__content-->
+                  {{/block.UON_key-notes--mp}}
+                  {{#block.UON_text--mp}}
+                  <div class="note__heading">{{{UON_note-heading--mp}}}</div><!--note__heading-->
+                  <div class="note__content">
+                    {{{UON_text--mp}}}
+                  </div><!--note__content-->
+                  {{/block.UON_text--mp}}
+                  {{#block.UON_image--mp}}
+                  <div class="note__image">
+                    <div class="reposition-fix">
+                      {{{UON_image--mp}}}
+                    </div><!--reposition-fix-->
+                  </div><!--note__image-->
+                  {{/block.UON_image--mp}}
+                </div><!--note__inner-->
+              </div><!--note-->
+              {{/collection.UON_key-notes--mp}}
+            </div><!--note__container-->
+            {{/collection.UON_key-notes--mp.length}}
+            {{#UON_disclaimer--mp}}
+            <div class="terms" data-max-height="20">{{{UON_disclaimer--mp}}}</div><!--disclaimer-->
+            {{/UON_disclaimer--mp}}
+          </div><!--notes-->
+        </div><!--container fit--tablePage-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/block.UON_table-page--mp}}
+
+    {{#block.UON_flexi-page--mp}}
+    <!--{{UON_data-contents-entry--mp}}
+        {{UON_page-theme--mp}}
+        {{{UON_heading--mp}}}
+        {{#collection.UON_customizable-content---mp}}{{/collection.UON_customizable-content---mp}}
+        {{{UON_feature-image--mp}}}
+        {{feature-image-height}}
+        {{UON_feature-image-position--mp}}-->
+    <div class="page 
+                pageTheme--{{UON_page-theme--mp}}{{^UON_page-theme--mp}}none{{/UON_page-theme--mp}}
+                featureImagePosition--{{UON_feature-image-position--mp}}{{^UON_feature-image-position--mp}}bottom{{/UON_feature-image-position--mp}}
+                {{^UON_heading--mp}}no-title{{/UON_heading--mp}}">
+
+      <div class="bleed">
+
+        <div class="container fit fit--flexiPage" data-contents-entry="{{UON_data-contents-entry--mp}}">
+          <div class="body body--flexiPage">
+            {{#UON_heading--mp}}
+            <div class="title u-heading-patch" data-max-height="css">{{{UON_heading--mp}}}</div><!--title-->
+            {{/UON_heading--mp}}
+            <div class="content js-feature-image-container-height-setter">
+              {{#collection.UON_customizable-content---mp.length}}
+              <div class="column__container">
+                {{#collection.UON_customizable-content---mp}}
+                <div class="column js-element-container-height-setter">
+                  <div class="column__inner" data-max-height="dynamic">
+                    {{#block.UON_column---mp}}
+                    {{#collection.UON_content---mp}}
+                    {{#block.UON_copy---mp}}
+                    {{#UON_copy--mp}}
+                    <div class="copy">{{{UON_copy--mp}}}</div><!--copy-->
+                    {{/UON_copy--mp}}
+                    {{/block.UON_copy---mp}}
+                    {{#block.UON_callout---mp}}
+                    <div class="callOut">
+                      {{#UON_callout-copy--mp}}
+                      <div class="callOut__background"></div><!--callOut__background-->
+                      <div class="callOut__text">{{{UON_callout-copy--mp}}}</div><!--callOut__text-->
+                      {{/UON_callout-copy--mp}}
+                    </div><!--callOut-->
+                    {{/block.UON_callout---mp}}
+                    {{#block.UON_spacer---mp}}
+                    <div class="spacer js-element-height-setter" data-element-height="{{gap-height}}"></div><!--spacer-->
+                    {{/block.UON_spacer---mp}}
+                    {{#block.UON_image-and-caption---mp}}
+                    <!--{{{UON_image--mp}}}
+                      {{image-height}}-->
+                    {{#UON_image--mp}}
+                    <div class="columnImage__container">
+                      <div class="columnImage js-element-height-setter" data-element-height="{{image-height}}">
+                        <div class="reposition-fix">{{{UON_image--mp}}}</div><!--reposition-fix-->
+                      </div><!--columnImage-->
+                      {{#UON_caption--mp}}
+                      <div class="columnImage__text boxTheme--{{UON_box-theme--mp}}{{^UON_box-theme--mp}}black-10{{/UON_box-theme--mp}}">{{{UON_caption--mp}}}</div><!--columnImage__text-->
+                      {{/UON_caption--mp}}
+                    </div><!--columnImage__container-->
+                    {{/UON_image--mp}}
+                    {{/block.UON_image-and-caption---mp}}
+                    {{/collection.UON_content---mp}}
+                    {{/block.UON_column---mp}}
+                  </div><!--column__inner-->
+                </div><!--column-->
+                {{/collection.UON_customizable-content---mp}}
+              </div><!--column__container-->
+              {{/collection.UON_customizable-content---mp.length}}
+              {{#UON_feature-image--mp}}
+              <div class="featureImage__container js-feature-image-height-setter" data-element-height="{{feature-image-height}}">
+                <div class="featureImage">
+                  <div class="reposition-fix">{{{UON_feature-image--mp}}}</div><!--reposition-fix-->
+                </div><!--featureImage-->
+              </div><!--featureImage__container-->
+              {{/UON_feature-image--mp}}
+            </div><!--content-->
+          </div><!--body--flexiPage-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/block.UON_flexi-page--mp}}
+
+    {{#block.UON_boxed-grid-content-page--mp}}
+    <!--{{UON_data-contents-entry--mp}}
+        {{{UON_heading--mp}}}
+        {{#collection.UON_content--mp}}{{/collection.UON_content--mp}}-->
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--boxedGridContentPage" data-contents-entry="{{UON_data-contents-entry--mp}}">
+          <div class="body body--boxedGridContentPage">
+            <div class="heading__container">
+              <div class="heading" data-max-height="css">{{{UON_heading--mp}}}</div><!--heading-->
+            </div><!--heading__container-->
+            <div class="grid js-grid-container">
+              {{#collection.UON_content--mp}}
+              {{#block.UON_content--mp}}
+              <!--{{{UON_image--mp}}}
+                  {{UON_image-height--mp}}
+                  {{UON_text-background-colour--mp}}
+                  {{{UON_copy--mp}}}-->
+              <div class="grid__item js-grid-item textBackgroundColour--{{UON_text-background-colour--mp}}{{^UON_text-background-colour--mp}}black-10{{/UON_text-background-colour--mp}}">
+                <div class="grid__content">
+                  <div class="grid__image js-subtrahend" style="height: calc(318pt*{{UON_image-height--mp}}{{^UON_image-height--mp}}30{{/UON_image-height--mp}}/100)">
+                    <div class="reposition-fix">{{{UON_image--mp}}}</div><!--reposition-fix-->
+                  </div><!--grid__image-->
+                  <div class="grid__copy"><div class="grid__copyInner" data-max-height="dynamic">{{{UON_copy--mp}}}</div></div><!--grid__copy-->
+                </div><!--grid__content-->
+              </div><!--grid__item-->
+              {{/block.UON_content--mp}}
+              {{/collection.UON_content--mp}}
+            </div><!--grid-->
+
+          </div><!--body-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/block.UON_boxed-grid-content-page--mp}}
+
+    {{#block.UON_horizontal-image-and-content-grid--mp}}
+    <!--{{UON_data-contents-entry--mp}}
+        {{{UON_heading--mp}}}
+        {{#collection.UON_boxed-content--mp}}{{/collection.UON_boxed-content--mp}}-->
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit fit--horizontalImageAndContentGrid" data-contents-entry="{{UON_data-contents-entry--mp}}">
+          <div class="body body--horizontalImageAndContentGrid">
+            <div class="body__inner" data-max-height="dynamic">
+              {{#UON_heading--mp}}
+              <div class="heading" data-max-line="2">{{{UON_heading--mp}}}</div><!--heading-->
+              {{/UON_heading--mp}}
+              {{#collection.UON_boxed-content--mp}}
+              {{#block.UON_content--mp}}
+              <div class="boxedContent">
+                {{#UON_image--mp}}
+                <div class="boxedContent__image">
+                  <div class="reposition-fix">{{{UON_image--mp}}}</div><!--reposition-fix-->
+                </div><!--boxedContent__image-->
+                {{/UON_image--mp}}
+                {{#UON_copy--mp}}
+                <div class="boxedContent__column">
+                  <div class="boxedContent__text" data-max-height="dynamic">{{{UON_copy--mp}}}</div><!--boxedContent__text-->
+                </div><!--boxedContent__column-->
+                {{/UON_copy--mp}}
+              </div><!--boxedContent-->
+              {{/block.UON_content--mp}}
+              {{/collection.UON_boxed-content--mp}}
+            </div><!--body__inner-->
+          </div><!--body-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/block.UON_horizontal-image-and-content-grid--mp}}
+
+    {{#block.UON_background-image-page--mp}}
+    <!-- {{UON_data-contents-entry--mp}}
+         {{{UON_background-image--mp}}}
+         {{UON_gradient-colour--mp}}
+         {{top-grad-height}}
+         {{UON_heading-text-colour--mp}}
+         {{{UON_heading--mp}}}
+         {{UON_boxed-content-position--mp}}
+         {{UON_box-colour--mp}}
+         {{{UON_copy--mp}}}-->
+    <div class="page 
+                {{^UON_background-image--mp}}no-background-image{{/UON_background-image--mp}} 
+                headingTextColour--{{{UON_heading-text-colour--mp}}}{{^UON_heading-text-colour--mp}}white-blue{{/UON_heading-text-colour--mp}}
+                gradientColour--{{{UON_gradient-colour--mp}}}{{^UON_gradient-colour--mp}}off{{/UON_gradient-colour--mp}}
+                boxedContentPosition--{{UON_boxed-content-position--mp}}{{^UON_boxed-content-position--mp}}top-left{{/UON_boxed-content-position--mp}}
+                boxColour--{{UON_box-colour--mp}}{{^UON_box-colour--mp}}blue{{/UON_box-colour--mp}}">
+
+      <div class="bleed">
+
+        <div class="container fit fit--backgroundImagePage" data-contents-entry="{{UON_data-contents-entry--mp}}">
+          <div class="backgroundImage">
+            <div class="reposition-fix">{{{UON_background-image--mp}}}</div><!--reposition-fix-->
+          </div><!--backgroundImage-->
+          <div class="gradient gradient--top" style="height: {{top-grad-height}}%;"></div><!--grad--top-->
+          <div class="body body--backgroundImagePage">
+            {{#UON_heading--mp}}
+            <div class="heading" data-max-line="2">{{{UON_heading--mp}}}</div><!--heading-->
+            {{/UON_heading--mp}}
+            {{#UON_copy--mp}}
+            <div class="box__container">
+              <div class="box">
+                <div class="box__background"></div><!--box__background-->
+                <div class="box__text" data-max-height="css">{{{UON_copy--mp}}}</div><!--box__text-->
+              </div><!--box-->
+            </div><!--box__container-->
+            {{/UON_copy--mp}}
+          </div><!--body--backgroundImagePage-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/block.UON_background-image-page--mp}}
+    {{/collection.UON_internal-pages--mp}}
+    {{#collection.UON_back-page--mp}}
+    <!-- {{{UON_data-contents-entry--mp}}}-->
+    <div class="page
+                backPageContentColour--{{{UON_back-page-content-colour--mp}}}{{^UON_back-page-content-colour--mp}}white-blue{{/UON_back-page-content-colour--mp}}">
+
+      <div class="bleed">
+
+        <div class="container fit fit--backPage" data-contents-entry="">
+          <div class="body body--backPage">
+            {{#UON_copy--mp}}
+            <div class="copy" data-max-height="dynamic">{{{UON_copy--mp}}}</div><!--copy-->
+            {{/UON_copy--mp}}
+          </div><!--body-->
+          <div class="footer">
+            <img src="https://files.outfit.io/media_library_items/201222/uon-logo.svg" class="logo logo--white"><!--logo--white-->
+            <img src="{{{account.logos.primary}}}" class="logo logo--black"><!--logo--black-->
+            {{#UON_footer-copy--mp}}
+            <div class="footer__copy" data-max-height="css">{{{UON_footer-copy--mp}}}</div><!--footer__copy-->
+            {{/UON_footer-copy--mp}}
+          </div><!--footer-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/collection.UON_back-page--mp}}
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    <script>
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Fuse V.2 Display'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          maxLineCheck();
+          maxHeightCheck();
+          injectDynamicContent();
+          hideEmptyTitles();
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      function elementHeightSetter(itemContainer, item) {
+        const containers = document.querySelectorAll(itemContainer);
+        containers.forEach(container => {
+          const columnContainerHeight = container.offsetHeight;
+          const elements = container.querySelectorAll(item);
+          elements.forEach(element => {
+            const setHeight = element.dataset.elementHeight || 30;
+            element.style.height = `${( columnContainerHeight / 100 ) * setHeight - 1}px`;
+          });          
+        })
+      }
+      elementHeightSetter('.js-feature-image-container-height-setter','.js-feature-image-height-setter');
+      elementHeightSetter('.js-element-container-height-setter','.js-element-height-setter');
+
+      // Function that count number of GridItem in GridContainer and add corresponding class to GridContainer
+      function countItemsInGrid() {
+        let gridContainers = document.querySelectorAll(".js-grid-container");
+
+        gridContainers.forEach(gridContainer => {
+          let gridItemLength = gridContainer.querySelectorAll(".js-grid-item").length;
+          gridContainer.classList.add(`gridItemContainer--${gridItemLength}`)
+        })  
+      };
+
+      countItemsInGrid();
+
+      function emptyColumnsCheck() {
+        const tables = document.querySelectorAll('.js-emptyColumnsCheck-table');
+
+        for ( const table of tables ) {
+          const totalColumns = table.querySelectorAll('tr:first-child td').length;
+          const rowsLength = table.querySelectorAll('tr').length;          
+
+          for ( let i = 1; i <= totalColumns; i++ ) {
+            const columnEmptyCells = table.querySelectorAll(`.empty-col-${i}`);
+
+            if ( columnEmptyCells.length === rowsLength )
+              columnEmptyCells.forEach( columnEmptyCell => columnEmptyCell.style.display = 'none' );
+          }
+        }
+      }
+
+      emptyColumnsCheck();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit--vertical',
+        fitMode: 'vertical'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--vertical2',
+        fitMode: 'vertical'
+      });
+
+      setInterval(() => {textFitMin('.textFit--vertical', 25)}, 500);
+      setInterval(() => {textFitMin('.textFit--vertical2', 10)}, 500);
+
+      function injectContents() {
+        const pages = [...document.querySelectorAll('[data-contents-entry]')];
+        const contentContainer = document.querySelector('.js-contents-container-target');
+
+        pages.forEach((page, i) => {
+          const pageNum = i+1;
+          // Checking if the page is missing heading or it's data-page-contents is set to false
+          if ( page.dataset.contentsEntry == '' ) return;
+          
+          const row = document.createElement('div');
+          row.classList.add('contents__item');
+
+          const label = document.createElement('div');
+          label.classList.add('contents__label');
+          label.innerText = pageNum;
+          row.appendChild(label);
+
+          const value = document.createElement('div');
+          value.classList.add('contents__value');
+          value.innerText = page.dataset.contentsEntry ;
+          row.appendChild(value);
+
+          contentContainer.appendChild(row);
+
+        });
+      }
+
+
+      injectContents();
+    </script>
+
+
+  </body>
+</html>
