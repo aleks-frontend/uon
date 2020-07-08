@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html data-sign="OSZ">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Heuristica/stylesheet.css');
+
+      /* Input order
+
+      {{show-crop}}
+      {{{UON_title-of-event--cer}}}
+      {{{UON_title-of-signatory-1--cer}}}
+      {{{UON_image-of-signatory-1--cer}}}
+      {{{UON_title-of-signatory-2--cer}}}
+      {{{UON_image-of-signatory-2--cer}}}
+      {{#spreadsheet.UON_recipient-details--cer}}{{/spreadsheet.UON_recipient-details--cer}}
+      {{{account.snippets.cricos}}}
+      {{metadata}}
+      {{export_id}}
+      */
+
+      :root {
+        --black: {{{account.colors.black}}};
+        --web-black: {{{account.colors.web-black}}};
+        --black-80: {{{account.colors.80--black}}};
+        --white: {{{account.colors.white}}};
+        --blue: {{{account.colors.blue}}};
+        --black-20: {{{account.colors.20--black}}}; 
+      }
+
+      html {
+        font-family: 'Heuristica';
+        font-size: 11pt;
+        color:var(--black);
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 218pt 72pt 70pt;
+        text-align: center;
+      }
+
+      .decoration {
+        position: absolute;
+        top: 71.8pt;
+        bottom: 34.5pt;
+        left: 0;
+        right: 0;
+        background-image: url(https://files.outfit.io/media_library_items/145899/Cetificate-frame.svg);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .logo {
+        position: absolute;
+        top: 5.8pt;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 195.8pt;
+      }
+
+      .header {
+        position: relative;
+        margin-bottom: 106pt;
+        padding: 0px 21pt;
+      }
+
+      .heading {
+        position: relative;
+        text-transform: uppercase;
+        word-spacing: 2pt;
+        line-height: 1.4em;
+      }
+
+      .heading--primary {
+        margin-bottom: 21.2pt;
+        font-size: 20pt;
+        letter-spacing: 3.8pt;
+      }
+
+      .heading--primary::after {
+        content: '';
+        position: absolute;
+        bottom: -2pt;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 2pt;
+        width: 290pt;
+        background-image: url(https://files.outfit.io/media_library_items/145904/Certificate-Gold-Line.png);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .heading--secondary {
+        margin-bottom: 46pt;
+        font-size: 17.4pt;
+        letter-spacing: 4.8pt;
+      }
+
+      .text {
+        position: relative;
+      }
+
+      .text--primary {
+        font-size: 14.03pt;
+        line-height: 1.2em;
+      }
+
+      .text--secondary {
+        font-size: 12pt;
+        line-height: 1.7em;
+        padding: 0 3em;
+      }
+
+      .body {
+        position: relative;
+        flex: 1;
+        padding: 0px 21pt;
+      }
+
+      .footer {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 68.8pt;
+      }
+      
+      .signature__images {
+        display: flex;
+        height: 70pt;
+      }
+      
+      .signature-image {
+        height: 70pt;
+        width: 134pt;
+        background-size: contain;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+      
+      .signature-image + .signature-image {
+        margin-left: 62pt;
+      }
+
+      .signature__container {
+        display: flex;
+      }
+
+      .signature,
+      .date {
+        text-transform: uppercase;
+      }
+
+      .signature {
+        max-height: 3em;
+        width: 200pt;
+        padding-top: 6.6pt;
+        font-size: 9.1pt;
+        font-weight: 800;
+        font-family: 'Fuse V.2 Display';
+        line-height: 1.2em;
+        color: var(--black-80);
+        border-top: 1.1pt solid var(--black-20);
+      }
+
+      .signature + .signature {
+        margin-left: 25pt;
+      }
+
+      .date {
+        font-size: 7pt;
+        letter-spacing: 4.1pt;
+        line-height: 1.2em;
+      }
+
+      .cricos {
+        position: absolute;
+        bottom: 9%;
+        left: 97%;
+        width: 235pt;
+        transform: rotate(-90deg);
+        transform-origin: left bottom;
+        text-align: left;
+        font-size: 7pt;
+        font-family: 'Fuse V.2 Display';
+        line-height: 1.2em;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}">
+    {{#spreadsheet.UON_recipient-details--cer}}
+    <div class="page {{^recipient-name}}u-hide{{/recipient-name}}">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <img class="logo" src="{{{account.logos.reversed}}}"/><!--logo-->
+          <div class="decoration"></div> <!--decoration-->
+          <div class="header">
+            {{#UON_title-of-event--cer}}
+            <div class="heading heading--primary" data-max-line="3">{{{UON_title-of-event--cer}}}</div> <!--heading--primary-->
+            {{/UON_title-of-event--cer}}
+            {{#award-title}}
+            <div class="text text--primary" data-max-line="3">{{{award-title}}}</div> <!--text--primary-->
+            {{/award-title}}
+          </div> <!--header-->
+          <div class="body">
+            {{#recipient-name}}
+            <div class="heading heading--secondary" data-max-line="3">{{{recipient-name}}}</div> <!--heading--secondary-->
+            {{/recipient-name}}
+            {{#description-text}}
+            <div class="text text--secondary" data-max-line="4">{{{description-text}}}</div> <!--text--secondary-->
+            {{/description-text}}
+          </div> <!--body-->
+          <div class="signature__images">              
+            <div class="signature-image" style="{{#UON_image-of-signatory-1--cer}}background-image: url('{{{UON_image-of-signatory-1--cer}}}');{{/UON_image-of-signatory-1--cer}}"></div>
+            <div class="signature-image" style="{{#UON_image-of-signatory-2--cer}}background-image: url('{{{UON_image-of-signatory-2--cer}}}');{{/UON_image-of-signatory-2--cer}}"></div>
+          </div>
+          <div class="footer">            
+            <div class="signature__container">
+              {{#UON_title-of-signatory-1--cer}}
+              <div class="signature" data-max-height="70">{{{UON_title-of-signatory-1--cer}}}</div> <!--signature--> 
+              {{/UON_title-of-signatory-1--cer}}
+              {{#UON_title-of-signatory-2--cer}}
+              <div class="signature" data-max-height="70">{{{UON_title-of-signatory-2--cer}}}</div> <!--signature--> 
+              {{/UON_title-of-signatory-2--cer}}
+            </div> <!--signature__container--> 
+            {{#date}}
+            <div class="date" data-max-line="1">{{{date}}}</div> <!--date-->
+            {{/date}}
+          </div> <!--footer-->
+          <div class="cricos" data-max-line="1">{{{account.snippets.cricos}}} | OF_{{#metadata}}{{export_id}}{{/metadata}}{{^metadata}}XXXXXX{{/metadata}}</div> <!--cricos-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+    {{/spreadsheet.UON_recipient-details--cer}}
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+
+    </script>
+
+
+  </body>
+</html>

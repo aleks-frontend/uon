@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html data-sign="OSL">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Heuristica/stylesheet.css');
+
+      /* Input order
+      {{show-crop}}
+      {{UON_format--ic}}
+      {{UON_layout--ic}}
+      {{{UON_background-image--ic}}}
+      {{grad-colour}}
+      {{top-grad-height}}
+      {{left-grad-width}}
+      {{bottom-grad-height}}
+      {{{UON_heading--ic}}}
+      {{UON_heading-text-size--ic}}
+      {{UON_text-colour--ic}}
+      {{{UON_footer-text-upper--ic}}}   
+      {{{subheading-text-color__ts}}}
+      {{{UON_footer-text-lower--ic}}}
+      {{{UON_name--ic}}}
+      {{{UON_degree--ic}}}
+      {{{UON_cricos-code--dsf}}}
+      */
+
+      :root {
+        --black: {{{account.colors.80--black}}};
+        --white: {{{account.colors.white}}};
+        --blue: {{{account.colors.blue}}};
+        --grey: {{{account.colors.20--black}}};
+        --purple: #ff00ff;
+
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+
+        --gradient-dynamic-colour: var(--black);
+      }
+
+      .textColour--black-and-blue  { 
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--blue);
+      }
+
+      .textColour--white-and-blue  { 
+        --font-regular-colour: var(--white);
+        --font-bold-colour: var(--blue);
+      }
+
+      .textColour--black-and-white  { 
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+      }
+
+      .gradientColour--white { --gradient-dynamic-colour: var(--white); }
+      .gradientColour--black { --gradient-dynamic-colour: var(--black); }
+      .gradientColour--off { --gradient-dynamic-colour: transparent; }
+
+      .textColour--black-and-blue .backgroundImage--noImage { background: var(--grey); }
+      .textColour--white-and-blue .backgroundImage--noImage { background: var(--black); }
+      .textColour--black-and-white .backgroundImage--noImage { background: var(--blue); }
+
+      html {
+        font-family: 'Fuse V.2 Display';
+        font-size: 11pt;
+        color :var(--black-80);
+        word-break: break-word;
+        font-weight: 900;
+      }
+
+      h1, strong {
+        font-weight: 900;
+      }      
+
+      /*check-overflow styling */
+      .overflow::before,
+      .overflow:hover:after {
+        font-size: 0.6em!important;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .format--screensaver.layout--1 .fit {
+        padding: 45pt 51pt;
+      }
+
+      .format--hd-tv-screen.layout--1 .fit {
+        padding: 37pt 38pt;
+      }
+
+      .format--banner-1920-1080.layout--1 .fit {
+        padding: 45pt 51pt;
+      }
+
+      .format--banner-1280-960.layout--1 .fit {
+        padding: 38pt 51pt 38pt 39pt;
+      }
+
+      .format--screensaver.layout--2 .fit {
+        padding: 38pt 30pt 35pt 118pt;
+      }
+
+      .format--hd-tv-screen.layout--2 .fit {
+        padding: 33pt 60pt 29pt 149pt;
+      }
+
+      .format--banner-1920-1080.layout--2 .fit {
+        padding: 36pt 120pt 36pt 222pt;
+      }  
+
+      .format--banner-1280-960.layout--2 .fit {
+        padding: 38pt 26pt 33pt 36pt;
+      }
+
+      .body {
+        position: relative;
+        flex: 1;
+      }
+
+      .layout--1 .body {
+        padding-right: 25%;
+        padding-bottom: 10pt;
+      }
+
+      .layout--2 .body {
+        display: flex;
+        align-items: flex-end;
+        padding-right: 4%;
+      }
+
+      .layout--3 .body {
+        display: none;
+      }
+
+      .heading {
+        margin-bottom: 26pt;
+        font-size: 190.5pt;
+        text-transform: uppercase;      
+        color: var(--font-regular-colour);
+        font-weight: 900;
+      }
+
+      .format--screensaver .heading {
+        margin-bottom: 33pt;
+      }
+
+      .format--screensaver.layout--2 .heading {
+        margin-bottom: 27pt;
+      }
+
+      .format--hd-tv-screen .heading {
+        margin-bottom: 16pt;
+        font-size: 63.5pt;
+        font-size: 127pt;
+      }
+
+      .format--banner-1920-1080 .heading {
+        margin-bottom: 26pt;
+        font-size: 94.5pt;
+        font-size: 190.5pt;
+      }
+
+      .format--banner-1280-960 .heading {
+        margin-bottom: 20pt;
+        font-size: 177pt;       
+      }
+
+      .format--banner-1280-960.layout--1 .heading {    
+        margin-bottom: 25pt;
+      }
+
+      .heading strong {
+        color:  var(--font-bold-colour);
+      }
+
+      .logo {
+        display: none;
+        max-width: 184pt;
+        max-height: 184pt;
+      }
+
+      .layout--1 .logo {
+        display: block;
+      }
+
+      .format--screensaver .logo {
+        max-width: 210pt;
+        max-height: 210pt;
+      }
+
+      .format--hd-tv-screen .logo {
+        max-width: 124pt;
+        max-height: 124pt;
+      }
+
+      .format--banner-1920-1080 .logo {
+        max-width: 184pt;
+        max-height: 184pt;
+      }
+
+      .format--banner-1280-960 .logo {
+        max-width: 188pt;
+        max-height: 188pt
+      }
+
+      .divider {
+        display: none;
+        font-weight: 400;
+      }
+
+      .layout--2 .divider {
+        display: block;
+      }
+
+      .text {
+        position: relative;
+      }
+
+      .text, 
+      .divider {
+        color: var(--font-regular-colour);
+        line-height: 0.95em;
+      }
+
+      .format--screensaver.layout--2 .text,
+      .format--screensaver .divider {
+        max-height: 70pt;
+        font-size: 46pt;    
+      }
+
+      .format--hd-tv-screen.layout--2 .text,
+      .format--hd-tv-screen .divider {
+        max-height: 45pt;
+        font-size: 31.2pt; 
+      }
+
+      .format--banner-1920-1080.layout--2 .text,
+      .format--banner-1920-1080 .divider {
+        max-height: 70pt;
+        font-size: 46.2pt;    
+      }
+
+      .format--banner-1280-960.layout--2 .text,
+      .format--banner-1280-960 .divider {
+        max-height: 60pt;
+        font-size: 40.6pt;        
+      }
+
+      .text strong  {
+        color: var(--font-bold-colour);
+      }
+
+      .text h1,
+      .text strong {
+        font-weight: 900;
+      }
+
+      .text h2 {
+        font-weight: 400;
+      }
+
+      .layout--2 .text h1, 
+      .layout--2 .text h2 {
+        display: inline-block;
+      }
+
+      .format--screensaver.layout--1 .text--primary {
+        max-height: 200pt;
+        font-size: 37pt;      
+      }
+
+      .format--hd-tv-screen.layout--1 .text--primary {
+        max-height: 160pt;
+        font-size: 28.9pt;   
+      }
+
+      .format--banner-1920-1080.layout--1 .text--primary {
+        max-height: 224pt;
+        font-size: 42.3pt;      
+      }
+
+      .format--banner-1280-960.layout--1 .text--primary {
+        max-height: 175pt;
+        font-size: 34pt;    
+      }
+
+      .format--screensaver.layout--1 .text--primary h1,
+      .format--banner-1920-1080.layout--1 .text--primary h1 {
+        margin-bottom: 3pt;
+      }
+
+      .format--screensaver.layout--1 .text--primary h1:last-child,
+      .format--banner-1920-1080.layout--1 .text--primary h1:last-child {
+        margin-bottom: 0pt;
+      }
+
+      .format--hd-tv-screen.layout--1 .text--primary h1 {
+        margin-bottom: 3pt;
+      }
+
+      .format--screensaver.layout--1 .text--primary h2,
+      .format--banner-1280-960.layout--1 .text--primary h2 {
+        line-height: 1.1em;
+      }    
+
+      .layout--2 .text--secondary::before {
+        content: " | ";   
+        position: absolute;
+        left: 0pt;
+        margin-left: 0.3em;
+        margin-right: 0.3em;
+        font-size: 1em;
+        font-weight: normal;  
+      }
+
+      .layout--2 .text--primary.u-hide + .text--secondary::before { display: none; }
+      .layout--2 .text--primary.u-hide + .text--secondary { padding-left: 0; }          
+
+      .format--screensaver.layout--1 .text--secondary {
+        max-height: 105pt;
+        margin-top: 30pt;       
+        font-size: 30pt;      
+      }
+
+      .format--hd-tv-screen.layout--1 .text--secondary {
+        max-height: 70pt;
+        margin-top: 45pt;
+        font-size: 22.7pt;    
+      }
+
+      .format--banner-1920-1080.layout--1 .text--secondary {
+        max-height: 110pt;
+        margin-top: 69pt;
+        font-size: 33.8pt;      
+      }
+
+      .format--banner-1280-960.layout--1 .text--secondary {
+        max-height: 90pt;
+        margin-top: 32pt;
+        font-size: 27pt;      
+      } 
+
+      .format--banner-1920-1080.layout--2 .text--secondary {
+        padding-left: 45pt;
+      }
+
+      .format--banner-1280-960.layout--2 .text--secondary {
+        padding-left: 40pt;
+      }
+
+      .format--hd-tv-screen.layout--2 .text--secondary {
+        padding-left: 31pt;
+      }
+
+      .format--screensaver.layout--2 .text--secondary {
+        padding-left: 46pt;
+      }
+
+      .footer {    
+        position: relative;
+      }
+
+      .layout--1 .footer {
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .layout--2 .footer {
+        padding-left: 14pt;
+      }
+
+      .format--hd-tv-screen.layout--2 .footer {
+        padding-left: 10pt;
+      }
+
+      .layout--3 .footer {
+        display: none;
+      }
+      
+      .footer .text--primary{
+        color: var(--{{{subheading-text-color__ts}}}{{^subheading-text-color__ts}}white{{/subheading-text-color__ts}});
+      }
+
+      .footer__section--primary {
+        text-transform: uppercase;
+        flex: 1;
+      }
+
+      .layout--2 .footer__section--primary {
+        display: flex;
+        align-items: baseline;
+      }
+
+      .footer__section--secondary {
+        display: none;
+        text-align: right;
+      }
+
+      .layout--1 .footer__section--secondary {
+        display: block;
+        width: 30%;
+        padding-left: 40pt;
+      }
+
+      .info {
+        display: none;
+        margin-top: 8pt;
+        font-size: 15.3pt;
+        line-height: 1.1em;      
+        font-weight: 700; 
+        color: var(--font-regular-colour);
+      }
+
+      .format--hd-tv-screen .info {
+        margin-top: 5pt;
+        font-size: 10.5pt;  
+      }
+
+      .format--banner-1920-1080 .info {
+        margin-top: 9pt;
+        font-size: 15.3pt;  
+      }
+
+      .format--banner-1280-960 .info {
+        font-size: 16.3pt;
+      }
+
+      .layout--1 .info {
+        display: block;
+      }
+
+      .info:first-child {
+        margin-top: 0;
+      }
+
+      .cricos {
+        position: absolute !important;
+        left: 98.5%;
+        bottom: 20%;
+        width: 40%;
+        transform: rotate(-90deg);
+        transform-origin: bottom left;
+        font-size: 0.17rem;
+        color: var(--white);
+        font-weight: 400;
+      }
+
+      .popup__container {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0, 0.3);
+        z-index: 2;
+      }
+
+      .textColour--black-and-blue .pop__container--show {
+        display: block;
+      }
+
+      .popup {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-width: 50%;
+        max-height: 30%;
+        transform: translate(-50%, -50%);
+        padding: 1em;
+        text-align: center;
+        font-size: 0.8em;
+        line-height: 1.2em;
+        color: var(--purple);
+        font-weight: 400;
+        background-color: var(--white);
+        border: 3pt solid var(--purple);
+      }
+
+      /* Gradients */
+      .gradient {
+        position: absolute;
+        left: 0;
+        mix-blend-mode: multiply;
+      }
+
+      .gradient--left,
+      .gradient--top {
+        top:0;
+      }
+
+      .gradient--bottom { bottom:0; }
+
+      .gradient--top {
+        height: {{top-grad-height}}%;
+        width: 100%;
+        background: linear-gradient(180deg, var(--gradient-dynamic-colour), transparent 100%);
+      }
+
+      .gradient--left {
+        height: 100%;
+        width: {{left-grad-width}}%; 
+        background: linear-gradient(90deg, var(--gradient-dynamic-colour), transparent 100%);        
+      }
+
+      .gradient--bottom {
+        height: {{bottom-grad-height}}%;
+        width: 100%;
+        background: linear-gradient(0deg, var(--gradient-dynamic-colour), transparent 100%);
+      }
+
+      .gradientColour--white .gradient { mix-blend-mode: normal !important; }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+
+  <body style="background: white"
+        class="format--{{UON_format--ic}}{{^UON_format--ic}}banner-1920-1080{{/UON_format--ic}}
+               layout--{{UON_layout--ic}}{{^UON_layout--ic}}1{{/UON_layout--ic}}
+               textColour--{{UON_text-colour--ic}}{{^UON_text-colour--ic}}black-and-blue{{/UON_text-colour--ic}}
+               gradientColour--{{grad-colour}}{{^grad-colour}}white{{/grad-colour}}"
+        data-crop="{{show-crop}}">
+
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="backgroundImage backgroundImage--{{^UON_background-image--ic}}noImage{{/UON_background-image--ic}}">
+            <div class="reposition-fix">{{{UON_background-image--ic}}}</div><!--reposition-fix-->
+          </div><!--backgroundImage-->
+          <div class="gradient gradient--left"></div> <!-- gradient--left -->
+          <div class="gradient gradient--top"></div> <!-- gradient--top -->
+          <div class="gradient gradient--bottom"></div> <!-- gradient--bottom -->        
+          <div class="body">
+            <div class="body__inner" data-max-height="dynamic">
+              {{#UON_heading--ic}}
+              <div class="heading">
+                <div class="heading__inner u-heading-patch" style="font-size: {{UON_heading-text-size--ic}}%; line-height: 0.87em;">
+                  {{{UON_heading--ic}}}
+                </div><!--heading__inner-->
+              </div><!--heading-->
+              {{/UON_heading--ic}}
+              <img class="logo" src="{{{account.logos.primary}}}"><!--logo-->
+            </div><!--body__inner-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="footer__section footer__section--primary">
+              {{#UON_footer-text-upper--ic}}<div class="text text--primary u-heading-patch" data-max-height="css">{{{UON_footer-text-upper--ic}}}</div><!--text-->{{/UON_footer-text-upper--ic}}
+              {{#UON_footer-text-lower--ic}}<div class="text text--secondary u-heading-patch" data-max-height="css">{{{UON_footer-text-lower--ic}}}</div><!--text-->{{/UON_footer-text-lower--ic}}
+            </div><!--footer__section-->
+            <div class="footer__section footer__section--secondary">
+              {{#UON_name--ic}}<div class="info" data-max-line="2">{{{UON_name--ic}}}</div><!--info-->{{/UON_name--ic}}
+              {{#UON_degree--ic}}<div class="info" data-max-line="2">{{{UON_degree--ic}}}</div><!--info-->{{/UON_degree--ic}}
+            </div><!--footer__section-->
+          </div><!--footer-->
+          <div class="cricos" data-max-line="1">
+            <span class="js-inject-target">UON 2019/1185</span>
+            {{#UON_cricos-code--dsf}}<span>CRICOS Provider Code: {{{UON_cricos-code--dsf}}} </span>{{/UON_cricos-code--dsf}}
+            <span> {{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}} </span> 
+          </div><!-- cricos -->
+          <div class="popup__container {{^UON_background-image--ic}}pop__container--show{{/UON_background-image--ic}}">
+            <div class="popup">Please add an image to use this text colour or change the text colour.</div><!--popup-->
+          </div><!--popup__container-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      function injectDate() {
+        const date = document.querySelector(".js-inject-target");
+        let today = new Date();
+        let dd = today.getDate();
+
+        let mm = today.getMonth()+1; 
+        let yyyy = today.getFullYear();
+        if(dd<10) 
+        {
+          dd='0'+dd;
+        } 
+
+        if(mm<10) 
+        {
+          mm='0'+mm;
+        }
+
+        today = mm+'-'+dd+'-'+yyyy;
+
+        date.innerHTML = today;
+      }
+
+      injectDate();
+
+      setInterval(()=> { maxHeightCheck(), 500 });
+
+    </script>
+
+
+  </body>
+</html>
