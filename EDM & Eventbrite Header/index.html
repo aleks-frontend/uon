@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html data-sign="OSR">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Heuristica/stylesheet.css');
+
+      /*
+      {{NU_layoutSize--eeh}}
+      {{{NU_background-image--eeh}}}
+      {{grad-colour}}
+      {{top-grad-height}}
+      {{left-grad-width}}
+      {{bottom-grad-height}}
+      {{{NU_heading--eeh}}}
+      {{NU_heading-size--eeh}}
+      {{NU_heading-size1--eeh}}
+      {{NU_heading-size-1--eeh}}
+      {{NU_heading-size2--eeh}}
+      {{NU_heading-size3--eeh}}
+      {{NU_heading-size4--eeh}}
+      {{NU_heading-size5--eeh}}
+      {{NU_heading-size6--eeh}}
+      {{NU_headingPosition--eeh}}
+      {{{NU_textColor--eeh}}}
+      */
+
+      :root {
+        --web-black: {{{account.colors.web-black}}};
+        --web-blue: {{{account.colors.web-blue}}};
+        --white: {{{account.colors.white}}};
+        --magenta: #ff00ff;
+      }
+
+      .gradColour--white {
+        --dynamic-colour: var(--white);
+      }
+
+      .gradColour--black {
+        --dynamic-colour: var(--web-black);
+      }
+
+      html {
+        font-family: 'Fuse V.2 Display';
+        font-size: 11pt;
+        font-weight: 900;
+        color:var(--white);
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;       
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+
+      .textColor--white-and-blue.u-no-background-image .backgroundImage {
+        background-color: var(--web-black);
+      }
+
+      .textColor--black-and-white.u-no-background-image .backgroundImage {
+        background-color: var(--web-blue);
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+
+      .fit {
+        display: flex;
+        /*padding: 20pt 29pt 15pt 29pt;*/
+        padding: 20pt 29pt 20pt 29pt;
+      }
+
+      h1, h2, h3, h4 {
+        font-weight: 900;
+      }
+
+      .layoutSize--907x340 .fit {
+        /*padding: 17pt 31pt 15pt 33pt;*/
+        padding: 17pt 31pt 17pt 33pt;
+      }
+
+      .layoutSize--1728x864 .fit {
+        /*padding: 67pt 64pt 59pt 64pt;*/
+        padding: 67pt 64pt 67pt 64pt;
+      }
+
+      .layoutSize--2160x1080 .fit {
+        /*padding: 80pt 87pt 57pt 87pt;*/
+        padding: 80pt 87pt 80pt 87pt;
+      }
+
+      .body {
+        display: flex;
+        flex: 1;
+      }
+
+      .body__inner {
+        position: relative;
+        display: flex;
+        width: 100%;
+      }
+
+      .headingPosition--top .body__inner {
+        flex-direction: column;
+      }
+
+      .headingPosition--bottom .body__inner {
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+      }
+
+      .heading {
+        margin-bottom: 7pt;
+        text-transform: uppercase;
+        z-index: 2;
+      }
+
+      .heading strong { font-weight: 900; }
+
+      .layoutSize--600x260 .heading, 
+      .layoutSize---640x240 .heading{
+        max-height: 100pt;
+      }
+
+      .layoutSize--600x260.headingPosition--bottom .heading {
+        margin-bottom: 0;
+      }
+
+      .layoutSize--600x260.headingPosition--top .logo,
+      .layoutSize--640x240.headingPosition--top .logo {
+        margin-bottom: 0pt;
+      }
+
+      .layoutSize--600x260.headingPosition--bottom .logo,
+      .layoutSize--640x240.headingPosition--bottom .logo{
+        margin-bottom: 5pt;
+      }
+
+      .layoutSize--1728x864 .heading {
+        margin-bottom: 37pt;
+        max-height: 300pt
+      }
+
+      .layoutSize--1728x864.headingPosition--bottom .heading {
+        margin-bottom: 0;
+      }
+
+      .layoutSize--1728x864.headingPosition--bottom .logo {
+        margin-bottom: 37pt;
+      }
+
+      .layoutSize--2160x1080 .heading {
+        margin-bottom: 34pt;
+        max-height: 400pt;
+      }
+      
+      .layoutSize--280x210 .logo {
+        margin-bottom: 25pt;
+      }
+
+      .layoutSize--2160x1080.headingPosition--bottom .heading {
+        margin-bottom: 0;
+      }
+
+      .heading  {
+        font-size: {{NU_heading-size-1--eeh}}pt;
+        line-height: 1em;
+        font-weight: 900;
+      }
+
+      .heading h1 strong {
+        font-weight: 900;
+      }
+
+      .layoutSize--907x340 .heading {
+        margin-bottom: 10pt;
+        font-size:{{NU_heading-size1--eeh}}pt;
+        line-height: 0.9em;
+      }
+
+      .layoutSize--1728x864 .heading {
+        font-size:{{NU_heading-size2--eeh}}pt;
+        line-height: 0.85em;
+      }
+
+      .layoutSize--2160x1080 .heading {
+        font-size:{{NU_heading-size3--eeh}}pt;
+        line-height: 0.8em;
+      }
+
+      .layoutSize--600x260 .heading {
+        font-size:{{NU_heading-size4--eeh}}pt;
+      }
+
+      .layoutSize--640x240 .heading {
+        font-size:{{NU_heading-size5--eeh}}pt;
+      }
+      
+      .layoutSize--280x210 .heading {
+        font-size:{{NU_heading-size6--eeh}}pt;
+      }
+
+      .textColor--black-and-blue .heading { color: var(--web-black); }     
+      .textColor--black-and-blue .heading strong { color: var(--web-blue); }
+
+      .textColor--white-and-blue .heading { color: var(--white); }
+      .textColor--white-and-blue .heading strong { color: var(--web-blue); }
+
+      .textColor--black-and-white .heading { color: var(--web-black); }
+      .textColor--black-and-white .heading strong { color: var(--white); }
+
+      .logo {
+        margin-bottom: 37pt;
+        width: 17vw;
+        object-fit: contain;
+        object-position: left bottom;
+        z-index: 1;
+      }
+
+      .layoutSize--907x340 .logo { margin-bottom: 0; }
+      .layoutSize--1728x864 .logo { margin-bottom: 0; }
+
+      .layoutSize--2160x1080 .logo {
+        margin-bottom: 0;
+        margin-left: 11pt;
+      }
+
+      .layoutSize--907x340.headingPosition--bottom .logo { margin-bottom: 13pt; }
+      .layoutSize--2160x1080.headingPosition--bottom .logo { margin-bottom: 37pt; }
+
+      .popup__container {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0, 0.3);
+      }
+
+      .textColor--black-and-blue.u-no-background-image .popup__container {
+        display: block;
+      }
+
+      .popup {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-width: 350pt;
+        max-height: 130pt;
+        transform: translate(-50%, -50%);
+        padding: 15pt;
+        text-align: center;
+        font-size: 14pt;
+        line-height: 1.2em;
+        font-weight: normal;
+        color: var(--magenta);
+        background-color: var(--white);
+        border: 3pt solid var(--magenta);
+        z-index: 999;
+      }
+
+      .layoutSize--600x260 .popup {
+        font-size: 12pt;
+      }
+
+      .layoutSize--1728x864 .popup,
+      .layoutSize--2160x1080 .popup {
+        max-width: 570pt;
+        max-height: 230pt;
+        font-size: 32pt;
+      }
+
+      .exportID {
+        position: absolute;
+        left: 100%;
+        bottom: 0.7rem;
+        width: 30%;
+        transform-origin: left bottom;
+        transform: translateX(-0.7rem) rotate(-90deg);
+        font-size: 0.3rem;
+        color: var(--white);
+        font-weight: normal; 
+      }
+      
+      .layoutSize--280x210 .exportID { bottom: 0.9rem; }
+
+      /* Gradients */
+      .left-grad,
+      .top-grad,
+      .bottom-grad {
+        position:absolute;
+        left:0;
+        z-index: 1;
+        mix-blend-mode: multiply;
+      }
+
+      .left-grad,
+      .top-grad {
+        top:0;
+      }
+
+      .bottom-grad {
+        bottom:0;
+      }
+
+      .top-grad{
+        height: {{top-grad-height}}%;
+        width:100%;
+        background: linear-gradient(180deg, var(--dynamic-colour), transparent 100%);
+      }
+
+      .left-grad{
+        height:100%;
+        width: {{left-grad-width}}%; 
+        background: linear-gradient(90deg, var(--dynamic-colour), transparent 100%);        
+      }
+
+      .bottom-grad{
+        height: {{bottom-grad-height}}%;
+        width:100%;
+        background: linear-gradient(0deg, var(--dynamic-colour), transparent 100%);
+      }
+
+      .gradColour--white .top-grad,
+      .gradColour--white .left-grad, 
+      .gradColour--white .bottom-grad {
+        mix-blend-mode: normal !important;
+      }
+
+      .section--secondary {
+        display: none;
+        flex-direction: column;
+        justify-content: flex-end;
+        width: 90pt;
+        text-align: right;
+      }
+
+      .text {
+        margin-top: 2pt;
+        font-size: 6pt;
+        line-height: 1.2em;
+        font-weight: bold;
+      }
+
+      .layoutSize--640x240 .section--secondary {
+        display: flex;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="false" class="layoutSize--{{{NU_layoutSize--eeh}}} headingPosition--{{{NU_headingPosition--eeh}}}{{^NU_headingPosition--eeh}}top{{/NU_headingPosition--eeh}}
+                                                           textColor--{{{NU_textColor--eeh}}}{{^NU_textColor--eeh}}black-and-blue{{/NU_textColor--eeh}}
+                                                           {{^NU_background-image--eeh}}u-no-background-image{{/NU_background-image--eeh}}
+                                                           gradColour--{{{grad-colour}}}{{^grad-colour}}white{{/grad-colour}}">
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="left-grad"></div>
+          <div class="top-grad"></div>
+          <div class="bottom-grad"></div>
+          <div class="backgroundImage">
+            <div class="reposition-fix">{{{NU_background-image--eeh}}}</div><!--backgroundImage-->
+          </div><!--backgroundImage-->
+          <div class="body">
+            <div class="body__inner" data-max-height="dynamic">
+              <div class="heading" data-max-line="3">{{{NU_heading--eeh}}}</div><!--heading-->
+              <img class="logo" src="{{{account.logos.primary}}}"><!--logo-->
+            </div><!--body__inner-->
+          </div><!--body-->
+          <div class="popup__container">
+            <div class="popup">Please add an image to use this text colour or change the text colour.</div><!--popup-->
+          </div><!--popup__container-->
+          <div class="exportID">{{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}}</div><!--cricos-->
+
+          <div class="section section--secondary">
+            {{#NU_name--ecm}}
+            <div class="text" data-max-line="1">{{{NU_name--ecm}}}</div><!--text--primary-->
+            {{/NU_name--ecm}}
+            {{#NU_degree--ecm}}
+            <div class="text" data-max-line="2">{{{NU_degree--ecm}}}</div><!--text--secondary-->
+            {{/NU_degree--ecm}}
+          </div><!--section--secondary-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = false;
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+      checkCrop();
+      checkExport();
+      charLimit();
+
+
+      setInterval( () => {
+        maxHeightCheck();
+      }, 1000);
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+
+    </script>
+
+
+  </body>
+</html>
