@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html data-sign="OSR">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+
+      /* Inputs Order
+      {{show-crop}}
+      {{NU_layout-choice--ts}}
+      {{NU_background-image--ts}}
+      {{grad-colour}}
+      {{top-grad-height}}
+      {{left-grad-width}}
+      {{bottom-grad-height}}
+      {{NU_heading--ts}}
+      {{NU_textColor--ts}}
+      {{NU_lower-subheading--ts}}
+      {{NU_lower-subheading-style--ts}}
+      {{{subheading-text-color__ts}}}
+      {{NU_name--ts}}
+      {{NU_degree--ts}}
+      {{UON_cricos-code--dsf}}
+      */
+
+      :root { 
+        --black: {{{account.colors.80--black}}};
+        --blue: {{{account.colors.blue}}};
+        --purple: #ff00ff;
+        --light-grey: {{{account.colors.20--black}}};
+        --white: {{{account.colors.white}}};
+
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+
+        --gradient-dynamic-colour: var(--80-black);
+      }
+
+      .textColor--black-and-blue  { 
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--blue);
+      }
+
+      .textColor--white-and-blue  { 
+        --font-regular-colour: var(--white);
+        --font-bold-colour: var(--blue);
+      }
+
+      .textColor--black-and-white  { 
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+      }
+
+      .gradientColour--white { --gradient-dynamic-colour: var(--white); }
+      .gradientColour--black { --gradient-dynamic-colour: var(--black); }
+      .gradientColour--off { --gradient-dynamic-colour: unset; }
+
+      html, h1, h2 {
+        font-family: 'Fuse V.2 Display';
+        font-weight: 900;
+        word-break: break-word;
+      }
+
+      .fit {
+        display: flex;
+      }
+
+      .textColor--black-and-blue.no-background-image .fit {
+        background-color: var(--light-grey);
+      }
+
+      .textColor--white-and-blue.no-background-image .fit {
+        background-color: var(--black);
+      }
+
+      .textColor--black-and-white.no-background-image .fit {
+        background-color: var(--blue);
+      }
+
+      .layout-choice--1920x1080 .fit {
+        padding: 1.16rem 1.32rem 1.21rem 1.3rem;
+      }
+
+      .layout-choice--1280x960 .fit {
+        padding: 1.35rem 1.40rem 1.28rem 1.48rem;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .section {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .section--primary {
+        flex: 1;
+      }
+
+      .layout-choice--1920x1080 .section--primary {
+        margin-right: 2.04rem;
+      }
+
+      .layout-choice--1280x960 .section--primary {
+        margin-right: 0.47rem;
+      }
+
+      .section__top {
+        flex:1;
+      }
+
+      .section__inner {
+        font-size: 0;
+        padding-bottom: 0.15rem;  
+      }
+
+      .layout-choice--1280x960 .section__bottom {
+        width: 13.47rem;
+        margin-bottom: 0.35rem;
+      }
+
+      .layout-choice--1920x1080 .section__bottom {
+        margin-bottom: 0.05rem; 
+      }
+      
+      .section__bottom .text{
+        color: var(--{{{subheading-text-color__ts}}}{{^subheading-text-color__ts}}white{{/subheading-text-color__ts}});
+      }
+
+      .heading {
+        text-transform: uppercase;
+        color: var(--font-regular-colour);
+      }
+
+      .heading strong {
+        color: var(--font-bold-colour);
+      }
+
+      .heading,
+      .heading strong {   
+        font-weight: 900;
+      }
+
+      .layout-choice--1920x1080 .heading {
+        margin-bottom: 0.6rem;
+        padding-left: 0.09rem;
+        font-size: 2.04rem;
+        line-height: 0.89em;
+      }
+
+      .layout-choice--1280x960 .heading {
+        margin-bottom: 0.63rem;
+        font-size: 2.26rem;
+        line-height: 0.89em;
+      }
+
+      .logo {
+        position: relative;
+      }
+
+      .layout-choice--1920x1080 .logo {
+        max-width: 3.85rem;
+        max-height: 3.85rem;
+      }
+
+      .layout-choice--1280x960 .logo {
+        max-width: 4.48rem;
+        max-height: 4.48rem;
+      }
+
+      .text {
+        font-weight: 700;
+        color: var(--font-regular-colour);
+      }
+
+      .layout-choice--1920x1080 .text {
+        max-height: 4.2rem;
+        font-size: 0.63rem;  
+      }
+
+      .layout-choice--1280x960 .text {
+        max-height: 4.1rem;
+        padding-left: 0.07rem;
+        font-size: 0.7rem;     
+      }
+
+      .text h2  {
+        line-height: 1.15em;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      .layout-choice--1920x1080 .text h2 {    
+        font-size: 0.73rem;
+      }
+
+      .layout-choice--1280x960 .text h2 {
+        font-size: 0.66rem;
+      }
+
+      .text--style2 h2 { font-weight: 900; }
+
+      .text p {
+        line-height: 1.17em;
+        font-weight: normal;
+      }
+
+      .layout-choice--1920x1080 .text p {
+        font-size: 0.58rem;     
+      }
+
+      .layout-choice--1280x960 .text p {
+        font-size: 0.54rem;
+      }     
+
+      .layout-choice--1920x1080 .text--primary,
+      .layout-choice--1920x1080 .text--secondary {
+        margin-top: 0.31rem;
+        font-size: 0.33rem;
+        line-height: 1.2em;
+        font-weight: bold;
+      }
+
+      .layout-choice--1280x960 .text--primary,
+      .layout-choice--1280x960 .text--secondary {
+        margin-top: 0.37rem;
+        font-size: 0.35rem;
+        line-height: 1.2em;
+        font-weight: bold;
+      }
+
+      .section--secondary {
+        display: flex;
+        justify-content: flex-end;
+        text-align: right;
+      }
+
+      .layout-choice--1920x1080 .section--secondary {
+        width: 5.64rem;
+      }
+
+      .layout-choice--1280x960 .section--secondary {
+        width: 4.70rem;
+        position: absolute;
+        right: 1.55rem;
+        bottom: 1.45rem;
+      }
+
+      .cricos {
+        position: absolute !important;
+        left: 98%;
+        bottom: 22%;
+        width: 45%;
+        transform: rotate(-90deg);
+        transform-origin: left bottom;
+        font-size: 0.2rem;
+        color: var(--font-regular-colour);
+        font-weight: 400;
+      }
+
+      .layout-choice--1920x1080 .cricos { width: 40%; }
+
+      .popup__container {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0, 0.3);
+      }
+
+      .textColor--black-and-blue.no-background-image .popup__container {
+        display: block;
+      }
+
+      .popup {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-width: 50%;
+        max-height: 30%;
+        transform: translate(-50%, -50%);
+        padding: 0.05rem;
+        text-align: center;
+        line-height: 1.2em;
+        font-weight: normal;
+        color: var(--purple);
+        background-color: var(--white);
+        border: 0.2em solid var(--purple);
+        z-index: 2;
+      }
+
+      .layout-choice--1280x960 .popup {
+        padding: 0.27rem;
+        font-size: 0.63rem;
+      }
+
+      .layout-choice--1920x1080 .popup {
+        padding: 0.27rem;
+        font-size: 0.56rem;
+      }
+
+      .gradient {
+        position:absolute;
+        left:0;
+        mix-blend-mode: multiply;
+      }
+
+      .gradient--left,
+      .gradient--top {
+        top:0;
+      }
+
+      .gradient--bottom { bottom:0; }
+
+      .gradient--top {
+        height: {{top-grad-height}}%;
+        width:100%;
+        background: linear-gradient(180deg, var(--gradient-dynamic-colour), transparent 100%);
+      }
+
+      .gradient--left {
+        height:100%;
+        width: {{left-grad-width}}%; 
+        background: linear-gradient(90deg, var(--gradient-dynamic-colour), transparent 100%);        
+      }
+
+      .gradient--bottom {
+        height: {{bottom-grad-height}}%;
+        width:100%;
+        background: linear-gradient(0deg, var(--gradient-dynamic-colour), transparent 100%);
+      }
+
+      .gradientColour--white .gradient { mix-blend-mode: normal !important; }
+
+
+      .heading.overflow::before,
+      .heading.overflow:hover:after {
+        font-size: 1rem!important;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="layout-choice--{{{NU_layout-choice--ts}}}
+                                                                   {{^NU_background-image--ts}}no-background-image{{/NU_background-image--ts}}
+                                                                   textColor--{{{NU_textColor--ts}}}
+                                                                   gradientColour--{{{grad-colour}}}{{^grad-colour}}white{{/grad-colour}}">
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+          <div class="backgroundImage">
+            <div class="reposition-fix">{{{NU_background-image--ts}}}</div><!--reposition-fix-->
+          </div><!--backgroundImage-->
+          <div class="gradient gradient--left"></div> <!-- gradient--left -->
+          <div class="gradient gradient--top"></div> <!-- gradient--top -->
+          <div class="gradient gradient--bottom"></div> <!-- gradient--bottom -->
+          <div class="section section--primary">
+            <div class="section__top">
+              <div class="section__inner" data-max-height="dynamic">
+                {{#NU_heading--ts}}
+                <div class="heading" data-max-line="3">{{{NU_heading--ts}}}</div><!--heading-->
+                {{/NU_heading--ts}}
+                <img src="{{{account.logos.primary}}}" class="logo"><!--logo-->
+              </div><!--section__inner-->
+            </div><!--section__top-->
+            <div class="section__bottom">
+              {{#NU_lower-subheading--ts}}
+              <div class="text u-heading-patch text--{{^NU_lower-subheading-style--ts}}style1{{/NU_lower-subheading-style--ts}}{{NU_lower-subheading-style--ts}}" data-max-height="css">{{{NU_lower-subheading--ts}}}</div><!--text-->
+              {{/NU_lower-subheading--ts}}
+            </div><!--section__bottom-->
+          </div><!--section--primary-->
+          <div class="section section--secondary">
+            {{#NU_name--ts}}
+            <div class="text text--primary" data-max-line="2">{{{NU_name--ts}}}</div><!--text--primary-->
+            {{/NU_name--ts}}
+            {{#NU_degree--ts}}
+            <div class="text text--secondary" data-max-line="2">{{{NU_degree--ts}}}</div><!--text--secondary-->
+            {{/NU_degree--ts}}
+          </div><!--section--secondary-->
+          <div class="popup__container">
+            <div class="popup">Please add an image to use this text colour or change the text colour.</div><!--popup-->
+          </div><!--popup__container-->          
+          <div class="cricos" data-max-line="1">
+            <span class="js-date-target">UON 2019/1185</span>
+            {{#UON_cricos-code--dsf}}<span>CRICOS Provider Code: {{{UON_cricos-code--dsf}}} </span>{{/UON_cricos-code--dsf}}
+            <span> {{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}} </span> 
+          </div><!-- cricos -->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      function injectDate() {
+        const date = document.querySelector(".js-inject-date");
+        let today = new Date();
+        let dd = today.getDate();
+
+        let mm = today.getMonth()+1; 
+        let yyyy = today.getFullYear();
+        if(dd<10) 
+        {
+          dd='0'+dd;
+        } 
+
+        if(mm<10) 
+        {
+          mm='0'+mm;
+        }
+
+        today = mm+'-'+dd+'-'+yyyy;
+
+        date.innerHTML = today;
+      }
+
+      injectDate();
+
+
+    </script>
+
+
+  </body>
+</html>
