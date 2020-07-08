@@ -1,0 +1,151 @@
+<!DOCTYPE>
+<html >
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="main.css" type="text/css">
+</head>
+<body data-theme-choice="{{ally-social-media-theme}}"><!--style="background-image: url({{ally-social-media-image}});"-->
+  <article>
+	<div class="backgroundImage">
+      <div class="reposition-fix">{{{ally-social-media-image}}}</div>
+	</div>
+    <h1 data-char-limit="4">{{ally-social-media-text}}</h1>
+  </article>
+  <script src="js/char-limit.js"></script>
+  <script>
+    // Tracking text changes and firing text restriction functions (mutationObserver)
+    const overflowObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        charLimit();
+      });
+    });
+    
+    overflowObserver.observe(document.body, {
+      attributes: false,
+      characterData: true,
+      childList: true,
+      subtree: true,
+      attributeOldValue: false,
+      characterDataOldValue: true
+    });
+  </script>
+</body>
+</html>
+
+<!-- Resizing an image
+HTML:
+  <img class="logo" src="{{{account.logos.horizontal}}}">
+CSS:
+.logo {
+width: 200pt;
+}
+-->
+
+<!-- Repositioning an image
+HTML:
+    <div class="img-container">
+      <img class="logo" src="{{{account.logos.horizontal}}}">
+    </div>
+
+CSS:
+- Change the article grid place-items
+-->
+
+<!-- Repositionable Background Image
+HTML:  
+<div class="backgroundImage">
+    <div class="reposition-fix">{{{ally-social-media-image}}}</div>
+</div>
+
+CSS:
+.backgroundImage {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  width: auto;
+  height: auto;
+}
+
+.reposition-fix {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;        
+}
+-->
+
+<!-- Char limit
+
+HTML:
+<h1 data-char-limit="4">{{ally-social-media-text}}</h1>
+
+JS:
+  <script src="js/char-limit.js"></script>
+  <script>
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+    const overflowObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        charLimit();
+      });
+    });
+    
+    overflowObserver.observe(document.body, {
+      attributes: false,
+      characterData: true,
+      childList: true,
+      subtree: true,
+      attributeOldValue: false,
+      characterDataOldValue: true
+    });
+  </script>
+
+CSS:
+/** Overflow Styles **/
+.overflow {
+  position: relative !important;
+}
+
+.overflow::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  border: solid 1px red;
+  background-color: rgba(255, 0, 0, 0.3);
+}
+
+.overflow::after {
+  content: '+';
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  z-index: 2;
+  font-family: 'Arial';
+  font-size: 2rem;
+  font-weight: normal;
+  line-height: 1.2em;
+  text-transform: none;
+  text-align: right;
+  color: red;
+  background: white;
+  padding: 0 0.5em;       
+}
+
+.overflow[data-char-limit]:hover:after,
+.overflow.charlimit:hover:after {
+  content: 'Character limit exceeded';        
+}
+
+.overflow .token-value.token-empty {
+  display: none;
+}
+-->

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/placeholder-controller.css">
+
+    <style>
+      /*
+      {{show-crop}}
+      {{ placeholder-opacity }}
+      {{ placeholder-image-1 }} 
+      {{ placeholder-toggle-new }}
+      {{placeholder-validation}}
+      {{#spreadsheet.UON_name-details--nt}}{{/spreadsheet.UON_name-details--nt}}
+      */
+
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+
+      :root {
+        --blue: {{{account.colors.blue}}};
+      }
+
+      html {
+        font-family: 'Arial';
+        font-size: 11pt;
+        color: #000;
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        top: 3mm;
+        right: 3mm;
+        bottom: 3mm;
+        left: 3mm;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        padding: 26pt 37pt;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        height: 158pt;
+        padding: 32.2pt 7pt 7pt 16pt;
+        /*border-bottom: 1px solid #ccc;
+        border-right: 1px solid #ccc;*/
+      }
+      /*
+      .card:nth-child(odd) {
+      border-left: 1px solid #ccc;
+      }
+      .card:nth-child(1),
+      .card:nth-child(2) {
+      border-top: 1px solid #ccc;
+      }
+      */
+      .card__body { 
+        flex: 1;
+      }
+      
+      .card__body.u-empty > * { display: none; }
+
+      .title {
+        margin-bottom: 3pt;
+        font-size: 0;
+      }
+
+      .firstName {
+        font-size: 0;
+        margin-bottom: 4.2pt;
+        font-family: 'Arial';
+        font-weight: bold;
+        color: var(--blue);
+      }
+
+      .lastName {
+        font-size: 0;
+      }
+
+      .card__footer {
+        display: flex;
+        justify-content: center;
+      }
+
+      .logo {
+        width: 55pt;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" data-reduce-export-font-size-by-percent="0" data-reduce-firefox-font-size-by-percent="0" data-prevent-export-overflow="false">
+    <div class="placeholderMaster" data-opacity="{{ placeholder-opacity }}">
+      <div class="placeholderMaster__item" data-bg="{{ placeholder-image-1 }}"></div>
+    </div><!-- end placeholderMaster -->
+
+    <!-- where everything will be appended -->
+    <div class="pages"></div>
+
+    <!-- displayed none page template --> 
+    <div class="template" style="display: none">
+      <div class="page">
+
+        <div class="bleed">
+
+          <div class="container fit">
+          </div><!--container fit-->
+
+        </div><!--bleed-->
+
+      </div><!--page-->
+    </div><!-- template -->
+    {{#spreadsheet.UON_name-details--nt}}
+    <div class="card">
+      <div class="card__body js-empty-check-container">
+        <div class="title"><div class="title__inner textFit js-empty-check" style="font-size: 17.5pt; line-height: 1.2em;">{{title}}</div></div><!--title-->
+        <div class="firstName"><div class="firstName__inner textFit" style="font-size: 25.1pt; line-height: 1em;">{{first-name}}</div></div><!--firstName-->
+        <div class="lastName"><div class="lastName__inner textFit" style="font-size: 22pt; line-height: 1em;">{{last-name}}</div></div><!--lastName-->
+      </div><!--card__body-->
+      <div class="card__footer">
+        <img class="logo" src="{{{account.logos.horizontal}}}">
+      </div><!--card__footer-->
+    </div><!--card-->
+    {{/spreadsheet.UON_name-details--nt}}
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/placeholder-controller.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      {{ #placeholder-toggle-new }}document.body.classList.add("u-placeholder-{{ placeholder-toggle-new }}{{^placeholder-toggle-new}}hide{{/placeholder-toggle-new}}"); {{ /placeholder-toggle-new }}
+      {{ #placeholder-validation }}document.body.classList.add("placeholder__validation--{{placeholder-validation}}"){{ /placeholder-validation }}
+    </script>
+    <script>
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Arial'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          maxLineCheck();
+          maxHeightCheck();
+          injectDynamicContent();
+          hideEmptyTitles();
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      placeholderController();
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit',
+      });
+
+      setInterval(() => {
+        textFitMin('.title__inner', 15);
+        textFitMin('.firstName__inner', 15);
+        textFitMin('.lastName__inner', 15);
+      }, 1000);
+
+      function loopThroughPages() {
+
+        var pages = document.querySelector('.pages');
+        var pageTemplate = document.querySelector('.template .page');
+        var entries = Array.prototype.slice.call(document.querySelectorAll('.card'));
+
+        pages.insertBefore(pageTemplate.cloneNode(true), null);
+
+        // item count to decide when to add a new page
+        var itemCount = 0;
+
+        // so we know which page to append to
+
+        entries.forEach(function(entry) {
+
+          if (itemCount < 10 ) {
+            var allPages = document.querySelectorAll('.pages .page')
+            allPages[allPages.length - 1].querySelector('.fit').insertBefore(entry, null)
+
+            itemCount++
+          }
+
+          else {
+
+            // add a new page
+            pages.insertBefore(pageTemplate.cloneNode(true), null);
+
+            var allPages = document.querySelectorAll('.pages .page')
+            allPages[allPages.length - 1].querySelector('.fit').insertBefore(entry, null)
+
+            // reset count
+            itemCount = 1 
+          }
+        });
+        
+        replaceDash();
+      }
+
+      loopThroughPages();
+      
+      function replaceDash() {
+        const containers = document.querySelectorAll('.js-empty-check-container');
+        containers.forEach(container => {
+          const emptyCheck = container.querySelector('.js-empty-check');
+          if ( emptyCheck.innerText === '-' ) container.classList.add('u-empty');
+        })
+      }
+
+
+    </script>
+
+
+  </body>
+</html>
