@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html data-sign="OSM">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+      /*
+      {{show-crop}}
+
+      {{{UON_background-colour--ttb}}}
+      {{{UON_background-image--ttb}}}
+      {{{UON_gradient-colour--ttb}}}
+      {{top-grad-height}}
+      {{left-grad-width}}
+      {{bottom-grad-height}}
+      {{{UON_heading-text-colour--ttb}}}
+      {{{UON_heading--ttb}}}
+      {{{UON_heading-text-colour--ttb}}}
+      {{{UON_content-position--ttb}}}
+      {{UON_body-text-colour--ttb}}
+      {{#collection.UON_content--ttb}}{{/collection.UON_content--ttb}}
+      {{{UON_cta--ttb}}}
+      {{UON_qr-code-selection--ttb}}
+      {{{qr-code-image}}}
+      {{{qr-code-build}}}
+      */
+
+      :root {
+        --80-black: {{{account.colors.80--black}}};
+        --blue: {{{account.colors.blue}}};
+        --white: {{{account.colors.white}}};
+        --font-regular-colour: var(--black);
+        --font-bold-colour: var(--white);
+        --gradient-dynamic-colour: var(--80-black);
+      }
+
+      .headingColour--black-blue { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--blue);
+      }
+
+      .headingColour--white-blue { 
+        --font-regular-colour: var(--white);
+        --font-bold-colour: var(--blue);
+      }
+
+      .headingColour--black-white { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--white);
+      }
+
+      .bodyTextColour--black-blue {
+        --body-colour-primary: var(--blue);
+        --body-colour-secondary: var(--80-black);
+        --body-colour-tertiary: var(--blue);
+      }
+      .bodyTextColour--white-blue {
+        --body-colour-primary: var(--blue);
+        --body-colour-secondary: var(--white);
+        --body-colour-tertiary: var(--white);
+      }
+      .bodyTextColour--black-white {
+        --body-colour-primary: var(--white);
+        --body-colour-secondary: var(--80-black);
+        --body-colour-tertiary: var(--80-black);
+      }
+
+      html {
+        font-family: 'Fuse V.2 Display';
+        font-size: 11pt;
+        color: #000;
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .backgroundColour--colour .backgroundImage,
+      .backgroundColour--map .backgroundImage {
+        display: none;
+      }
+
+      .map {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: url('https://files.outfit.io/media_library_items/179078/UON-International-Collateral-A3-Table-Top-v1-image63.jpg');
+        background-size: cover;
+        background-position: 0pt -20pt;
+        background-repeat: no-repeat;
+      }
+
+      .backgroundColour--map .map {
+        display: block;
+      }
+
+      /*.headingColour--black-blue.backgroundColour--colour .fit { background-color: var(--white); }*/
+      .headingColour--white-blue.backgroundColour--colour .fit { background-color: var(--80-black); }
+      .headingColour--black-white.backgroundColour--colour .fit { background-color: var(--blue); }
+
+      .body {
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 54pt 65pt 42pt;
+      }
+
+      .contentPosition--left .body { padding-bottom: 20pt; }
+      .contentPosition--top .body { padding: 54pt 48pt 42pt 65pt; }
+
+      .heading {
+        position: relative;
+        max-height: 3.7rem;
+        margin-bottom: 25pt;
+        font-size: 122pt;
+        text-transform: uppercase;
+        font-weight: 900;
+        color: var(--font-regular-colour);
+      }
+
+      .heading strong {
+        font-weight: 900;
+        color: var(--font-bold-colour);
+      }
+
+      .heading__inner { line-height: 0.9em; }
+
+      .content__container {
+        position: relative;
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+      }
+      
+      .contentPosition--top .content__container { overflow: unset; }
+
+      .contentPosition--bottom .content__container,
+      .contentPosition--left .content__container,
+      .contentPosition--center .content__container {
+        flex-direction: column;
+      }
+
+      .logo__container { font-size: 0; }
+
+      .contentPosition--top .logo__container { margin-right: 34pt; }
+      .contentPosition--center .logo__container { margin-bottom: 27pt; }
+
+      .logo { 
+        width: 166pt;
+        margin-bottom: 21pt;
+      }
+
+      .qrCode__container {
+
+        position: relative;
+        flex-shrink: 0;
+         margin-left: 40pt;
+        font-size: 0;
+      }
+
+      .qrCode {
+        display: none;
+        object-fit: contain;
+        object-position: center;
+        background-color: var(--white);
+        border: 3pt solid var(--white);
+      }
+
+      .qrCode {
+        width: 71pt;
+        max-height: 71pt; 
+      }
+
+      .qrCodeSelection--qr-code-image .qrCode--image,
+      .qrCodeSelection--build-qr-code .qrCode--code {
+        display: block;
+      }
+
+      .content {     
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .contentPosition--left .content { width: 50%; }
+      .contentPosition--bottom .content { justify-content: flex-end; }
+
+      .contentPosition--top .text { margin-top: -8pt; }
+      .contentPosition--left .text { margin-top: 11pt; }
+      
+      .text { color: var(--body-colour-tertiary); }
+
+      .text h1 {
+        margin-bottom: 4pt;
+        font-size: 38pt;
+        line-height: 0.9em;
+        text-transform: uppercase;
+        font-weight: 900;
+      }
+
+      .text p {
+        margin-bottom: 0.3em;
+        /*font-size: 16.6pt;*/
+        font-size: 20pt;
+        line-height: 1em;
+        /*font-weight: 900;*/
+      }
+
+      .text p + h1 { margin-top: 30pt; }
+
+      .USP__container { display: flex; }
+
+      .contentPosition--left .USP__container {
+        flex-direction: column;
+        margin-top: 10pt;
+      }
+
+      .contentPosition--top .USP__container {
+        flex-wrap: wrap;
+        margin-top: -7pt;       
+      }
+
+      .contentPosition--center .USP__container,
+      .contentPosition--bottom .USP__container{
+        flex-wrap: wrap;
+      }
+
+      .USP {
+        margin-bottom: 29pt;
+        padding-right: 30pt;
+      }
+
+      .contentPosition--top .USP,
+      .contentPosition--center .USP,
+      .contentPosition--bottom .USP {
+        width: 50%;
+      }
+
+      .USP__heading {
+        margin-bottom: 2.3pt;
+        font-size: 38pt;
+        line-height: 1em;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: var(--body-colour-primary);
+      }
+
+      .USP__text {
+        font-size: 16.5pt;
+        line-height: 0.95em;
+        font-weight: 900;
+        color: var(--body-colour-secondary);
+      }
+
+      .areaOfStudy__container { display: grid; }
+
+      .contentPosition--bottom .areaOfStudy__container {
+        grid-template-columns: 1fr 289pt;
+        grid-gap: 12pt;
+      }
+
+      .contentPosition--left .areaOfStudy__container { grid-gap: 11pt; }
+
+      .contentPosition--top .areaOfStudy__container {
+        grid-template-columns: 1fr 216pt;
+        grid-gap: 5.7pt;
+      }
+
+      .contentPosition--center .areaOfStudy__container {
+        display: grid;
+        grid-template-columns: 1fr 316pt;
+        grid-gap: 10pt;
+        margin-top: -21pt;
+      }
+
+      .areaOfStudy {
+        display: flex;
+        align-items: center;
+        margin-bottom: 9.7pt;
+      }
+
+      .contentPosition--top .areaOfStudy,
+      .contentPosition--center .areaOfStudy { margin-bottom: 7.7pt; }
+
+      .areaOfStudy:last-child { margin-bottom: 0; }
+
+      .areaOfStudy__icon {
+        display: none;
+        object-fit: contain;
+      }
+
+      .contentPosition--bottom .areaOfStudy__icon {
+        width: 36pt;
+        height: 36pt;
+        margin-right: 9pt;
+      }
+
+      .contentPosition--left .areaOfStudy__icon,
+      .contentPosition--center .areaOfStudy__icon {
+        width: 33pt;
+        height: 33pt;
+        margin-right: 9pt;
+      }
+
+      .contentPosition--top .areaOfStudy__icon {
+        width: 27pt;
+        height: 27pt;
+        margin-right: 9pt;
+      }
+
+      .bodyTextColour--black-blue .areaOfStudy__icon--blue,
+      .bodyTextColour--white-blue .areaOfStudy__icon--white,
+      .bodyTextColour--black-white .areaOfStudy__icon--black {
+        display: block;
+      }
+
+      .areaOfStudy__text { 
+        line-height: 1.2em;
+        font-weight: bold;
+      }
+
+      .contentPosition--bottom .areaOfStudy__text { font-size: 17.2pt; }
+      .contentPosition--left .areaOfStudy__text { font-size: 15.7pt; }
+      .contentPosition--top .areaOfStudy__text { font-size: 13.3pt; }
+      .contentPosition--center .areaOfStudy__text { font-size: 15.7pt; }
+
+      .bodyTextColour--black-blue .areaOfStudy__text { color: var(--blue); }
+      .bodyTextColour--white-blue .areaOfStudy__text { color: var(--white); }
+      .bodyTextColour--black-white .areaOfStudy__text { color: var(--80-black); }
+
+      /*.footer {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      height: 180pt;
+      padding: 17pt 71pt 29pt 64pt;
+      background:var(--white);
+      }*/
+
+      .footer {
+        position: relative;
+        height: 180pt;
+        padding: 17pt 71pt 29pt 64pt;
+        background: var(--white);
+      }
+
+      .footer__inner {
+        position: absolute;
+        top: 46%;
+        transform: translateY(-50%);
+        width: 965px;
+      }
+
+      .footer__content {
+        display: flex;
+        align-items: center;
+        margin-bottom: 6.6pt;
+      }
+
+      .footer__text {
+        flex: 1;
+      }
+
+      .footer__heading {
+        max-height: 84px;
+        font-size: 35.2pt;
+        word-spacing: 3pt;
+        text-transform: uppercase;
+        font-weight: 900;
+        color: var(--80-black);
+      }
+
+      .footer__heading strong {
+        color: var(--blue);
+        font-weight: 900;
+      }
+
+
+      .footer__heading--inner {
+        line-height: 0.9em;
+      }
+
+      .location {
+        display: none;
+        margin-top: 3pt;
+        font-size: 20.5pt;
+        line-height: 1.2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: var(--80-black);  
+      }
+
+      .locationDisplay--show .location {
+        display: block;
+      }
+
+      .info__container {
+        font-size: 6pt;
+        line-height: 1.2em;
+      }
+
+      .info--disclaimer { display: none; }      
+      .info--disclaimer::before { content: ' | '; }
+
+      {{{account.snippets.gradientCss}}}
+      .gradient--top { height: {{top-grad-height}}%; }      
+      .gradient--left { width: {{left-grad-width}}%; }
+      .gradient--bottom { height: {{bottom-grad-height}}%; }
+
+      .gradientColour--white .gradient {
+        opacity: 0.9;
+      }
+
+      .popup__container {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0, 0.3);
+        z-index: 2;
+      }
+      
+      .backgroundColour--colour.headingColour--black-blue .popup__container--primary,
+      .backgroundColour--image.u-no-background-image .popup__container--tertiary,
+      .usp-visible.backgroundColour--colour.headingColour--white-blue.bodyTextColour--black-blue .popup__container--secondary,
+      .backgroundColour--colour.headingColour--white-blue.bodyTextColour--black-white .popup__container--secondary,
+      .backgroundColour--colour.headingColour--black-white.bodyTextColour--black-blue .popup__container--secondary,
+      .usp-visible.backgroundColour--colour.headingColour--black-white.bodyTextColour--white-blue .popup__container--secondary { display: block; }
+
+      .popup {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20pt;
+        text-align: center;
+        font-size: 40pt;
+        line-height: 1.2em;
+        color: #ff00ff;
+        background-color: var(--white);
+        border: 3pt solid #ff00ff;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" data-reduce-export-font-size-by-percent="0" data-reduce-firefox-font-size-by-percent="0" data-prevent-export-overflow="false"
+        class="backgroundColour--{{{UON_background-colour--ttb}}}{{^UON_background-colour--ttb}}colour{{/UON_background-colour--ttb}}
+               gradientColour--{{{UON_gradient-colour--ttb}}}
+               qrCodeSelection--{{UON_qr-code-selection--ttb}}{{^UON_qr-code-selection--ttb}}qr-code-image{{/UON_qr-code-selection--ttb}}
+               headingColour--{{{UON_heading-text-colour--ttb}}}{{^UON_heading-text-colour--ttb}}black--blue{{/UON_heading-text-colour--ttb}}
+               contentPosition--{{{UON_content-position--ttb}}}{{^UON_content-position--ttb}}left{{/UON_content-position--ttb}}
+               bodyTextColour--{{UON_body-text-colour--ttb}}{{^UON_body-text-colour--ttb}}black-blue{{/UON_body-text-colour--ttb}}
+               locationDisplay--{{UON_location-display--ttb}}{{^UON_location-display--ttb}}show{{/UON_location-display--ttb}}
+               {{^UON_background-image--ttb}}u-no-background-image{{/UON_background-image--ttb}}
+               {{#collection.UON_content--ttb}}
+               {{#block.UON_text--ttb}}customised-text-visible{{/block.UON_text--ttb}}
+               {{#block.UON_USP_ttb}}usp-visible{{/block.UON_USP_ttb}}
+               {{#block.UON_areas-of-study--ttb}}areas-of-study-visible{{/block.UON_areas-of-study--ttb}}
+               {{/collection.UON_content--ttb}}">
+
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          <div class="body">
+            <div class="backgroundImage"><div class="reposition-fix">{{{UON_background-image--ttb}}}</div></div><!--backgroundImage-->
+            <div class="map"></div><!--map-->
+            <div class="gradient gradient--left"></div><!--left-grad-->
+            <div class="gradient gradient--top"></div><!--top-grad-->
+            <div class="gradient gradient--bottom"></div><!--bottom-grad-->
+            <div class="heading">
+              <div class="heading__inner textFit--vert">{{{UON_heading--ttb}}}</div><!--heading__inner-->
+            </div><!--heading-->
+            <div class="content__container">
+              <div class="logo__container">
+                <img class="logo js-logo" src="{{account.logos.primary}}"><!--logo-->
+              </div><!--logo__container-->
+              <div class="content">
+                <div class="content__inner" data-max-height="dynamic">
+                  {{#collection.UON_content--ttb}}
+                  {{#block.UON_text--ttb}}
+                  <div class="text">{{{UON_copy--ttb}}}</div><!--text-->
+                  {{/block.UON_text--ttb}}
+                  {{#block.UON_USP_ttb}}
+                  <div class="js-usp-controller-array u-hide">{{{ UON_usp-item }}}</div>
+                  <div class="USP__container js-usp-controller-container"></div>
+                  {{/block.UON_USP_ttb}}
+                  {{#block.UON_areas-of-study--ttb}}
+                  <div class="areaOfStudy__container">
+                    <div class="areaOfStudy__block">
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168879/NB-_icons_Accounting-and-Finance_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168884/NB-_icons_Accounting-and-Finance_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168899/NB-_icons_Accounting-and-Finance_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Accounting and Finance</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168872/NB-_icons_Building-and-construction_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168882/NB-_icons_Building-and-construction_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168895/NB-_icons_Building-and-construction_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Architecture, Building and Construction</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168868/NB-_icons_Business-and-Entrepreneurship_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168883/NB-_icons_Business-and-Entrepreneurship_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168900/NB-_icons_Business-and-Entrepreneurship_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Business, Management and Enterpreneurship</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168876/NB-_icons_Communication-and-Creative-Industries_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168886/NB-_icons_Communication-and-Creative-Industries_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168896/NB-_icons_Communication-and-Creative-Industries_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Communication and Creative Industries</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168873/NB-_icons_CommunityServices_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168887/NB-_icons_CommunityServices_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168897/NB-_icons_CommunityServices_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Community</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168869/NB-_icons_Computing-Maths-and-Technology_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168885/NB-_icons_Computing-Maths-and-Technology_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168901/NB-_icons_Computing-Maths-and-Technology_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Computing, Maths and Technology</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                    </div><!--areaOfStudy__block-->
+                    <div class="areaOfStudy__block">
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168874/NB-_icons_Education_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168880/NB-_icons_Education_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168894/NB-_icons_Education_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Education</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168875/NB-_icons_Engineering_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168888/NB-_icons_Engineering_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168893/NB-_icons_Engineering_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Engineering</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168871/NB-_icons_Health-and-Medical-Services_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168889/NB-_icons_Health-and-Medical-Services_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168898/NB-_icons_Health-and-Medical-Services_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Health and Medicine</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168870/NB-_icons_Law_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168891/NB-_icons_Law_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168902/NB-_icons_Law_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Law</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168878/NB-_icons_Science-and-the-Environment_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168881/NB-_icons_Science-and-the-Environment_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168903/NB-_icons_Science-and-the-Environment_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Science and the Environment</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                      <div class="areaOfStudy">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--white" src="https://files.outfit.io/media_library_items/168877/NB-_icons_Society-and-Culture_NEW-WHITE.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--black" src="https://files.outfit.io/media_library_items/168890/NB-_icons_Society-and-Culture_NEW-GREY.png">
+                        <img class="areaOfStudy__icon areaOfStudy__icon--blue" src="https://files.outfit.io/media_library_items/168892/NB-_icons_Society-and-Culture_NEW-BLUE.png">
+                        <div class="areaOfStudy__text">Society and Culture</div><!--areaOfStudy__text-->
+                      </div><!--areaOfStudy-->
+                    </div><!--areaOfStudy__block-->
+                  </div><!--areaOfStudy__container-->
+                  {{/block.UON_areas-of-study--ttb}}
+                  {{/collection.UON_content--ttb}}
+                </div><!--content__inner-->
+              </div><!--content-->
+            </div><!--content__container-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="footer__inner">
+              <div class="footer__content">
+                <div class="footer__text">
+                  <div class="footer__heading"><div class="footer__heading--inner textFit--vert">{{{UON_cta--ttb}}}</div></div><!--footer__heading-->
+                  <div class="location">newcastle | central coast | sydney | singapore</div><!--location-->
+                </div><!--footer__text-->
+                <div class="qrCode__container">
+                  {{#qr-code-image}}<img class="js-qrCode qrCode qrCode--image" src="{{{qr-code-image}}}" >{{/qr-code-image}}
+                  {{#qr-code-build}}<img class="js-qrCode qrCode qrCode--code" src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data={{{qr-code-build}}}" >{{/qr-code-build}}
+                </div><!--qrCode__container-->
+              </div><!--footer__content-->
+              <div class="info__container">
+                {{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT{{/metadata}} | CRICOS Provider {{{account.snippets.cricos}}}
+                <span class="info info--disclaimer js-usp-controller-disclaimer"></span>
+              </div><!--cricos__container-->
+            </div><!--footer__inner-->
+          </div><!--footer-->
+
+          <div class="popup__container popup__container--primary">
+            <div class="popup">Please add an image to use this text colour or change the text colour.</div><!--popup-->
+          </div><!--popup__container--primary-->
+          <div class="popup__container popup__container--secondary">
+            <div class="popup">Please add an image to use this body text colour or change the body text colour.</div><!--popup-->
+          </div><!--popup__container--secondary-->
+          <div class="popup__container popup__container--tertiary">
+            <div class="popup">Please add an background image or pick colour as background.</div><!--popup-->
+          </div><!--popup__container--secondary-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+
+    <script>
+
+      console.clear();
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Fuse V.2 Display'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          maxLineCheck();
+          maxHeightCheck();
+          injectDynamicContent();
+          hideEmptyTitles();
+
+
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--vert',
+        fitMode: 'vertical',
+        alignItems: 'flex-start'
+      });
+
+      setInterval(() => textFitMin('.heading .textFit--vert',60), 500);
+
+
+      function imageLoadCheck() {
+        const logo = document.querySelector('.js-logo');
+        const qrCode = document.querySelector('.js-qrCode');
+
+        logo.onload = () => maxHeightCheck();
+        if ( qrCode ) {
+          qrCode.onload = () => maxHeightCheck(); 
+        }
+      }
+
+      imageLoadCheck();     
+
+      function uspController() {
+        const uspContainer = document.querySelector('.js-usp-controller-container');
+        const disclaimerContainer = document.querySelector('.js-usp-controller-disclaimer');        
+        const uspSnippetObj = {{{account.snippets.uspSnippetObj}}};
+      let selectedArr = [];
+      const disclaimers = [];
+
+      {{#collection.UON_content--ttb}}
+      {{#block.UON_USP_ttb}}
+      {{#UON_usp-item}}
+      selectedArr = {{{ UON_usp-item }}};
+        {{/UON_usp-item}}
+          {{/block.UON_USP_ttb}}
+            {{/collection.UON_content--ttb}}
+
+              if ( selectedArr === [] || uspContainer === null ) return;
+
+              const uspHTML = selectedArr.map(item => {
+                const { heading, text, disclaimer } = uspSnippetObj[item]; 
+                let disclaimerNumberSup = '';
+                
+                // If disclaimer property of the current USP item is not empty or already added to disclaimers array in some of the previous iterations
+                // we add it here
+                if ( disclaimer !== '' && !disclaimers.includes(disclaimer) ) disclaimers.push(disclaimer);
+                
+                // Checking if the disclaimers array includes current USP item's disclaimer property value 
+                if ( disclaimers.includes(disclaimer) ) disclaimerNumberSup = disclaimers.indexOf(disclaimer) + 1;
+
+                return `
+                  <div class="USP">
+                    <div class="USP__heading">${heading}</div><!--USP__heading-->
+                    <div class="USP__text">${text}<sup>${disclaimerNumberSup}</sup></div><!--USP__text-->
+                  </div><!--USP-->
+                `;
+              }).join('');
+
+              const disclaimersHTML = disclaimers.map((disclaimer, index) => {
+                return `<sup>${index + 1}</sup>${disclaimer}`
+              }).join(', ');
+
+              // injecting html into columns and disclaimer
+              uspContainer.innerHTML = uspHTML;
+              disclaimerContainer.innerHTML = disclaimersHTML;
+              if ( disclaimers.length > 0 ) disclaimerContainer.style.display = 'inline';
+             }
+
+             uspController();   
+
+             setInterval(() => {
+               maxHeightCheck();
+             }, 1000);
+
+
+    </script>
+
+  </body>
+</html>
