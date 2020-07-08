@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html data-sign="OSR">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+
+      /* Inputs Order
+      {{show-crop}}
+      {{NU_document-theme--pub}}
+      {{NU_background-image--pub}}
+      {{grad-colour}}
+      {{top-grad-height}}
+      {{left-grad-width}}
+      {{bottom-grad-height}}
+      {{NU_heading--pub}}
+      {{NU_textColor--pub}}
+      {{NU_lower-text--pub}}
+      {{{subheading-text-color}}}
+      {{NU_footer--pub}}
+      {{#collection.socialMedia}}{{/collection.socialMedia}}
+      {{social-icons-color-white-background}}
+      {{NU_name--pub}}
+      {{NU_degree--pub}}
+      {{NU_cricos-code--pub}}
+      */
+
+      :root {
+        --80-black: {{{account.colors.80--black}}};
+        --white: {{{account.colors.white}}};
+        --blue: {{{account.colors.blue}}};
+        --grey: {{{account.colors.20--black}}};
+        --purple: #ff00ff;
+
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--white);
+        --gradient-dynamic-colour: var(--80-black)
+      }
+
+      .textColor--black-and-white  { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--white);
+      }
+
+      .textColor--white-and-blue  { 
+        --font-regular-colour: var(--white);
+        --font-bold-colour: var(--blue);
+      }
+
+      .textColor--black-and-blue  { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--blue);
+      }
+
+      .gradientColour--white { --gradient-dynamic-colour: var(--white); }
+      .gradientColour--black { --gradient-dynamic-colour: var(--80-black); }
+      .gradientColour--off { --gradient-dynamic-colour: transparent; }
+
+      html, h1, h2, h3 {
+        font-family: 'Fuse V.2 Display';
+        font-weight: 900;
+        word-break: break-word;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /*.textColor--black-and-blue.no-background-image .fit {
+      background-color: var(--grey);
+      }
+
+      .textColor--white-and-blue.no-background-image .fit {
+      background-color: var(--80-black);
+      }
+
+      .textColor--black-and-white.no-background-image .fit {
+      background-color: var(--blue);
+      }*/
+
+      .body {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 247pt 200pt 100pt 211pt;
+      }
+
+      .textColor--black-and-blue.no-background-image .body {
+        background-color: var(--grey);
+      }
+
+      .textColor--white-and-blue.no-background-image .body {
+        background-color: var(--80-black);
+      }
+
+      .textColor--black-and-white.no-background-image .body {
+        background-color: var(--blue);
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .content--top {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content--bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-end;
+        height: 185pt;
+      }
+
+      .heading {
+        position: relative;
+        margin-bottom: 90pt;
+        font-size: 250pt;
+        line-height: 0.917em;
+        text-transform: uppercase;
+        color: var(--font-regular-colour); 
+      }
+
+      .heading h1 {
+        font-size: 250pt;
+        line-height: 0.917em;
+      }
+
+      .heading strong {
+        font-weight: 900;
+        color: var(--font-bold-colour); 
+      }
+
+      .logo {
+        position: relative;
+        max-width: 680pt;
+        max-height: 680pt;
+        margin-bottom: 30pt;
+      }
+
+      .copy {
+        position: relative;
+        font-size: 95pt;
+		color: var(--{{{subheading-text-color}}}{{^subheading-text-color}}white{{/subheading-text-color}});
+        max-height: 10rem;
+        flex: 1;
+      }
+
+      .copy h2 {
+        font-size: 95pt;
+        line-height: 1.2em;
+        text-transform: uppercase;
+      }
+
+      .copy h3 {
+        font-size: 74pt;
+        line-height: 1.3em;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      .copy p {
+        font-size: 74pt;
+        line-height: 1.3em;
+        font-weight: bold;
+      } 
+
+      .copy h2 strong,
+      .copy h3 strong,
+      .copy p strong {
+        color: var(--font-bold-colour);
+      }
+
+      .copy h2 strong {
+        font-weight: 900;
+      }
+
+      .text {
+        position: relative;
+        margin-top: 37pt;
+        /*width: 850pt;*/
+        text-align: right;
+        font-size: 56pt;
+        line-height: 1.3em;
+        font-weight: bold;
+        color: var(--font-regular-colour);
+      }
+
+      .footer {
+        height: 1000pt;
+        padding: 100pt 400pt 490pt 206pt;
+      }
+
+      .documentTheme--light-theme .footer {
+        color: var(--80-black);
+        background-color: var(--white);
+      }
+
+      .documentTheme--dark-theme .footer {
+        color: var(--white);
+        background-color: var(--80-black);
+      }
+
+      .cricos {
+        position: absolute !important;
+        left: 96.4%;
+        bottom: 9%;
+        width: 18%;
+        transform: rotate(-90deg);
+        transform-origin: left bottom;
+        font-size: 14pt;
+        font-weight: 400;
+        color: var(--80-black);
+      }
+
+      .documentTheme--dark-theme .cricos {
+        color: var(--white);
+      }
+
+      .footer__text {
+        margin-bottom: 87pt;
+        font-size: 97.6pt;
+        line-height: 1em;
+        text-transform: uppercase;
+        color: var(--font-regular-colour);
+      }
+
+      .documentTheme--dark-theme .footer__text {
+        color: var(--white);
+      }
+
+      .documentTheme--light-theme .footer__text {
+        color: var(--80-black);
+      }
+
+      .footer__text strong {
+        color: var(--font-bold-colour);
+        font-weight: 900;
+      }
+
+      .social__container {
+        display: flex;
+        margin-left: -178pt;
+        font-size: 0;
+      }
+
+      .social {
+        display: flex;
+        align-items: center;
+        /*max-width: 490pt;*/
+        margin-left: 178pt;
+        flex-shrink: 0;
+      }
+
+      .social__icon {
+        width: 117pt;
+        height: 117pt;
+        object-fit: contain;
+        object-position: center;
+        margin-right: 35pt;
+      }
+
+      .social__value {
+        font-size: 50pt;
+        line-height: 1.2em;
+        font-weight: normal;
+        color: var(--80-black);
+      }
+
+      .documentTheme--dark-theme .social__value {
+        color: var(--white);
+      }
+
+      .gradient {
+        position:absolute;
+        left:0;
+        mix-blend-mode: multiply;
+      }
+
+      .gradient--left,
+      .gradient--top {
+        top:0;
+      }
+
+      .gradient--bottom { bottom:0; }
+
+      .gradient--top {
+        height: {{top-grad-height}}{{^top-grad-height}}0{{/top-grad-height}}%;
+        width:100%;
+        background-image: -moz-linear-gradient(180deg, var(--gradient-dynamic-colour), transparent 100%);
+        background-image: -webkit-linear-gradient(180deg, var(--gradient-dynamic-colour), transparent 100%);
+        background-image: linear-gradient(180deg, var(--gradient-dynamic-colour), transparent 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00d4ff",GradientType=1);
+      }
+
+      .gradient--left {
+        height:100%;
+        width: {{left-grad-width}}{{^left-grad-width}}0{{/left-grad-width}}%; 
+        background-image: -moz-linear-gradient(90deg, var(--gradient-dynamic-colour), transparent 100%);
+        background-image: -webkit-linear-gradient(90deg, var(--gradient-dynamic-colour), transparent 100%);
+        background-image: linear-gradient(90deg, var(--gradient-dynamic-colour), transparent 100%);   
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00d4ff",GradientType=1);
+      }
+
+      .gradient--bottom {
+        height: {{bottom-grad-height}}{{^bottom-grad-height}}0{{/bottom-grad-height}}%;
+        width:100%;
+        background-image: -moz-linear-gradient(0deg, var(--gradient-dynamic-colour), transparent 100%);
+        background-image: -webkit-linear-gradient(0deg, var(--gradient-dynamic-colour), transparent 100%);
+        background-image: linear-gradient(0deg, var(--gradient-dynamic-colour), transparent 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00d4ff",GradientType=1);
+      }
+
+      .gradientColour--white .gradient { mix-blend-mode: normal !important; }
+
+      .popup__container {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0, 0.3);
+      }
+
+      .textColor--black-and-blue.no-background-image .popup__container {
+        display: block;
+      }
+
+      .popup {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-width: 65%;
+        max-height: 30%;
+        transform: translate(-50%, -50%);
+        padding: 0.1rem;
+        text-align: center;
+        font-size: 0.5rem;
+        line-height: 1.2em;
+        font-weight: normal;
+        color: var(--purple);
+        background-color: var(--white);
+        border: 0.2em solid var(--purple);
+        z-index: 2;
+      }
+
+      /* 
+      Blank Area and Bleed:
+      ( BLANK AREA:  top: 10mm; left: 0; right: 0; bottom: 150mm; )
+      ( BLEED: top: 3mm; left: 3mm; right: 3mm; botom: 50mm; )
+      */
+      .bleed {
+        top: 10mm!important;
+        left: 0!important;
+        right: 0!important;
+        bottom: 150mm!important;
+      }
+
+      /* End Blank Area and Bleed */
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}" class="{{^NU_background-image--pub}}no-background-image{{/NU_background-image--pub}}
+                                                                   documentTheme--{{{NU_document-theme--pub}}}
+                                                                   textColor--{{{NU_textColor--pub}}}
+                                                                   gradientColour--{{{grad-colour}}}{{^grad-colour}}white{{/grad-colour}}">
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+          <div class="body">
+            <div class="backgroundImage">
+              <div class="reposition-fix">{{{NU_background-image--pub}}}</div><!--reposition-fix-->
+            </div><!--backgroundImage-->
+            <div class="gradient gradient--left"></div> <!-- gradient--left -->
+            <div class="gradient gradient--top"></div> <!-- gradient--top -->
+            <div class="gradient gradient--bottom"></div> <!-- gradient--bottom -->
+            <div class="content content--top">
+              <div class="heading" data-max-line="5">{{{NU_heading--pub}}}</div><!--heading-->
+              <img src="{{{account.logos.primary}}}" class="logo"><!--logo-->
+              <div class="copy" data-max-height="css">{{{NU_lower-text--pub}}}</div><!--copy-->
+            </div><!--content--top-->
+            <div class="content content--bottom">
+              <div class="text" data-max-line="1">{{{NU_name--pub}}}</div><!--text-->
+              <div class="text" data-max-line="2">{{{NU_degree--pub}}}</div><!--text-->
+            </div><!--content--bottom-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="cricos" data-max-line="1">
+              <span class="js-inject-date">UON 2019/1185</span>
+              {{#NU_cricos-code--pub}}<span>CRICOS Provider Code: {{{NU_cricos-code--pub}}} </span>{{/NU_cricos-code--pub}}
+              <span> {{#metadata}}OUT_{{export_id}}{{/metadata}}{{^metadata}}EXPORT ID WILL GO HERE{{/metadata}} </span> 
+            </div><!-- cricos -->
+            <div class="footer__text" data-max-line="2">{{{NU_footer--pub}}}</div><!--footer__text-->
+            <div class="social__container">
+              {{#collection.socialMedia}}
+              {{#block.custom}}
+              <div class="social">
+                {{#social-icon}}
+                <img src="{{{social-icon}}} custom" class="social__icon">
+                {{/social-icon}}
+                  <div class="social__value" data-max-line="1">{{{handle}}}</div>
+                </div>
+                {{/block.custom}}
+                {{#block.facebook}}
+                <div class="social">
+                  <div class="social__icon facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.94 509.94"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>Facebook</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M437,75C395.79,34.6,339.09,4.25,263,0H249C176.11,3.89,119.38,31.61,78,73,37.7,113.28,5.38,167.44,0,239v34c17.88,135.43,94.51,212.11,223,237h5V315c-14.36-.64-31.29,1.29-44-1,.66-23.66-1.33-50,1-72h43c-.31-50-4.32-93.85,19-119C274.69,93.1,328.8,96.43,386,99c-.65,24.67,1.32,52-1,75-20.24,2.68-40.78-4.08-55,1-21.54,7.69-11,42.59-12,67,22,.67,46.66-1.33,67,1-1.08,25.58-4.38,48.94-8,72H317v189c112-33,182.57-107.4,195-240V248C506.8,173,478,115.24,437,75Z"/></g></g></svg></div>
+                  <div class="social__value" data-max-line="1">{{{handle}}}</div>
+                </div>
+                {{/block.facebook}}
+                {{#block.instagram}}
+                <div class="social">
+                  <div class="social__icon instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 509.94 510.94"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>Instagram</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M374.18,165.28a50.66,50.66,0,0,0-29-29c-5.39-2.1-13.49-4.59-28.4-5.27-16.12-.73-21-.89-61.79-.89s-45.67.16-61.8.89c-14.9.68-23,3.17-28.39,5.27a50.66,50.66,0,0,0-29,29c-2.1,5.39-4.59,13.48-5.27,28.39-.73,16.13-.89,21-.89,61.8s.16,45.66.89,61.79c.68,14.91,3.17,23,5.27,28.4a50.66,50.66,0,0,0,29,29c5.39,2.09,13.49,4.58,28.39,5.26,16.13.74,21,.89,61.8.89s45.67-.15,61.79-.89c14.91-.68,23-3.17,28.4-5.26a50.66,50.66,0,0,0,29-29c2.09-5.39,4.58-13.49,5.26-28.4.74-16.13.89-21,.89-61.79s-.15-45.67-.89-61.8C378.76,178.76,376.27,170.67,374.18,165.28ZM255,334a78.53,78.53,0,1,1,78.52-78.52A78.52,78.52,0,0,1,255,334Zm81.63-141.8A18.35,18.35,0,1,1,355,173.84,18.35,18.35,0,0,1,336.6,192.19Z"/><path class="cls-1" d="M255,204.49a51,51,0,1,0,51,51A51,51,0,0,0,255,204.49Z"/><path class="cls-1" d="M436,76C393.67,33.72,339.48,4.86,263,0H247C169.74,5,116,34,74,76c-40.4,40.4-74,99.53-74,175,0,77.44,27.88,137.19,69,180,40.08,41.71,95.78,73.47,169,80h34c74.31-7.44,127.58-36.9,169-80,40.65-42.32,69-101.64,69-180C509.94,173.37,476,116.05,436,76ZM407,318.52c-.74,16.27-3.33,27.39-7.11,37.12a78.24,78.24,0,0,1-44.72,44.72c-9.73,3.78-20.85,6.36-37.12,7.11s-21.52.92-63,.92-46.74-.18-63.05-.92-27.39-3.33-37.12-7.11a78.16,78.16,0,0,1-44.72-44.72c-3.79-9.73-6.37-20.85-7.11-37.12s-.92-21.52-.92-63,.17-46.74.92-63.05,3.32-27.39,7.11-37.12a78.09,78.09,0,0,1,44.72-44.72c9.73-3.79,20.84-6.37,37.12-7.11s21.52-.92,63.05-.92,46.74.17,63,.92,27.39,3.32,37.12,7.11a78.16,78.16,0,0,1,44.72,44.72c3.78,9.73,6.37,20.84,7.11,37.12s.92,21.52.92,63.05S407.71,302.21,407,318.52Z"/></g></g></svg></div>
+                  <div class="social__value" data-max-line="1">{{{handle}}}</div>
+                </div>
+                {{/block.instagram}}
+                {{#block.weChat}}
+                <div class="social">
+                  <div class="social__icon weChat"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 509.94 510.94"><defs><style>.cls-1{}</style></defs><title>We Chat</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><circle class="cls-1" cx="293.25" cy="272.79" r="16.07"/><circle class="cls-1" cx="248.35" cy="176.86" r="18.9"/><circle class="cls-1" cx="153.37" cy="176.86" r="18.9"/><path class="cls-1" d="M436,76C393.67,33.72,339.48,4.86,263,0H247C169.74,5,116,34,74,76c-40.4,40.4-74,99.53-74,175,0,77.44,27.88,137.19,69,180,40.08,41.71,95.78,73.47,169,80h34c74.31-7.44,127.58-36.9,169-80,40.65-42.32,69-101.64,69-180C509.94,173.37,476,116.05,436,76ZM201.1,333.28a168,168,0,0,1-47.94-6.89,11.46,11.46,0,0,0-9.08,1.1l-30.45,17.78c-6.74,3.93-10.59,1-8.57-6.54l6.68-25a8.42,8.42,0,0,0-3.26-9C78.1,283,58.86,250.84,58.86,214.9c0-65.38,63.68-118.37,142.24-118.37,71,0,129.84,43.29,140.51,99.88-2.48-.12-5-.17-7.49-.17-71.9,0-130.19,48.23-130.19,107.74a90.52,90.52,0,0,0,4.82,29.13Q204.94,333.28,201.1,333.28Zm208.32,46.39a6,6,0,0,0-2.34,6.45l5.57,21.26c1.67,6.37-1.62,8.88-7.32,5.58l-25.67-14.87a8.4,8.4,0,0,0-6.63-.75,139.53,139.53,0,0,1-40.33,5.88c-65.37,0-118.37-44.22-118.37-98.77s53-98.76,118.37-98.76,118.38,44.22,118.38,98.76C451.08,334.58,434.91,361.56,409.42,379.67Z"/><circle class="cls-1" cx="371.69" cy="272.79" r="16.07" transform="translate(-52.73 92.69) rotate(-13.28)"/></g></g></svg></div>
+                  <div class="social__value" data-max-line="1">{{{handle}}}</div>
+                </div>
+                {{/block.weChat}}
+                {{#block.linkedIn}}
+                <div class="social">
+                  <div class="social__icon linkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 509.92 510.92"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>Linked In</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M435.94,76C393.67,33.72,339.47,4.86,263,0H247C169.74,5,116,34,74,76c-40.4,40.4-74,99.52-74,175,0,77.44,27.88,137.18,69,180,40.07,41.72,95.78,73.47,169,80h34c74.31-7.43,127.58-36.9,169-80,40.65-42.31,69-101.64,69-180C509.92,173.36,476,116,435.94,76ZM169.51,401.46H108V203.78c0-.58-.07-1.16.41-1.23h61.11Zm-11.9-231.31c-28.34,17-66-12-51.67-45.11a35.41,35.41,0,0,1,31.58-21.33,34.8,34.8,0,0,1,26.24,9.85,36.86,36.86,0,0,1,11.08,24.6A35.48,35.48,0,0,1,157.61,170.15ZM402,401.46H340.11V330.91c0-39.66,5.51-83.45-38.55-79.15C267.73,255.07,270,292.27,270,331.32v70.14H208.88V202.55h58.64v27.07c2.65,0,3.54-3.07,4.52-4.52,10-14.77,27.54-26,51.67-27.47,25.19-1.48,45.31,5.78,57.41,18C398.56,233.35,402,264.11,402,298.11Z"/></g></g></svg></div>
+                  <div class="social__value" data-max-line="1">{{{handle}}}</div>
+                </div>
+                {{/block.linkedIn}}
+                {{#block.twitter}}
+                <div class="social">
+                  <div class="social__icon twitter"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510.94 509.94"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>Twitter</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M435,73C392.25,31.76,333,0,254,0,174.32,0,115.67,32.31,74,74,32.61,115.37,0,174.53,0,254c0,79.8,30.94,137.67,73,181,40.82,42,100.49,75,179,75,80,0,138.51-30.79,182-72s72-98.33,76-177c-.17-1.17.22-1.78,1-2v-8C506,172.54,478.3,114.86,435,73ZM369.65,196.4c.12,2.53.17,5.07.17,7.63,0,77.85-59.25,167.63-167.62,167.63a166.83,166.83,0,0,1-90.32-26.47,120.79,120.79,0,0,0,14.06.82,118.24,118.24,0,0,0,73.17-25.22,59,59,0,0,1-55-40.92,58.94,58.94,0,0,0,26.61-1,59,59,0,0,1-47.26-57.77v-.74a58.55,58.55,0,0,0,26.69,7.37,59,59,0,0,1-18.24-78.66,167.28,167.28,0,0,0,121.44,61.56,59,59,0,0,1,100.4-53.73,118.15,118.15,0,0,0,37.41-14.3,59.06,59.06,0,0,1-25.91,32.59,117.78,117.78,0,0,0,33.84-9.27A119.71,119.71,0,0,1,369.65,196.4Z"/></g></g></svg></div>
+                  <div class="social__value" data-max-line="1">{{{handle}}}</div>
+                </div>
+                {{/block.twitter}}
+                {{/collection.socialMedia}}
+              </div><!--social__container-->
+            </div><!--footer-->
+            <div class="popup__container">
+              <div class="popup">Please add an image to use this text colour or change the text colour.</div><!--popup-->
+            </div><!--popup__container-->     
+          </div><!--container fit-->
+
+        </div><!--bleed-->
+
+      </div><!--page-->
+
+
+      <script>
+        window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+      </script>
+      <script src="js/main.js"></script>   
+      <script src="js/prefixfree.js"></script>
+      <script src="js/char-limit.js"></script>
+      <script src="js/check-export-mode.js"></script>
+      <script src="js/max-line-check.js"></script>
+      <script src="js/max-height-check.js"></script>
+      <script src="js/hide-empty-titles.js"></script>
+      <script src="js/dynamic-inject.js"></script>
+      <script src="js/text-fit-min.js"></script>
+      <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+      <script>
+
+        console.clear();
+
+        // Tracking text changes and firing text restriction functions (mutationObserver)
+        const overflowObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            maxLineCheck();
+            maxHeightCheck();
+            charLimit();
+            hideEmptyTitles();
+          });
+        });
+
+        const injectObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            injectDynamicContent();
+          });
+        });      
+
+        const injectSources = document.querySelectorAll('[data-target-id]');
+
+        overflowObserver.observe(document.body, {
+          attributes: false,
+          characterData: true,
+          childList: true,
+          subtree: true,
+          attributeOldValue: false,
+          characterDataOldValue: true
+        });
+
+        if ( injectSources.length > 0 ) {
+          injectSources.forEach(src => {
+            injectObserver.observe(src, {
+              attributes: false,
+              characterData: true,
+              childList: true,
+              subtree: true,
+              attributeOldValue: false,
+              characterDataOldValue: true
+            });            
+          });
+        }    
+
+        // Calling text size restriction functions once the fonts are loaded
+        document.fonts.ready.then(() => {
+          maxLineCheck();
+          maxHeightCheck();
+          injectDynamicContent();
+          hideEmptyTitles();
+        });
+
+        checkCrop();
+        checkExport();
+        charLimit();
+
+        // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+        TextFit.fit({
+          selector: '.textFit'
+        });
+
+        function injectDate() {
+          const date = document.querySelector(".js-inject-date");
+          let today = new Date();
+          let dd = today.getDate();
+
+          let mm = today.getMonth()+1; 
+          let yyyy = today.getFullYear();
+          if(dd<10) 
+          {
+            dd='0'+dd;
+          } 
+
+          if(mm<10) 
+          {
+            mm='0'+mm;
+          }
+
+          today = mm+'-'+dd+'-'+yyyy;
+
+          date.innerHTML = today;
+        }
+
+        injectDate();
+
+
+        let backgroundColor = rgb2hex(window.getComputedStyle(document.querySelector(".footer"), null).getPropertyValue("background-color"));
+        if(backgroundColor == "#58595b"){ //grey
+          let icons = document.querySelectorAll(".social__icon svg");
+          icons.forEach(icon =>{
+            icon.style.fill = "var(--{{{social-icons-color-white-background}}}{{^social-icons-color-white-background}}blue{{/social-icons-color-white-background}})";
+          });
+        }
+
+        if(backgroundColor == "#35b0e6"){ //blue
+          let icons = document.querySelectorAll(".social__icon svg");
+          icons.forEach(icon =>{
+            icon.style.fill = "{{{account.colors.blue}}}";
+          });
+        }
+
+        if(backgroundColor == "#ffffff"){ //white
+          let icons = document.querySelectorAll(".social__icon svg");
+          icons.forEach(icon =>{
+            icon.style.fill = "var(--blue)";
+          });
+        }
+
+
+        var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
+
+        function rgb2hex(rgb) {
+          rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+          return "#" + fullColorHex(rgb[1], rgb[2], rgb[3]);
+        }
+
+        function hex(x) {
+          return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+        }
+
+        function fullColorHex (r,g,b) {   
+          var red = rgbToHex(r);
+          var green = rgbToHex(g);
+          var blue = rgbToHex(b);
+          return red+green+blue;
+        }
+
+        function rgbToHex (rgb) { 
+          var hex = Number(rgb).toString(16);
+          if (hex.length < 2) {
+            hex = "0" + hex;
+          }
+          return hex;
+        }
+      </script>
+
+
+      </body>
+    </html>

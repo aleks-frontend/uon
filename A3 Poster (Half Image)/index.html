@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html data-sign="OSZ">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Fuse%20V2/stylesheet.css');
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Heuristica/stylesheet.css');
+
+      /*
+      {{show-crop}}
+      {{UON_feature-image--pos2}}
+      {{grad-colour}}
+      {{top-grad-height}}
+      {{left-grad-width}}
+      {{bottom-grad-height}}
+      {{{UON_heading--pos2}}}
+      {{{UON_text-colour--dsf2}}}
+      {{{UON_subheading--pos2}}}
+      {{subheading-text-color}}
+      {{{UON_copy--pos2}}}
+      {{{UON_profile-copy--pos3}}}
+      {{{UON_profile-picture--pos2}}}
+      {{{UON_contact--pos2}}}
+      {{{UON_name--pos3}}}
+      {{{UON_degree--pos3}}}
+      */
+
+      :root {
+        --80-black: {{{account.colors.80--black}}};
+        --white: {{{account.colors.white}}};
+        --blue: {{{account.colors.blue}}};
+        --grey: {{{account.colors.50--black}}};
+
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--white);
+        --gradient-dynamic-colour: var(--80-black)
+      }
+
+      .textColour--black-white  { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--white);
+      }
+
+      .textColour--white-blue  { 
+        --font-regular-colour: var(--white);
+        --font-bold-colour: var(--blue);
+      }
+
+      .textColour--black-blue  { 
+        --font-regular-colour: var(--80-black);
+        --font-bold-colour: var(--blue);
+      }
+
+      .textColour--black-white .backgroundImage--noImage.backgroundImage { background: var(--blue); }
+      .textColour--white-blue .backgroundImage--noImage.backgroundImage { background: var(--80-black); }
+      .textColour--black-blue .backgroundImage--noImage.backgroundImage { background: var(--grey); }
+
+      .gradientColour--white { --gradient-dynamic-colour: var(--white); }
+      .gradientColour--black { --gradient-dynamic-colour: var(--80-black); }
+      .gradientColour--off { --gradient-dynamic-colour: transparent; }
+
+      html {
+        font-family: 'Fuse V.2 Display';
+        color: var(--80-black);
+        word-break: break-word;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }      
+
+      a {
+        text-decoration: none;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .hero {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        height: 12.34rem;
+        padding: 0.75rem 0.82rem 0.43rem 0.86rem;
+      }
+
+      .hero__body {
+        margin-bottom: 0.3rem;
+        z-index: 1;
+      }
+
+      .heading {
+        position: relative;
+        margin-bottom: 0.43rem;
+        font-size: 1.455rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 0.9em;
+        color: var(--font-regular-colour); 
+      }
+
+      .heading strong {
+        font-weight: 900;
+        color: var(--font-bold-colour);
+      }
+
+      .logo {
+        position: relative;
+        width: 3.4rem;
+      }
+
+      .hero__footer {
+        position: relative;
+        padding-right: 5.14rem;
+        z-index: 1;
+      }
+
+      .subheading {
+        position: relative;
+		color: var(--{{{subheading-text-color}}}{{^subheading-text-color}}white{{/subheading-text-color}});      
+      }
+
+      .subheading strong {
+		color: var(--{{{subheading-text-color}}}{{^subheading-text-color}}white{{/subheading-text-color}});      
+      }
+
+      .subheading p {
+        font-size: 0.339rem;
+        line-height: 1.3em;
+      }
+
+      .subheading h2 {
+        font-size: 0.403rem;
+        text-transform: uppercase;
+        font-weight: 900;
+        line-height: 1.2em;
+      }
+
+      .subheading h2 + p {
+        margin-top: 0.02rem;
+      }
+
+      .subheading h2 strong {
+        font-weight: 900;
+      }
+
+      .hero__info {
+        position: absolute;
+        width: 30vw;
+        right: 0.84rem;
+        bottom: 0.54rem;
+        text-align: right;    
+        z-index: 1;
+        font-weight: bold;
+      }
+
+      .info {
+        font-size: 0.15rem;
+        line-height: 1.2em;
+        color: var(--font-regular-colour); 
+      }
+      
+      .info strong {
+        color: var(--font-bold-colour);
+      }
+
+      .info + .info {
+        margin-top: 0.1rem;
+      }
+
+      .body {
+        position: relative;
+        flex: 1;
+        display: flex;
+        padding: 0.52rem 0.85rem 0 0.84rem;
+      }
+
+      .main {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        margin-bottom: 0.59rem;
+      }
+
+      .content__container {
+        flex: 1;
+      }
+
+      .content a {
+        font-size: 1em;
+        font-weight: bold;
+        line-height: 1em;
+        color: var(--80-black);
+      }
+
+      .content p {
+        margin-bottom: 0.04rem;
+        font-size: 0.239rem;
+        line-height: 1.3em;
+        color: var(--80-black);
+      }
+
+      .content h3 {
+        margin-bottom: 0.16rem;
+        font-size: 0.33rem;
+        line-height: 1.3em;
+      }
+
+      .content p strong,
+      .content h3 strong {
+        font-weight: bold;
+      }
+
+      .content .optionalCTA{
+        padding-top: 0.3em;
+      }
+
+      .content .optionalCTA p a {
+        font-size: calc(1em * 1.47);
+        color: var(--blue);
+        text-transform: lowercase;
+        font-weight: bold;
+      }
+
+
+      .contact {
+        font-size: 0.403rem;
+        font-weight: 900;
+        line-height: 1em;
+        text-transform: uppercase;
+      }
+
+      .contact strong {
+        font-weight: 900;
+        color: var(--blue);
+      }
+
+      .side {
+        position: relative;
+        width: 4.1rem;
+        flex-shrink: 0;
+      }
+
+      .main + .side {
+        margin-left: 1.05rem;
+      }
+
+      .profile {
+        font-size: 0.4rem;
+      }
+
+      .profile__info {
+        margin-bottom: 0.39rem;
+      }
+
+      .profile__info a {
+        font-size: 1em;
+        font-weight: bold;
+        line-height: 1em;
+        color: var(--80-black);
+      }
+
+      .profile__info h4 {
+        margin-bottom: 0.06rem;
+        font-size: 0.268rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.4em;
+        color: var(--blue);
+      }
+
+
+      .profile__info h5 {
+        margin-bottom: 0.04rem;
+        font-size: 0.18rem;
+        line-height: 1.4em;
+        color: var(--80-black);
+      }
+
+      .profile__info p {
+        margin-bottom: 0.1rem;
+        font-size: 0.15rem;
+        line-height: 1.4em;
+        color: var(--80-black);
+      }
+
+      .profile__info p strong{
+        font-weight: bold;
+      }
+
+      .profile__info h4 strong,
+      .profile__info h5 strong {
+        font-weight: 900;
+        color: var(--blue);
+      }
+
+      .content p:last-child,
+      .content h3:last-child,
+      .profile__info h4:last-child,
+      .profile__info h5:last-child,
+      .profile__info p:last-child {
+        margin-bottom: 0;
+      }
+
+      .profile__photo {
+        position: relative;
+        width: 4.11rem;
+        height: 3.45rem;
+      }
+
+      .profile__info .u-hide { 
+        display: none; 
+      }
+
+      .cricos {
+        position: absolute;
+        right: -0.77rem;
+        bottom: 1.99rem;
+        transform: rotate(-90deg);
+        font-size: 0.1rem;
+        color: var(--light-gray);
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .gradient {
+        position:absolute;
+        left:0;
+        mix-blend-mode: multiply;
+        z-index: 1;
+      }
+
+      .gradient--left,
+      .gradient--top {
+        top:0;
+      }
+
+      .gradient--bottom { bottom:0; }
+
+      .gradient--top {
+        height: {{top-grad-height}}%;
+        width:100%;
+        background: linear-gradient(180deg, var(--gradient-dynamic-colour), transparent 100%);
+      }
+
+      .gradient--left {
+        height:100%;
+        width: {{left-grad-width}}%; 
+        background: linear-gradient(90deg, var(--gradient-dynamic-colour), transparent 100%);        
+      }
+
+      .gradient--bottom {
+        height: {{bottom-grad-height}}%;
+        width:100%;
+        background: linear-gradient(0deg, var(--gradient-dynamic-colour), transparent 100%);
+      }
+
+      .gradientColour--white .gradient { mix-blend-mode: normal !important; }
+
+      .popup__container {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0, 0.3);
+        z-index: 2;
+      }
+
+      .textColour--black-blue .u-no-background-image.popup__container {
+        display: block;
+      }
+
+      .popup {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-width: 350pt;
+        max-height: 130pt;
+        transform: translate(-50%, -50%);
+        padding: 20pt;
+        text-align: center;
+        font-size: 23pt;
+        line-height: 1.2em;
+        color: #ff00ff;
+        background-color: var(--white);
+        border: 3pt solid #ff00ff;
+      }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" data-crop="{{show-crop}}"
+        class="textColour--{{{UON_text-colour--dsf2}}}{{^UON_text-colour--dsf2}}white-blue{{/UON_text-colour--dsf2}}
+               gradientColour--{{{grad-colour}}}{{^grad-colour}}white{{/grad-colour}}">
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+          <div class="hero">
+            <div class="gradient gradient--left"></div> <!-- gradient--left -->
+            <div class="gradient gradient--top"></div> <!-- gradient--top -->
+            <div class="gradient gradient--bottom"></div> <!-- gradient--bottom -->
+            <div class="backgroundImage backgroundImage--{{^UON_feature-image--pos2}}noImage{{/UON_feature-image--pos2}}">
+              <div class="reposition-fix">{{{UON_feature-image--pos2}}}</div>
+            </div> <!--backgroundImage-->
+            <div class="hero__body">
+              {{#UON_heading--pos2}}
+              <div class="heading" data-max-line="3">{{{UON_heading--pos2}}}</div> <!--heading-->
+              {{/UON_heading--pos2}}
+              <img class="logo" src="{{{account.logos.primary}}}"><!--logo-->
+            </div> <!--hero__body-->
+            <div class="hero__footer">
+              {{#UON_subheading--pos2}}
+              <div class="subheading u-heading-patch" data-max-height="160">{{{UON_subheading--pos2}}}</div> <!--subheading-->
+              {{/UON_subheading--pos2}}
+            </div> <!--hero__footer-->
+            <div class="hero__info">
+              {{#UON_name--pos3}}
+              <div class="info" data-max-line="1">{{{UON_name--pos3}}}</div> <!--name-->
+              {{/UON_name--pos3}}
+              {{#UON_degree--pos3}}
+              <div class="info" data-max-line="2">{{{UON_degree--pos3}}}</div> <!--degree-->
+              {{/UON_degree--pos3}}
+            </div> <!--hero__info-->
+          </div> <!--hero-->
+          <div class="body">
+            {{#UON_copy--pos2}}
+            <div class="main">
+              <div class="content__container">
+                <div class="content u-heading-patch" data-max-height="dynamic">
+                  {{{UON_copy--pos2}}}
+                </div> <!--content-->
+              </div> <!-- content__container -->
+              {{#UON_contact--pos2}}
+              <div class="contact " data-max-line="2">{{{UON_contact--pos2}}}</div><!--contact-->
+              {{/UON_contact--pos2}}
+            </div> <!--main-->
+            {{/UON_copy--pos2}}
+            {{#UON_profile-copy--pos3}}
+            <div class="side">
+              <div class="profile" data-max-height="dynamic">
+                <div class="profile__info u-heading-patch">{{{UON_profile-copy--pos3}}}</div> <!--profile__info-->
+                {{#UON_profile-picture--pos2}}
+                <div class="profile__photo"><div class="reposition-fix">{{{UON_profile-picture--pos2}}}</div></div> <!--profile__photo-->
+                {{/UON_profile-picture--pos2}}
+              </div> <!--profile-->
+            </div> <!--side-->
+            {{/UON_profile-copy--pos3}}
+          </div> <!--body-->
+          <div class="cricos"><span class="js-inject-date">20191047</span> | {{{account.snippets.cricos}}} | OF_{{#metadata}}{{export_id}}{{/metadata}}{{^metadata}}XXXXXX{{/metadata}}</div> <!--cricos-->
+          <div class="popup__container {{^UON_feature-image--pos2}}u-no-background-image{{/UON_feature-image--pos2}}">
+            <div class="popup">Please add an image to use this text colour or change the text colour.</div><!--popup-->
+          </div><!--popup__container-->
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script>
+      let container = document.querySelector(".container");
+      let bleed = 11.3386; //3mm in px
+      let documentWidth = container.offsetWidth - (bleed * 2);
+      let documentHeight = container.offsetHeight - (bleed * 2);
+      let longestSize = Math.max(documentWidth, documentHeight);
+      let logoSize = longestSize * 0.17;
+      if(logoSize < 151.18110236) { //If less than 40mm set to 40mm
+        logoSize = 151.18110236;
+      }
+
+      let seahorseSize = logoSize * 0.1665;
+      logoSize = (logoSize.toFixed(2) + "px");
+      seahorseSize = (seahorseSize.toFixed(2)) + "px";
+      document.documentElement.style.setProperty('--logoSize', logoSize);
+      document.documentElement.style.setProperty('--seahorseSize', seahorseSize);
+
+
+      //Font Setup
+      let h1Size = 25; //set in pt
+      let copySize = 15; //set in pt
+
+      let nHeight = h1Size * 0.85;
+      let headingBodyGap = nHeight;
+      let bodyCTAGap = nHeight * 0.47;
+      let h1LineHeight = nHeight * 0.27;
+      let copyLineHeight = copySize + 3;
+      let ctaSize = copySize + 1.5;
+
+      if(ctaSize == 0){ctaSize = h1Size * 0.25;}
+      let ctaLineHeight = ctaSize;
+
+      document.documentElement.style.setProperty('--headingBodyGap', headingBodyGap);
+      document.documentElement.style.setProperty('--bodyCTAGap', bodyCTAGap);
+      document.documentElement.style.setProperty('--h1LineHeight', h1LineHeight);
+      document.documentElement.style.setProperty('--copyLineHeight', copyLineHeight);
+      document.documentElement.style.setProperty('--ctaSize', ctaSize);
+      document.documentElement.style.setProperty('--ctaLineHeight', ctaLineHeight);
+    </script>
+    <script>
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      document.fonts.ready.then(() => {
+        maxLineCheck();
+        maxHeightCheck();
+        injectDynamicContent();
+        hideEmptyTitles();
+      });
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      function injectDate() {
+        const date = document.querySelector(".js-inject-date");
+        let today = new Date();
+        let dd = today.getDate();
+
+        let mm = today.getMonth()+1; 
+        let yyyy = today.getFullYear();
+        if(dd<10) 
+        {
+          dd='0'+dd;
+        } 
+
+        if(mm<10) 
+        {
+          mm='0'+mm;
+        }
+
+        today = mm+'-'+dd+'-'+yyyy;
+
+        date.innerHTML = today;
+      }
+
+      injectDate();
+
+    </script>
+
+
+  </body>
+</html>
